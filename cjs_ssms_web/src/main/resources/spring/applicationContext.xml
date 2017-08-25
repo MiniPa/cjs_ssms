@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans  
+http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+http://www.springframework.org/schema/context  
+http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+
+  <!-- 自动扫描(需要自动注入的类，对于那些类上有注解：@Repository、@Service、@Controller、@Component都进行注入) -->
+  <!--因为 Spring MVC 是 Spring 的子容器，所以我们在 Spring MVC 的配置中再指定扫描 Controller 的注解，这里是父容器的配置地方-->
+  <!--注解注入的相关材料可以看：-->
+  <!--http://blog.csdn.net/u012763117/article/details/17253849-->
+  <!--http://casheen.iteye.com/blog/295348-->
+  <!--http://blog.csdn.net/zhang854429783/article/details/6785574-->
+
+  <!--<context:component-scan base-package="com.chengjs.cjsssmsweb.controller"/>-->
+
+
+</beans>

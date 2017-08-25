@@ -6,14 +6,13 @@
 <head>
 
     <meta charset="utf-8">
-    <title>没有权限</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+  <title>没有权限</title>
 
     <!-- CSS -->
     <link href="${pageContext.request.contextPath }/css/nopower.css" rel="stylesheet" type="text/css" />
-
 
 </head>
 
@@ -27,7 +26,7 @@
     <!-- content -->
     <div id="content">
         <ul class="nav">
-            <li class="home"><a href="${pageContext.request.contextPath }/index">Home Page</a></li>
+          <li class="home"><a href="${pageContext.request.contextPath}/index">Home Page</a></li>
             <li class="site_map"><a href="#">Site Map</a></li>
             <li class="search"><a href="#">Website Search</a></li>
         </ul>

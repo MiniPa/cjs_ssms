@@ -1,0 +1,1 @@
+-- Server version: 5.7.18 MySQL Community Server (GPL)

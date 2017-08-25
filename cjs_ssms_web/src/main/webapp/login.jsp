@@ -13,10 +13,10 @@
 <head>
 
     <meta charset="utf-8">
-    <title>后台登录</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="">
+  <meta name="author" content="minipa_chengjs">
+  <title>后台登录</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath }/css/reset.css">
@@ -46,7 +46,7 @@
         <button id="submit" type="submit">Sign in</button>
     </form>
     <div class="connect">
-        <p>You never know what you can do till you try.</p>
+      <p>You never know what you can do till you try. I think so.</p>
         <p style="margin-top:20px;">除非你亲自尝试一下,否则你永远不知道你能做什么。</p>
     </div>
 </div>
@@ -75,7 +75,7 @@
             is_show();
             return false;
         }
-        else{
+        else {
             var reg = /^[0-9A-Za-z]+$/;
             if(!reg.exec(u.val()))
             {

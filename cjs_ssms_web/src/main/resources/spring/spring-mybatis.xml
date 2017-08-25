@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <!--================================ properties ================================-->
+  <context:property-placeholder location="classpath:properties/*.properties"/>
+
+  <!--properties读取-->
+  <!--
+    <bidn id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+      <propenamename="location" value="classpath:properties/jdbc.properties"/>
+    </bean>
+  -->
+
+  <!-- 引入jdbc properties配置文件 -->
+  <!--
+    <bidn id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+      <propenamename="locations">
+        <list>
+          <value>classpath:properties/jdbc.properties</value>
+        </list>
+      </property>
+    </bean>
+  -->
+  <!--================================ properties ================================-->
+
+  <!--================================ spring和MyBatis整合 ================================-->
+
+  <!--基础数据源-->
+  <bean id="master" class="org.apache.commons.dbcp.BasicDataSource">
+    <property name="driverClassName" value="${jdbc.driverClass}"></property>
+    <property name="username" value="${jdbc.master.user}"></property>
+    <property name="password" value="${jdbc.master.password}"></property>
+    <property name="url" value="${jdbc.master.url}"></property>
+  </bean>
+
+  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="master"/>
+    <property name="mapperLocations" value="classpath:mapping/*.xml"/>
+    <property name="configLocation" value="classpath:database/mybatis-config.xml"/>
+  </bean>
+
+  <!--http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html-->
+  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="com.chengjs.cjsssmsweb.dao"/>
+    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+  </bean>
+
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="master"/>
+  </bean>
+
+  <!-- 通过注解控制事务 @Transactional -->
+  <tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+</beans>

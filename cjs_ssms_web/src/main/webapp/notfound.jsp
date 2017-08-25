@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>首页</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+  <title>页面不存在提示</title>
 </head>
 <body>
 <h1>
