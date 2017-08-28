@@ -41,8 +41,9 @@ I'll update some skills in actual development aperiodically.There are no complic
 
 ## TODO LIST
 
-* [x] [cjs_ssms(一)架构的整合]()
-* [x] [cjs_ssms(二)shiro整合]()
+* [x] [cjs_ssms(一)架构]()
+* [x] [cjs_ssms(二)shiro]()
+* [x] [cjs_ssms(三)mybatis通用查询,pageHelper]()
 
 
 --- 
