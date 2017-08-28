@@ -7,9 +7,27 @@
 
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:spring/spring-mybatis.xml</param-value>
+    <param-value>classpath:spring/application-*.xml</param-value>
   </context-param>
 
+  <!--================================ shiro ================================-->
+
+  <filter>
+    <filter-name>shiroFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    <init-param>
+      <!-- 该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理 -->
+      <param-name>targetFilterLifecycle</param-name>
+      <param-value>false</param-value>
+    </init-param>
+  </filter>
+  <!--在其他任何过滤前定义shirofilter可以更好的过滤请求,省略后面不必要的过滤器执行消耗-->
+  <filter-mapping>
+    <filter-name>shiroFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!--================================ encoding ================================-->
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -24,12 +42,13 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
+  <!--================================ springMVC ================================-->
   <servlet>
     <servlet-name>SpringMVC</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>classpath:spring/spring-mvc.xml</param-value>
+      <param-value>classpath:spring/application-mvc.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
     <async-supported>true</async-supported>
@@ -48,6 +67,7 @@
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
 
+  <!--================================ static sources ================================-->
   <!-- 确保静态资源可以被访问 -->
   <servlet-mapping>
     <servlet-name>default</servlet-name>
@@ -91,15 +111,13 @@
   </welcome-file-list>
 
   <session-config>
-    <session-timeout>-1</session-timeout>
+    <session-timeout>1</session-timeout>
   </session-config>
 
   <error-page>
     <error-code>404</error-code>
     <location>/notfound.jsp</location>
   </error-page>
-
-
 
 
 </web-app>

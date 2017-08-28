@@ -22,7 +22,6 @@
     <setting name="localCacheScope" value="SESSION"/>
     <setting name="jdbcTypeForNull" value="OTHER"/>
     <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
-    <setting name="enableDefaultValue" value="true"/><!--${username:ut_user} 3.4.2-->
   </settings>
 
 </configuration>

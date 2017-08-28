@@ -41,7 +41,9 @@ I'll update some skills in actual development aperiodically.There are no complic
 
 ## TODO LIST
 
-* [x] [SSM(一)架构的整合](http://crossoverjie.top/2016/06/28/SSM1)
+* [x] [cjs_ssms(一)架构的整合]()
+* [x] [cjs_ssms(二)shiro整合]()
+
 
 --- 
 

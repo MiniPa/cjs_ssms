@@ -16,10 +16,11 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <spring.version>4.3.10.RELEASE</spring.version>
+    <mybatis.version>3.4.1</mybatis.version>
+    <mybatis-spring.version>1.3.0</mybatis-spring.version>
     <jackson.version>2.5.0</jackson.version>
     <jetty.version>8.1.16.v20140903</jetty.version>
   </properties>
-
 
   <dependencyManagement>
     <dependencies>
@@ -115,20 +116,19 @@
       <dependency>
         <groupId>org.mybatis</groupId>
         <artifactId>mybatis-spring</artifactId>
-        <version>1.2.4</version>
-      </dependency>
-
-      <!-- mysql连接 -->
-      <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>5.1.34</version>
+        <version>${mybatis-spring.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.mybatis</groupId>
         <artifactId>mybatis</artifactId>
-        <version>3.3.1</version>
+        <version>${mybatis.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>5.1.34</version>
       </dependency>
 
       <!-- json -->
@@ -190,7 +190,6 @@
         <version>1.3.2</version>
       </dependency>
 
-      <!-- https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api -->
       <dependency>
         <groupId>javax.websocket</groupId>
         <artifactId>javax.websocket-api</artifactId>
@@ -209,6 +208,45 @@
         <version>4.1.6</version>
       </dependency>
 
+      <!--================================ 解决BasicDataSource Not Found ================================-->
+      <dependency>
+        <groupId>commons-dbcp</groupId>
+        <artifactId>commons-dbcp</artifactId>
+        <version>1.4</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-pool</groupId>
+        <artifactId>commons-pool</artifactId>
+        <version>1.6</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-collections</groupId>
+        <artifactId>commons-collections</artifactId>
+        <version>3.2.2</version>
+      </dependency>
+
+      <!--================================ shiro ================================-->
+      <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-core</artifactId>
+        <version>1.2.5</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-web</artifactId>
+        <version>1.2.5</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-spring</artifactId>
+        <version>1.2.5</version>
+      </dependency>
+      <!--================================ shiro ================================-->
+
+
+
+
+
     </dependencies>
   </dependencyManagement>
 
@@ -217,15 +255,15 @@
       <id>releases</id>
       <name>admin</name>
       <!-- self mvn server nexus -->
-      <url>http://192.168.1.220:9999/content/repositories/releases/</url>
-      <!--<url>http://192.168.245.220:9999/content/repositories/releases/</url>-->
+      <!--<url>http://192.168.1.220:9999/content/repositories/releases/</url>-->
+      <url>http://192.168.245.220:9999/content/repositories/releases/</url>
     </repository>
 
     <snapshotRepository>
       <id>snapshots</id>
       <name>admin</name>
-      <url>http://192.168.1.220:9999/content/repositories/snapshots/</url>
-      <!--<url>http://192.168.245.220:9999/content/repositories/releases/</url>-->
+      <!--<url>http://192.168.1.220:9999/content/repositories/snapshots/</url>-->
+      <url>http://192.168.245.220:9999/content/repositories/releases/</url>
     </snapshotRepository>
   </distributionManagement>
 

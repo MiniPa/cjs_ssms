@@ -35,19 +35,19 @@
 <div class="page-container">
     <input type="hidden" id="error" value="${error}"/>
     <h1>Login</h1>
-    <form action="${pageContext.request.contextPath }/loginAdmin" method="post">
+    <form action="${pageContext.request.contextPath }/loginSysUser" method="post">
         <div>
-            <input type="text" name="userName" class="username" placeholder="Username" autocomplete="off"/>
+            <input type="text" name="username" class="username" placeholder="Username" autocomplete="off"/>
         </div>
         <div>
-            <input type="password" name="password" class="password" placeholder="Password" oncontextmenu="return false"
-                   onpaste="return false" />
+            <input type="password" name="password" class="password" placeholder="Password"
+                   oncontextmenu="return false" onpaste="return false" />
         </div>
         <button id="submit" type="submit">Sign in</button>
     </form>
     <div class="connect">
-      <p>You never know what you can do till you try. I think so.</p>
-        <p style="margin-top:20px;">除非你亲自尝试一下,否则你永远不知道你能做什么。</p>
+      <p>There are many worthful thing in the world, one thing best is great</p>
+        <p style="margin-top:20px;">世事千万，尽善其一。</p>
     </div>
 </div>
 <div class="alert" style="display:none">

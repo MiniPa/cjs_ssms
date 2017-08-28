@@ -49,11 +49,13 @@
 
   <dependencies>
 
+    <!-- 日志和测试 -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
+    <!-- log4j -->
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
@@ -61,7 +63,9 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.21</version>
     </dependency>
+
 
     <!-- 添加Servlet支持 -->
     <dependency>
@@ -131,12 +135,6 @@
 
     <dependency>
       <groupId>com.alibaba</groupId>
-      <artifactId>druid</artifactId>
-    </dependency>
-
-    <!-- json -->
-    <dependency>
-      <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
     </dependency>
 
@@ -204,7 +202,52 @@
       <artifactId>pagehelper</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-pool</groupId>
+      <artifactId>commons-pool</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+    </dependency>
+
+    <!--================================ shiro ================================-->
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-spring</artifactId>
+    </dependency>
+    <!--================================ shiro ================================-->
+
   </dependencies>
+
+  <distributionManagement>
+    <repository>
+      <id>releases</id>
+      <name>admin</name>
+      <!-- self mvn server nexus -->
+      <!--<url>http://192.168.1.220:9999/content/repositories/releases/</url>-->
+      <url>http://192.168.245.220:9999/content/repositories/releases/</url>
+    </repository>
+
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>admin</name>
+      <!--<url>http://192.168.1.220:9999/content/repositories/snapshots/</url>-->
+      <url>http://192.168.245.220:9999/content/repositories/releases/</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 
 </project>

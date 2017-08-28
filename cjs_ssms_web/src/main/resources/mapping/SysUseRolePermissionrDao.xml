@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chengjs.cjsssmsweb.dao.master.SysUseRolePermissionrDao">
+
+
+  <select id="findRoleNamesBySysUserName" resultType="java.lang.String">
+    SELECT sr.rolename
+    FROM sys_user su, sys_con_user_role scur, sys_role sr
+    WHERE su.username = #{sysUserName}
+          AND su.userid = scur.userid
+          AND scur.roleid = sr.roleid
+  </select>
+
+  <select id="findPermissionNamesByRoleNames" parameterType="java.util.Set" resultType="java.lang.String">
+    SELECT DISTINCT sp.pername
+    FROM sys_role sr, sys_con_role_permission scrp, sys_permission sp
+    WHERE sr.roleid = scrp.roleid
+    AND scrp.perid = sp.perid
+    AND sr.rolename in
+    <foreach collection="set" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="findSysUserBySysUserName" resultType="com.chengjs.cjsssmsweb.pojo.SysUser">
+    SELECT
+    <include refid="sysUser_Column_List"/>
+    FROM sys_user
+    WHERE username = #{sysUserName} and discard = '1'
+  </select>
+
+
+  <!--================================ result ================================-->
+
+  <resultMap id="sysUserResultMap" type="com.chengjs.cjsssmsweb.pojo.SysUser">
+    <id column="userid" jdbcType="VARCHAR" property="userId"/>
+    <result column="username" jdbcType="VARCHAR" property="userName"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="description" jdbcType="VARCHAR" property="description"/>
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+    <result column="modifytime" jdbcType="TIMESTAMP" property="modifytime"/>
+    <result column="discard" jdbcType="CHAR" property="discard"/>
+  </resultMap>
+  <sql id="sysUser_Column_List">
+    userid, username, password, description, createtime, modifytime, discard
+  </sql>
+
+  <resultMap id="sysRoleResultMap" type="com.chengjs.cjsssmsweb.pojo.SysRole">
+    <id column="roleid" jdbcType="VARCHAR" property="roleId"/>
+    <result column="rolename" jdbcType="VARCHAR" property="roleName"/>
+    <result column="description" jdbcType="VARCHAR" property="description"/>
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+    <result column="modifytime" jdbcType="TIMESTAMP" property="modifytime"/>
+    <result column="discard" jdbcType="CHAR" property="discard"/>
+  </resultMap>
+  <sql id="sysRole_Column_List">
+    roleid, rolename, description, createtime, modifytime, discard
+  </sql>
+
+  <resultMap id="sysPermissionResultMap" type="com.chengjs.cjsssmsweb.pojo.SysPermission">
+    <id column="perid" jdbcType="VARCHAR" property="perId"/>
+    <result column="pername" jdbcType="VARCHAR" property="perName"/>
+    <result column="description" jdbcType="VARCHAR" property="description"/>
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+    <result column="modifytime" jdbcType="TIMESTAMP" property="modifytime"/>
+    <result column="discard" jdbcType="CHAR" property="discard"/>
+  </resultMap>
+  <sql id="sysPermission_Column_List">
+    perid, pername, description, createtime, modifytime, discard
+  </sql>
+
+  <!--================================ result ================================-->
+
+</mapper>

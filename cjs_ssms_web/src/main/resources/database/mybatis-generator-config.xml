@@ -71,7 +71,7 @@
     <!--
         <table tableName="sys_user" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true">
-          <generatedKey column="user_id" sqlStatement="MySql" identity="true"/>
+          <generatedKey coluuser_idr_id" sqlStatement="MySql" identity="true"/>
           &lt;!&ndash;<propenamename="useActualColumnNames" value="false"/>&ndash;&gt;
         </table>
     -->
