@@ -2,6 +2,7 @@ package com.chengjs.cjsssmsweb.controller;
 
 import com.chengjs.cjsssmsweb.pojo.SysUser;
 import com.chengjs.cjsssmsweb.service.master.ISysUserService;
+import com.chengjs.cjsssmsweb.util.ExceptionUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -38,7 +39,7 @@ public class SysUserController {
     if (!subject.isAuthenticated()) {
       UsernamePasswordToken token = new UsernamePasswordToken(sysUser.getUsername(), sysUser.getPassword());
       token.setRememberMe(true);//default rememberMe true
-      String out = "admin";
+      String out = "../../login";
       try {
         subject.login(token);
         String principal_username = subject.getPrincipal().toString();
@@ -56,25 +57,17 @@ public class SysUserController {
           log.info("Sorry, you aren't allowed to drive the 'eagle5' winnebago!");
         }
 
-      } catch (UnknownAccountException uae) {
-        model.addAttribute("error", "用户名不存在");
-        out = "../../login";
-      } catch (IncorrectCredentialsException ice) {
-        model.addAttribute("erro", "密码错误请重试");
-        out = "../../login";
-      } catch (LockedAccountException lae) {
-        model.addAttribute("error", "账号已被锁定");
-        out = "../../login";
+        out = "admin";
+      } catch (UnknownAccountException e) {
+        ExceptionUtil.controllerEH(model,"用户名不存在",e,log);
+      } catch (IncorrectCredentialsException e) {
+        ExceptionUtil.controllerEH(model,"密码错误请重试",e,log);
+      } catch (LockedAccountException e) {
+        ExceptionUtil.controllerEH(model,"账号已被锁定",e,log);
       } catch (AuthenticationException e) {
-        model.addAttribute("error", "用户或密码错误");
-        log.debug(sysUser + "用户或密码错误");
-        out = "../../login";
+        ExceptionUtil.controllerEH(model,"用户或密码错误",e,log);
       } catch (Exception e) {
-        out = "../../login";
-        log.debug("未知错误");
-        model.addAttribute("error", "未知错误" + e.getMessage());
-        e.printStackTrace();
-        return "../../login";
+        ExceptionUtil.controllerEH(model,"未知错误",e,log);
       } finally {
         return out;
       }

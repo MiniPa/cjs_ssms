@@ -67,7 +67,6 @@ public class SysUserRealm extends AuthorizingRealm {
        * 适用： 变化不大信息量少,但权限校验频繁的用户类型.
        *
        * SimpleAuthorizationInfo: param: principal检查源码最后被强转为Collection不知何意??
-       *
        */
       SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(sysUser.getUsername(), sysUser.getPassword(), "sysUserRealm");
       return info;

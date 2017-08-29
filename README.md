@@ -39,10 +39,12 @@ I'll update some skills in actual development aperiodically.There are no complic
 
 ```
 
-## TODO LIST
+## TODO LIST "已完成功能/未验证功能"
 
 * [x] [cjs_ssms(一)架构]()
-* [x] [cjs_ssms(二)shiro]()
+* [x] [cjs_ssms(二)shiro 
+FINISH：实现身份验证Authentication,权限控制Authoriaztion,加密 
+TODO：rememberMe,ssh,]()
 * [x] [cjs_ssms(三)mybatis通用查询,pageHelper]()
 
 
