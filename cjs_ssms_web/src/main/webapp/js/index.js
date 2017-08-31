@@ -1,3 +1,4 @@
+/*
 function refresh(){
     $.ajax({
         type:'POST',
@@ -10,4 +11,4 @@ function refresh(){
             }
         }
     });
-}
+}*/

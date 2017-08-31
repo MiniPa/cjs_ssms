@@ -18,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.IOException;
+
 /**
  * SysUserController 管理台权限管理模块
  *
@@ -43,7 +45,7 @@ public class SysUserController {
       try {
         subject.login(token);
         String principal_username = subject.getPrincipal().toString();
-        log.info("User [" + principal_username + "] 登录成功.");
+        log.info("User [" + principal_username + "] 后台用户 登录成功.");
         model.addAttribute("success", "恭喜"+ principal_username +"登录成功");
 
         //1.进行session相关事项,可为webSession也可为其他session
@@ -78,10 +80,11 @@ public class SysUserController {
   }
 
   @RequestMapping("/logoutSysUser")
-  public String logout(SysUser sysUser, Model model) {
+  public String logout(SysUser sysUser, Model model) throws IOException {
     Subject subject = SecurityUtils.getSubject();
-    UsernamePasswordToken token = new UsernamePasswordToken(sysUser.getUsername(), sysUser.getPassword());
-    return null;
+    Session session = subject.getSession();
+    session.removeAttribute("sysUserName");
+    return "redirect:../login.jsp";
   }
 
 
