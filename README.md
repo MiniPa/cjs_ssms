@@ -46,14 +46,13 @@ I'll update some skills in actual development aperiodically.There are no complic
 FINISH：实现身份验证Authentication,权限控制Authoriaztion,加密 
 TODO：rememberMe,ssh,]()
 * [x] [cjs_ssms(三)mybatis通用查询,pageHelper]()
-
-
+* [x] [cjs_ssms(四)lucence]()
+* [x] [cjs_ssms(五)webSocket]()
 --- 
 
 # Common Problem
 
-#### 找不到`CheckReqNo.java`类
-
+#### shiror如何在迁移项目同时,保存rememberMe信息
 
 ---
 

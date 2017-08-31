@@ -54,7 +54,6 @@
       <property name="enableSubPackages" value="false"/>
     </sqlMapGenerator>
 
-    <!--interface-->
     <javaClientGenerator targetPackage="com.chengjs.cjsssmsweb.dao.master"
                          targetProject="THIS_CONFIGURATION_IS_NOT_REQUIRED" type="XMLMAPPER">
       <property name="enableSubPackages" value="false"/>
@@ -65,8 +64,10 @@
     <!--================================ 数据库表生成配置 ================================-->
 
     <!--%表示所有表 -->
-    <table tableName="%" enableCountByExample="false" enableDeleteByExample="false"
-           enableSelectByExample="false" enableUpdateByExample="false"/>
+    <!--
+        <table tableName="%" enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false"/>
+    -->
 
     <!--
         <table tableName="sys_user" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
@@ -75,6 +76,11 @@
           &lt;!&ndash;<propenamename="useActualColumnNames" value="false"/>&ndash;&gt;
         </table>
     -->
+
+    <table tableName="socket_content" enableCountByExample="false" enableDeleteByExample="false"
+           enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="redis_content" enableCountByExample="false" enableDeleteByExample="false"
+           enableSelectByExample="false" enableUpdateByExample="false"/>
 
     <!--================================ 数据库表生成配置 ================================-->
 

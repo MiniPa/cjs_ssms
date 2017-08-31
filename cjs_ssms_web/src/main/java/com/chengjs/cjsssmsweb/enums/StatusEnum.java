@@ -11,12 +11,19 @@ public enum StatusEnum {
 	
 	/** 成功 */
 	SUCCESS("9000", "成功"),
-	
 	/** 失败 */
 	FAIL("4000", "失败"),
-
 	/** 重复请求 */
 	REPEAT_REQUEST("5000", "重复请求"),
+
+	/**操作成功*/
+  HANDLE_SUCCESS("1","操作成功"),
+	/**操作失败*/
+	HANDLE_FAIL("2","操作异常"),
+
+
+
+
 	;
 	
 	

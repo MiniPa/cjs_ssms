@@ -1,99 +1,106 @@
 -- mysql 用户权限 user role permission 表结构创建
 
-CREATE TABLE sys_con_role_permission
+create table sys_con_role_permission
 (
-  con_rp_id  VARCHAR(36)                         NOT NULL
-    PRIMARY KEY,
-  role_id    VARCHAR(36)                         NOT NULL,
-  per_id     VARCHAR(36)                         NOT NULL,
-  createtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  modifytime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  discard    CHAR DEFAULT '1'                    NOT NULL,
-  CONSTRAINT sys_con_role_permission_con_rp_id_uindex
-  UNIQUE (con_rp_id)
-);
-
-COMMENT ON TABLE sys_con_role_permission IS '系统_关联表_角色_权限'
+  createtime timestamp default CURRENT_TIMESTAMP not null,
+  modifytime timestamp default CURRENT_TIMESTAMP not null,
+  discard char default '1' not null,
+  conrpid varchar(36) not null
+    primary key,
+  roleid varchar(36) not null,
+  perid varchar(36) not null,
+  constraint sys_con_role_permission_con_rp_id_uindex
+  unique (conrpid)
+)
 ;
 
-COMMENT ON COLUMN sys_con_role_permission.discard IS '‘1’-有效 '0'-无效'
+comment on table sys_con_role_permission is '系统_关联表_角色_权限'
 ;
 
-CREATE TABLE sys_con_user_role
+comment on column sys_con_role_permission.discard is '‘1’-有效 '0'-无效'
+;
+
+create table sys_con_user_role
 (
-  con_ur_id  VARCHAR(36)                         NOT NULL
-    PRIMARY KEY,
-  user_id    VARCHAR(36)                         NOT NULL,
-  role_id    VARCHAR(36)                         NOT NULL,
-  createtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  modifytime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  discard    CHAR DEFAULT '1'                    NOT NULL,
-  CONSTRAINT sys_con_user_role_con_ur_id_uindex
-  UNIQUE (con_ur_id)
-);
-
-COMMENT ON TABLE sys_con_user_role IS '系统_关联表_用户角色'
+  createtime timestamp default CURRENT_TIMESTAMP not null,
+  modifytime timestamp default CURRENT_TIMESTAMP not null,
+  discard char default '1' not null,
+  conurid varchar(36) not null
+    primary key,
+  userid varchar(36) not null,
+  roleid varchar(36) not null,
+  constraint sys_con_user_role_con_ur_id_uindex
+  unique (conurid)
+)
 ;
 
-COMMENT ON COLUMN sys_con_user_role.discard IS '‘1’-有效 '0'-无效'
+comment on table sys_con_user_role is '系统_关联表_用户角色'
 ;
 
-CREATE TABLE sys_permission
+comment on column sys_con_user_role.discard is '‘1’-有效 '0'-无效'
+;
+
+create table sys_permission
 (
-  per_id      VARCHAR(36)                         NOT NULL
-    PRIMARY KEY,
-  per_name    VARCHAR(255)                        NOT NULL,
-  description VARCHAR(255)                        NULL,
-  createtime  TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  modifytime  TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  discard     CHAR DEFAULT '1'                    NULL,
-  CONSTRAINT sys_permission_per_id_uindex
-  UNIQUE (per_id)
-);
-
-COMMENT ON TABLE sys_permission IS '系统_许可权限'
+  description varchar(255) null,
+  createtime timestamp default CURRENT_TIMESTAMP not null,
+  modifytime timestamp default CURRENT_TIMESTAMP not null,
+  discard char default '1' null,
+  perid varchar(36) not null
+    primary key,
+  pername varchar(255) not null,
+  constraint sys_permission_per_id_uindex
+  unique (perid)
+)
 ;
 
-COMMENT ON COLUMN sys_permission.discard IS ''1'-有效 '0'-无效'
+comment on table sys_permission is '系统_许可权限'
 ;
 
-CREATE TABLE sys_role
+comment on column sys_permission.discard is ''1'-有效 '0'-无效'
+;
+
+create table sys_role
 (
-  role_id     VARCHAR(36)                         NOT NULL
-    PRIMARY KEY,
-  role_name   VARCHAR(255)                        NULL,
-  description VARCHAR(255)                        NULL,
-  modifytime  TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  discard     CHAR DEFAULT '1'                    NULL,
-  createtime  TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  CONSTRAINT sys_role_role_id_uindex
-  UNIQUE (role_id)
-);
-
-COMMENT ON TABLE sys_role IS '系统_角色'
+  description varchar(255) null,
+  createtime timestamp default CURRENT_TIMESTAMP not null,
+  modifytime timestamp default CURRENT_TIMESTAMP not null,
+  discard char default '1' null,
+  roleid varchar(36) not null
+    primary key,
+  rolename varchar(255) null,
+  constraint sys_role_role_id_uindex
+  unique (roleid)
+)
 ;
 
-COMMENT ON COLUMN sys_role.discard IS ''1'-有效 '0'-无效'
+comment on table sys_role is '系统_角色'
 ;
 
-CREATE TABLE sys_user
+comment on column sys_role.discard is ''1'-有效 '0'-无效'
+;
+
+create table sys_user
 (
-  createtime  DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  modifytime  DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  discard     CHAR DEFAULT '1'                   NULL,
-  user_id     VARCHAR(36)                        NOT NULL
-    PRIMARY KEY,
-  user_name   VARCHAR(255)                       NOT NULL,
-  password    VARCHAR(36)                        NOT NULL,
-  description VARCHAR(255)                       NULL
-);
-
-COMMENT ON TABLE sys_user IS '系统_用户'
+  password varchar(36) not null,
+  description varchar(255) null,
+  createtime datetime default CURRENT_TIMESTAMP not null,
+  modifytime datetime default CURRENT_TIMESTAMP not null,
+  discard char default '1' null,
+  userid varchar(36) not null
+    primary key,
+  username varchar(255) not null,
+  constraint sys_user_user_name_uindex
+  unique (username)
+)
 ;
 
-COMMENT ON COLUMN sys_user.discard IS ''1'-有效的 '0'-无效的废弃的'
+comment on table sys_user is '系统_用户'
 ;
 
-COMMENT ON COLUMN sys_user.user_id IS '用户id'
+comment on column sys_user.discard is ''1'-有效的 '0'-无效的废弃的'
+;
+
+comment on column sys_user.userid is '用户id'
 ;
 

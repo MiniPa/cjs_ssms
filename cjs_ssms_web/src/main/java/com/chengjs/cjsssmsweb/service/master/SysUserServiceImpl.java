@@ -8,11 +8,11 @@ import javax.annotation.Resource;
 import java.util.Set;
 
 /**
- * ISysUserServiceImpl:
+ * SysUserServiceImpl:
  * author: <a href="mailto:chengjs_minipa@outlook.com">chengjs</a>, version:1.0.0, 2017/8/24
  */
 @Service("sysUserService")
-public class ISysUserServiceImpl implements ISysUserService {
+public class SysUserServiceImpl implements ISysUserService {
 
   @Resource
   private SysUseRolePermissionrDao sURPdao;
