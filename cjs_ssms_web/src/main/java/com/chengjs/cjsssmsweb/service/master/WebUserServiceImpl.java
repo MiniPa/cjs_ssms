@@ -2,7 +2,9 @@ package com.chengjs.cjsssmsweb.service.master;
 
 import com.chengjs.cjsssmsweb.dao.master.WebUserRolePermissionDao;
 import com.chengjs.cjsssmsweb.dao.master.WebUserMapper;
+import com.chengjs.cjsssmsweb.pojo.SysUser;
 import com.chengjs.cjsssmsweb.pojo.WebUser;
+import com.chengjs.cjsssmsweb.util.UUIDUtil;
 import com.chengjs.cjsssmsweb.util.page.Page;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,4 +124,14 @@ public class WebUserServiceImpl implements IWebUserService {
   public Set<String> findPermissionNames(Set<String> roleNames) {
     return webUserRolePermissionDao.findPermissionNames(roleNames);
   }
+
+  @Override
+  public void registerWebUser(WebUser webUser) {
+    WebUser re_webUser = webUserMapper.selectByPrimaryKey(webUser.getUsername());
+    if (null == webUser) {
+      webUser.setUserid(UUIDUtil.uuid());
+      webUserMapper.insertSelective(webUser);
+    }
+  }
+
 }

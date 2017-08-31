@@ -10,11 +10,12 @@ import java.util.Set;
  */
 public interface ISysUserService {
 
-
   Set<String> findRoleNames(String sysUserName);
 
   Set<String> findPermissionNames(Set<String> roleNames);
 
   SysUser findSysUserBySysUserName(String sysUserName);
+
+  void registerSysUser(SysUser sysUser);
 
 }

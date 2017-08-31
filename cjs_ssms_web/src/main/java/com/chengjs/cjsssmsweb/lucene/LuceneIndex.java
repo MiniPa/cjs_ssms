@@ -49,24 +49,24 @@ public class LuceneIndex {
 	 * @throws Exception
 	 */
 	private IndexWriter getWriter()throws Exception{
-		/**
+		/*
 		 * 生成的索引位置在env-config.properties里配置
 		 */
-		dir= FSDirectory.open(Paths.get(PropertiesUtil.getProp().getProperty(EnvEnum.LUCENE_INDEX_PATH.val())));
+		dir= FSDirectory.open(Paths.get(PropertiesUtil.getValue(EnvEnum.LUCENE_INDEX_PATH.val())));
 		SmartChineseAnalyzer analyzer=new SmartChineseAnalyzer();
 		IndexWriterConfig iwc=new IndexWriterConfig(analyzer);
 		IndexWriter writer=new IndexWriter(dir, iwc);
 		return writer;
 	}
 
-	/**
+	/*
 	 * 添加 WebUser 数据
 	 * @param webUser
 	 */
 	public void addIndex(WebUser webUser)throws Exception{
 		IndexWriter writer=getWriter();
 		Document doc=new Document();
-		/**
+		/*
 		 * yes是会将数据存进索引，如果查询结果中需要将记录显示出来就要存进去，如果查询结果
 		 * 只是显示标题之类的就可以不用存，而且内容过长不建议存进去
 		 * 使用TextField类是可以用于查询的。
@@ -120,13 +120,13 @@ public class LuceneIndex {
      * 1.解析器parser获取
 		 * 注意的是查询索引的位置得是存放索引的位置，不然会找不到。
 		 */
-		dir= FSDirectory.open(Paths.get(PropertiesUtil.getProp().getProperty(EnvEnum.LUCENE_INDEX_PATH.val())));
+		dir = FSDirectory.open(Paths.get(PropertiesUtil.getValue(EnvEnum.LUCENE_INDEX_PATH.val())));
 		IndexReader reader = DirectoryReader.open(dir);
 		IndexSearcher is=new IndexSearcher(reader);
 		BooleanQuery.Builder booleanQuery = new BooleanQuery.Builder();
 		SmartChineseAnalyzer analyzer=new SmartChineseAnalyzer();
 
-		/**
+		/*
 		 * 2.username和description就是我们需要进行查找的两个字段
 		 * 同时在存放索引的时候要使用TextField类进行存放。
 		 */
@@ -141,7 +141,7 @@ public class LuceneIndex {
 		QueryScorer scorer=new QueryScorer(query);
 		Fragmenter fragmenter = new SimpleSpanFragmenter(scorer);
 
-		/**
+		/*
 		 * 这里可以根据自己的需要来自定义查找关键字高亮时的样式。
 		 */
 		SimpleHTMLFormatter simpleHTMLFormatter=new SimpleHTMLFormatter("<b><font color='red'>","</font></b>");

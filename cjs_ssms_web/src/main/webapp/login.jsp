@@ -1,11 +1,4 @@
 <%@ page import="java.nio.file.Path" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: chengjs
-  Date: 2016/7/14
-  Time: 10:40
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="zh" class="no-js">
@@ -35,7 +28,7 @@
 <div class="page-container">
     <input type="hidden" id="error" value="${error}"/>
     <h1>Login</h1>
-    <form action="${pageContext.request.contextPath }/loginSysUser" method="post">
+    <form action="${pageContext.request.contextPath }/sysUser/loginSysUser" method="post">
         <div>
             <input type="text" name="username" class="username" placeholder="Username" autocomplete="off"/>
         </div>

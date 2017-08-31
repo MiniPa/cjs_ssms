@@ -45,12 +45,16 @@ public class PropertiesUtil {
     }
   }
 
-  public static Properties getProp() {
+  private static Properties getProp() {
     return prop;
   }
 
   public static void main(String[] args) {
     log.debug(String.valueOf(getProp()));
   }
+
+  public static String getValue(String param){
+    return getProp().getProperty(param);
+  };
 
 }

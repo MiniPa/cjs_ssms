@@ -1,13 +1,18 @@
 package com.chengjs.cjsssmsweb.controller;
 
 import com.chengjs.cjsssmsweb.enums.EnvEnum;
+import com.chengjs.cjsssmsweb.enums.StatusEnum;
+import com.chengjs.cjsssmsweb.enums.TestEnv;
 import com.chengjs.cjsssmsweb.lucene.IndexerTest;
 import com.chengjs.cjsssmsweb.lucene.SearcherTest;
 import com.chengjs.cjsssmsweb.pojo.SysUser;
 import com.chengjs.cjsssmsweb.pojo.WebUser;
+import com.chengjs.cjsssmsweb.service.master.ISysUserService;
 import com.chengjs.cjsssmsweb.service.master.IWebUserService;
+import com.chengjs.cjsssmsweb.service.master.SysUserServiceImpl;
 import com.chengjs.cjsssmsweb.service.master.WebUserServiceImpl;
 import com.chengjs.cjsssmsweb.util.ExceptionUtil;
+import com.chengjs.cjsssmsweb.util.HttpRespUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -38,9 +43,10 @@ public class WebUserController {
 
   @Autowired
   private IWebUserService webUserService;
+  @Autowired
+  private ISysUserService sysUserService;
 
   /**
-   *
    * @param webUserid
    * @param model
    * @return
@@ -60,6 +66,7 @@ public class WebUserController {
 
   /**
    * 当前用户信息展示
+   *
    * @param request
    * @param model
    * @return
@@ -74,6 +81,7 @@ public class WebUserController {
 
   /**
    * 查询用户信息
+   *
    * @param userid
    * @param request
    * @return
@@ -161,25 +169,34 @@ public class WebUserController {
 
 
   /**
+   * 登录
+   *
+   * 测试环境中，这里的WebUser登录其实也是使用SysUser来登录的
+   *
    * EAO issue: 此处的login仍然使用SysUserRealm 如何切分,或者从设计上来说，管理平台和App应当分开为2套
    *
-   * @param sysUser
+   * @param username
+   * @param password
    * @param model
    * @return
    */
-  @RequestMapping("/loginWebUser")
-  public String login(SysUser sysUser, Model model) {
+  @RequestMapping("/webUser/loginWebUser")
+  public String login(String username, String password, Model model) {
+    SysUser sysUser = new SysUser();
+    sysUser.setUsername(username);
+    sysUser.setPassword(password);
+
     //用户视图相关操作尽在Subject
     Subject subject = SecurityUtils.getSubject();
     if (!subject.isAuthenticated()) {
       UsernamePasswordToken token = new UsernamePasswordToken(sysUser.getUsername(), sysUser.getPassword());
-      token.setRememberMe(true);//default rememberMe true
+      token.setRememberMe(TestEnv.onTFalse);//default rememberMe true
       String out = "index";
       try {
         subject.login(token);
         String principal_username = subject.getPrincipal().toString();
         log.info("User [" + principal_username + "] 普通用户 登录成功.");
-        model.addAttribute("success", "恭喜"+ principal_username +"登录成功");
+        model.addAttribute("success", "恭喜" + principal_username + "登录成功");
 
         //1.进行session相关事项,可为webSession也可为其他session
         Session session = subject.getSession();
@@ -194,21 +211,42 @@ public class WebUserController {
         }
 
       } catch (UnknownAccountException e) {
-        ExceptionUtil.controllerEH(model,"用户名不存在",e,log);
+        ExceptionUtil.controllerEH(model, "用户名不存在", e, log);
       } catch (IncorrectCredentialsException e) {
-        ExceptionUtil.controllerEH(model,"密码错误请重试",e,log);
+        ExceptionUtil.controllerEH(model, "密码错误请重试", e, log);
       } catch (LockedAccountException e) {
-        ExceptionUtil.controllerEH(model,"账号已被锁定",e,log);
+        ExceptionUtil.controllerEH(model, "账号已被锁定", e, log);
       } catch (AuthenticationException e) {
-        ExceptionUtil.controllerEH(model,"用户或密码错误",e,log);
+        ExceptionUtil.controllerEH(model, "用户或密码错误", e, log);
       } catch (Exception e) {
-        ExceptionUtil.controllerEH(model,"未知错误",e,log);
+        ExceptionUtil.controllerEH(model, "未知错误", e, log);
       } finally {
         return out;
       }
     } else {
       model.addAttribute("success", "已登录");
       return "index";
+    }
+  }
+
+  /**
+   * 注册
+   * JavaBean: WebUser这种的bean会自动返回给前端
+   *
+   * @param webUser
+   * @param model
+   * @param response
+   * @return
+   */
+  @RequestMapping("/webUser/register")
+  public void register(WebUser webUser, Model model, HttpServletResponse response) {
+    try {
+      webUserService.registerWebUser(webUser);
+      log.info("用户：" + webUser.getUsername() + "注册普通用户成功。");
+      HttpRespUtil.respJson(StatusEnum.SUCCESS, response);
+    } catch (Exception e) {
+      log.debug("注册普通用户异常");
+      e.printStackTrace();
     }
   }
 

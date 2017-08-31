@@ -6,7 +6,8 @@ import com.chengjs.cjsssmsweb.pojo.SocketContent;
 import com.chengjs.cjsssmsweb.pojo.WebUser;
 import com.chengjs.cjsssmsweb.service.master.SocketContentServiceImpl;
 import com.chengjs.cjsssmsweb.service.master.WebUserServiceImpl;
-import com.chengjs.cjsssmsweb.util.CommonUtil;
+import com.chengjs.cjsssmsweb.util.HttpRespUtil;
+import com.chengjs.cjsssmsweb.util.StringUtil;
 import com.chengjs.cjsssmsweb.util.page.PageEntity;
 import com.chengjs.cjsssmsweb.util.page.PageUtil;
 import com.fasterxml.jackson.databind.util.JSONPObject;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,16 +93,17 @@ public class IndexController {
       JSONObject jo = new JSONObject();
       List<SocketContent> list = socketContentService.findSocketContentList();
       jo.put("contents", list);
-      jsonObject = CommonUtil.parseJson(StatusEnum.HANDLE_SUCCESS, jo);
+      jsonObject = HttpRespUtil.parseJson(StatusEnum.HANDLE_SUCCESS, jo);
     } catch (Exception e) {
       log.error("操作异常", e);
-      CommonUtil.parseJson(StatusEnum.HANDLE_FAIL, "");
+      HttpRespUtil.parseJson(StatusEnum.HANDLE_FAIL, "");
     }
-    CommonUtil.responseBuildJson(response, jsonObject);
+    HttpRespUtil.responseBuildJson(response, jsonObject);
   }
 
   /**
    * 查询lucene索引下的blog Html
+   *
    * @param query_key
    * @param page
    * @param model
@@ -113,19 +116,28 @@ public class IndexController {
                        @RequestParam(value = "page", required = false, defaultValue = "1") String page,
                        Model model,
                        HttpServletRequest request) throws Exception {
-    LuceneIndex luceneIndex = new LuceneIndex();
-    List<WebUser> userList = luceneIndex.searchBlog(query_key);
-    /**
-     * 此处查询后分页,采用空间换时间,查出所有,截取分页
-     */
-    Integer toIndex = userList.size() >= Integer.parseInt(page) * 5 ? Integer.parseInt(page) * 5 : userList.size();
-    List<WebUser> newList = userList.subList((Integer.parseInt(page) - 1) * 5, toIndex);
-    model.addAttribute("userList", newList);
+    List<WebUser> userList = new ArrayList<>();
+
+    if (StringUtil.isNullOrEmpty(query_key)) { //关键词为空
+      //TODO 无关键词时如何处理
+      model.addAttribute("userList", userList);
+    } else {
+      LuceneIndex luceneIndex = new LuceneIndex();
+      userList = luceneIndex.searchBlog(query_key);
+      /**
+       * 此处查询后分页,采用空间换时间,查出所有,截取分页
+       */
+      Integer toIndex = userList.size() >= Integer.parseInt(page) * 5 ? Integer.parseInt(page) * 5 : userList.size();
+      List<WebUser> newList = userList.subList((Integer.parseInt(page) - 1) * 5, toIndex);
+      model.addAttribute("userList", newList);
+    }
     String pageHtml = this.genUpAndDownPageCode(Integer.parseInt(page), userList.size(), query_key, 5, "");
     model.addAttribute("pageHtml", pageHtml);
-    model.addAttribute("query_key", query_key);
     model.addAttribute("resultTotal", userList.size());
+    model.addAttribute("query_key", query_key);
     model.addAttribute("pageTitle", "搜索关键字'" + query_key + "'结果页面");
+
+    log.debug("query_key:" + query_key + "，共查询到" + userList.size() + "条。");
 
     return "queryResult";
   }
@@ -155,13 +167,13 @@ public class IndexController {
         LuceneIndex luceneIndex = new LuceneIndex();
         luceneIndex.addIndex(user);
       }
-      jsonObject = CommonUtil.parseJson(StatusEnum.HANDLE_SUCCESS, jo);
+      jsonObject = HttpRespUtil.parseJson(StatusEnum.HANDLE_SUCCESS, jo);
     } catch (Exception e) {
       log.error("操作异常", e);
-      jsonObject = CommonUtil.parseJson(StatusEnum.HANDLE_FAIL, "");
+      jsonObject = HttpRespUtil.parseJson(StatusEnum.HANDLE_FAIL, "");
     }
     /*返回构建的json*/
-    CommonUtil.responseBuildJson(response, jsonObject);
+    HttpRespUtil.responseBuildJson(response, jsonObject);
   }
 
   /**

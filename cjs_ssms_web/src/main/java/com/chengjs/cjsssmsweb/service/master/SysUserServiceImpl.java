@@ -1,7 +1,10 @@
 package com.chengjs.cjsssmsweb.service.master;
 
 import com.chengjs.cjsssmsweb.dao.master.SysUseRolePermissionrDao;
+import com.chengjs.cjsssmsweb.dao.master.SysUserMapper;
 import com.chengjs.cjsssmsweb.pojo.SysUser;
+import com.chengjs.cjsssmsweb.util.UUIDUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,6 +19,9 @@ public class SysUserServiceImpl implements ISysUserService {
 
   @Resource
   private SysUseRolePermissionrDao sURPdao;
+
+  @Autowired
+  private SysUserMapper sysUserMapper;
 
   @Override
   public Set<String> findRoleNames(String sysUserName) {
@@ -33,5 +39,14 @@ public class SysUserServiceImpl implements ISysUserService {
   public SysUser findSysUserBySysUserName(String sysUserName) {
     SysUser sysUser = sURPdao.findSysUserBySysUserName(sysUserName);
     return sysUser;
+  }
+
+  @Override
+  public void registerSysUser(SysUser sysUser) {
+    SysUser re_sysUser = sysUserMapper.selectByPrimaryKey(sysUser.getUsername());
+    if (null == sysUser) {
+      sysUser.setUserid(UUIDUtil.uuid());
+      sysUserMapper.insertSelective(sysUser);
+    }
   }
 }
