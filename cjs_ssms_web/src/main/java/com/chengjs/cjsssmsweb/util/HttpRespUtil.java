@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * HttpRespUtil:
@@ -53,14 +54,14 @@ public class HttpRespUtil {
    */
   public static JSONObject parseJson(StatusEnum status, Object data) {
     JSONObject jo = new JSONObject();
-    jo.put("result", status.code());
+    jo.put("code", status.code());
     jo.put("msg", status.message());
     jo.put("data", data);
     return jo;
   }
 
   /**
-   * 构建并返回response, 配置response通用属性
+   * 构建Jsonobject并返回response, 配置response通用属性
    *
    * @param response
    * @param jo
@@ -80,15 +81,33 @@ public class HttpRespUtil {
 
     //response.setContentType("text/plain");
     response.setContentType("application/json");
+    response.setHeader("Pragma", "No-cache");
     response.setHeader("Cache-Control", "no-cache");
     response.setCharacterEncoding("UTF-8");
+    PrintWriter writer = null;
     try {
-      PrintWriter writer;
       writer = response.getWriter();
       writer.print(json);
     } catch (IOException e) {
       e.printStackTrace();
+    } finally {
+      if (null != writer) {
+        writer.flush();
+        writer.close();
+      }
     }
+  }
+
+  /**
+   * 构建http响应消息
+   * @param msg 响应消息
+   * @param map
+   * @param re_status
+   */
+  public static void buildRespStatus(String msg, Map<String, Object> map, StatusEnum re_status) {
+    map.put("msg", msg); // 请求自定义相应信息
+    map.put("code", re_status.getCode()); // http请求响应code
+    map.put("meg", re_status.getMessage()); // http请求响应消息message
   }
 
   /**

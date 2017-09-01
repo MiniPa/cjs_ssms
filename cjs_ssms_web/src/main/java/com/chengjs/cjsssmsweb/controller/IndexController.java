@@ -45,7 +45,6 @@ public class IndexController {
   @Autowired
   private SocketContentServiceImpl socketContentService;
 
-
   /**
    * model.addAttribute(attr1) ---- jsp ${attr1}
    *
@@ -76,7 +75,7 @@ public class IndexController {
     return "index";
   }
 
-  @RequestMapping("/turnToWebSocketIndex")
+  @RequestMapping("/index/turnToWebSocketIndex")
   public String turnToWebSocketIndex() {
     return "websocket/websocket";
   }

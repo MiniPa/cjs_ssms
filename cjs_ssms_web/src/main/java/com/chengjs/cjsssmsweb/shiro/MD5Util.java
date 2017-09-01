@@ -11,11 +11,26 @@ public class MD5Util {
 
   public static final String DEFAULT_SALT = "minipa_chengjs";
 
+  /**
+   * 指定加密盐
+   * @param str
+   * @param salt
+   * @return
+   */
   public static String md5(String str, String salt){
     if (StringUtil.isNullOrEmpty(salt)) {
       salt = DEFAULT_SALT;
     }
     return new Md5Hash(str,salt).toString() ;
+  }
+
+  /**
+   * 采用默认加密盐
+   * @param str
+   * @return
+   */
+  public static String md5(String str){
+    return new Md5Hash(str,DEFAULT_SALT).toString() ;
   }
 
   public static void main(String[] args) {

@@ -15,6 +15,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
   <title>首页</title>
+
+  <!-- CSS -->
+  <%--<link rel="stylesheet" href="${pageContext.request.contextPath }/css/reset.css">--%>
+  <%--<link rel="stylesheet" href="${pageContext.request.contextPath }/css/supersized.css">--%>
+  <%--<link rel="stylesheet" href="${pageContext.request.contextPath }/css/style.css">--%>
+
   <!-- Bootstrap -->
   <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -45,7 +51,7 @@
   </style>
 </head>
 
-<body class="myElement" data="/SSM-WEB">
+<body class="myElement" data="/cjs_ssms_web">
 <!-- 顶部导航栏 -->
 <jsp:include page="../../public/nav-top.jsp"></jsp:include>
 
@@ -128,7 +134,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <b>
-                      <a href="<%=path %>/user/showUser/${u.userId}">${u.username}</a>
+                      <a href="<%=path %>/webUser/showUser/${u.userId}">${u.username}</a>
                     </b>
                     <br/>
                       ${u.description}
@@ -153,7 +159,6 @@
         </c:forEach>
         <hr class="divider"/>
       </div>
-
 
     </div>
   </div>
@@ -205,17 +210,18 @@
         <h4 class="modal-title" id="myModalLabel_login">登录</h4>
       </div>
       <div class="modal-body">
-        <form id="loginForm" method="post" >
+        <form id="loginForm" method="post">
           <div class="form-group">
             <label for="username">用户名</label>
             <input type="text" name="username" id="username" required="required" class="form-control" placeholder="用户名">
           </div>
           <div class="form-group">
             <label for="password">密码</label>
-            <input type="password" name="password" id="password" required="required" class="form-control" placeholder="密码">
+            <input type="password" name="password" id="password" required="required" class="form-control"
+                   placeholder="密码">
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">登录</button>
+            <button type="button" onclick="login()" class="btn btn-primary">登录</button>
             <button type="reset" class="btn btn-danger">重置</button>
           </div>
         </form>
@@ -234,8 +240,13 @@
         <h4 class="modal-title" id="myModalLabel_register">注册</h4>
       </div>
       <div class="modal-body">
-        <form method="post" id="registerUserForm" action="<%=path%>/sysUser/register">
-
+        <%--****** tph form表单上传信息 ******--%>
+        <%-- enctype http://blog.csdn.net/xcymorningsun/article/details/53019425
+          multipart/form-data类型主要是上传文件时用到；
+          application/x-www-form-urlencoded类型主要是提交k-v时用到，当然这种方法也可以将json设置在v中提交json数据；
+          application/json类型主要是传递json数据用到，层次比较深的数据；
+        --%>
+        <form method="post" id="registerUserForm" enctype="application/x-www-form-urlencoded">
           <div class="form-group" id="div-username">
             <label for="register-username">用户名</label>
             <input type="text" name="username" class="form-control" id="register-username" required="required"
@@ -243,7 +254,8 @@
           </div>
           <div class="form-group" id="div-email">
             <label for="register-email">邮箱</label>
-            <input type="email" name="email" required="required" class="form-control" id="register-email" placeholder="邮箱">
+            <input type="email" name="email" required="required" class="form-control" id="register-email"
+                   placeholder="邮箱">
           </div>
 
           <div class="form-group " id="div-password1">
@@ -257,7 +269,7 @@
 
           </div>
           <div class="modal-footer">
-            <button type="submit" id="btn_register" class="btn btn-primary">注册</button>
+            <button type="button" id="btn_register" onclick="register()" class="btn btn-primary">注册</button>
             <button type="reset" class="btn btn-danger">重置</button>
           </div>
         </form>

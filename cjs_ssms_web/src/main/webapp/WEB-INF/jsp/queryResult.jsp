@@ -64,7 +64,7 @@
                     Spring+SpringMVC+mybatis整合实例
                 </p>
             </div>
-            <a href="<%=path%>/user/showUser/1">
+            <a href="<%=path%>/webUser/showUser/1">
                 <img src="<%=path%>/img/spring.png" alt="">
             </a>
         </div>
@@ -116,7 +116,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <b>
-                                                    <a href="<%=path %>/user/showUser/${u.userId}">${u.username}</a>
+                                                    <a href="<%=path %>/webUser/showUser/${u.userId}">${u.username}</a>
                                                 </b>
                                                 <br/>
                                                     ${u.description}

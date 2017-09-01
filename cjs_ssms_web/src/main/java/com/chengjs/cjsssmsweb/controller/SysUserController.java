@@ -70,6 +70,7 @@ public class SysUserController {
    */
   @RequestMapping("/loginSysUser")
   public String login(SysUser sysUser, Model model) {
+
     //用户视图相关操作尽在Subject
     Subject subject = SecurityUtils.getSubject();
     if (!subject.isAuthenticated()) {
@@ -93,17 +94,18 @@ public class SysUserController {
           log.info("Sorry, you aren't allowed to drive the 'eagle5' winnebago!");
         }
 
+        model.addAttribute("sysUser", sysUser);
         out = "admin";
       } catch (UnknownAccountException e) {
-        ExceptionUtil.controllerEH(model, "用户名不存在", e, log);
+        ExceptionUtil.controllerEH(model, "用户名不存在", e, log, StatusEnum.FAIL);
       } catch (IncorrectCredentialsException e) {
-        ExceptionUtil.controllerEH(model, "密码错误请重试", e, log);
+        ExceptionUtil.controllerEH(model, "密码错误请重试", e, log, StatusEnum.FAIL);
       } catch (LockedAccountException e) {
-        ExceptionUtil.controllerEH(model, "账号已被锁定", e, log);
+        ExceptionUtil.controllerEH(model, "账号已被锁定", e, log, StatusEnum.FAIL);
       } catch (AuthenticationException e) {
-        ExceptionUtil.controllerEH(model, "用户或密码错误", e, log);
+        ExceptionUtil.controllerEH(model, "用户或密码错误", e, log, StatusEnum.FAIL);
       } catch (Exception e) {
-        ExceptionUtil.controllerEH(model, "未知错误", e, log);
+        ExceptionUtil.controllerEH(model, "未知错误", e, log, StatusEnum.FAIL);
       } finally {
         return out;
       }

@@ -9,10 +9,9 @@ import com.chengjs.cjsssmsweb.pojo.SysUser;
 import com.chengjs.cjsssmsweb.pojo.WebUser;
 import com.chengjs.cjsssmsweb.service.master.ISysUserService;
 import com.chengjs.cjsssmsweb.service.master.IWebUserService;
-import com.chengjs.cjsssmsweb.service.master.SysUserServiceImpl;
-import com.chengjs.cjsssmsweb.service.master.WebUserServiceImpl;
 import com.chengjs.cjsssmsweb.util.ExceptionUtil;
 import com.chengjs.cjsssmsweb.util.HttpRespUtil;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -34,9 +33,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/webUser")
 public class WebUserController {
 
   private Logger log = LoggerFactory.getLogger(WebUserController.class);
@@ -104,7 +104,7 @@ public class WebUserController {
   }
 
 
-  @RequestMapping("/queryUser")
+  @RequestMapping("/queryWebUser")
   public String queryUser(String querykey) throws Exception {
     querykey = new String(querykey.getBytes("ISO-8859-1"), "UTF-8");
     WebUser u = new WebUser();
@@ -167,66 +167,64 @@ public class WebUserController {
     }
   }
 
-
   /**
-   * 登录
-   *
+   * 登录,(不跳转页面，ajax请求)
+   * <p>
    * 测试环境中，这里的WebUser登录其实也是使用SysUser来登录的
-   *
+   * <p>
    * EAO issue: 此处的login仍然使用SysUserRealm 如何切分,或者从设计上来说，管理平台和App应当分开为2套
    *
    * @param username
    * @param password
-   * @param model
+   * @param response
    * @return
    */
-  @RequestMapping("/webUser/loginWebUser")
-  public String login(String username, String password, Model model) {
+  @RequestMapping("/loginWebUser")
+  public void login(String username, String password, HttpServletResponse response) {
+
+    /*===== tpja ajax请求mvc响应 =====*/
+
+    Map<String, Object> remap = new HashedMap();
+
     SysUser sysUser = new SysUser();
     sysUser.setUsername(username);
     sysUser.setPassword(password);
 
     //用户视图相关操作尽在Subject
     Subject subject = SecurityUtils.getSubject();
-    if (!subject.isAuthenticated()) {
+    StatusEnum re_status = StatusEnum.FAIL; // 请求操作状态
+    if (subject.isAuthenticated()) {
+      remap.put("msg", "已经登录");
+      HttpRespUtil.respJson(StatusEnum.SUCCESS, remap, response);
+    } else {
       UsernamePasswordToken token = new UsernamePasswordToken(sysUser.getUsername(), sysUser.getPassword());
       token.setRememberMe(TestEnv.onTFalse);//default rememberMe true
-      String out = "index";
       try {
         subject.login(token);
         String principal_username = subject.getPrincipal().toString();
         log.info("User [" + principal_username + "] 普通用户 登录成功.");
-        model.addAttribute("success", "恭喜" + principal_username + "登录成功");
 
         //1.进行session相关事项,可为webSession也可为其他session
         Session session = subject.getSession();
-        //session.setAttribute("webUserName", sysUser.getUsername());
-        session.setAttribute("sysUserName", sysUser.getUsername());
+        session.setAttribute("webUserName", sysUser.getUsername());
 
-        //2.一个(非常强大)的实例级别的权限
-        if (subject.isPermitted("winnebago:drive:eagle5")) {
-          log.info("You are permitted to 'drive' the winnebago with license plate (id) 'eagle5'.  Here are the keys - have fun!");
-        } else {
-          log.info("Sorry, you aren't allowed to drive the 'eagle5' winnebago!");
-        }
-
+        re_status = StatusEnum.SUCCESS;
+        HttpRespUtil.buildRespStatus("恭喜" + sysUser.getUsername() + "登录成功", remap, re_status);
       } catch (UnknownAccountException e) {
-        ExceptionUtil.controllerEH(model, "用户名不存在", e, log);
+        ExceptionUtil.controllerEHJson("用户名不存在", e, log, remap, re_status);
       } catch (IncorrectCredentialsException e) {
-        ExceptionUtil.controllerEH(model, "密码错误请重试", e, log);
+        ExceptionUtil.controllerEHJson("密码错误请重试", e, log, remap, re_status);
       } catch (LockedAccountException e) {
-        ExceptionUtil.controllerEH(model, "账号已被锁定", e, log);
+        ExceptionUtil.controllerEHJson("账号已被锁定", e, log, remap, re_status);
       } catch (AuthenticationException e) {
-        ExceptionUtil.controllerEH(model, "用户或密码错误", e, log);
+        ExceptionUtil.controllerEHJson("用户或密码错误", e, log, remap, re_status);
       } catch (Exception e) {
-        ExceptionUtil.controllerEH(model, "未知错误", e, log);
+        ExceptionUtil.controllerEHJson("未知错误", e, log, remap, re_status);
       } finally {
-        return out;
+        HttpRespUtil.respJson(re_status, remap, response);
       }
-    } else {
-      model.addAttribute("success", "已登录");
-      return "index";
     }
+
   }
 
   /**
@@ -236,16 +234,25 @@ public class WebUserController {
    * @param webUser
    * @param model
    * @param response
-   * @return
    */
-  @RequestMapping("/webUser/register")
+  @RequestMapping("/register")
   public void register(WebUser webUser, Model model, HttpServletResponse response) {
+    Map<String, Object> remap = new HashedMap();
     try {
-      webUserService.registerWebUser(webUser);
-      log.info("用户：" + webUser.getUsername() + "注册普通用户成功。");
-      HttpRespUtil.respJson(StatusEnum.SUCCESS, response);
+      boolean b = webUserService.registerWebUser(webUser);
+      if (b) {
+        log.info("注册普通用户" + webUser.getUsername() + "成功。");
+        remap.put("msg", "恭喜您，" + webUser.getUsername() + "注册成功。");
+        HttpRespUtil.respJson(StatusEnum.SUCCESS, remap, response);
+      } else {
+        remap.put("msg", "用户名已存在。");
+        HttpRespUtil.respJson(StatusEnum.SUCCESS, remap, response);
+      }
+
     } catch (Exception e) {
-      log.debug("注册普通用户异常");
+      log.debug("注册普通用户" + webUser.getUsername() + "异常");
+      remap.put("msg","注册普通用户异常");
+      HttpRespUtil.respJson(StatusEnum.FAIL, remap, response);
       e.printStackTrace();
     }
   }
@@ -258,6 +265,5 @@ public class WebUserController {
     session.removeAttribute("sysbUserName");
     return "redirect:/index.jsp";
   }
-
 
 }

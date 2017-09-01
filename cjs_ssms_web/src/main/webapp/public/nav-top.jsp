@@ -41,13 +41,22 @@
 
       <ul class="nav navbar-nav navbar-right">
         <c:choose>
-          <c:when test="${empty webusers}">
-            <li><a href="javascriot:void(0)" data-toggle="modal" data-target="#login">登录
-              <span class="glyphicon glyphicon-home"></span></a></li>
-            <li><a href="javascriot:void(0)" data-toggle="modal" data-target="#register">注册
-              <span class="glyphicon glyphicon-user"></span></a></li>
-            <li><a href="<%=path%>/login.jsp">后台
-              <span class="glyphicon glyphicon-lock"></span></a></li>
+          <c:when test="${empty sysUser}">
+            <li>
+              <a href="#" data-toggle="modal" data-target="#login">
+                登录<span class="glyphicon glyphicon-home"></span>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-toggle="modal" data-target="#register">
+                注册<span class="glyphicon glyphicon-user"></span>
+              </a>
+            </li>
+            <li>
+              <a href="<%=path%>/login.jsp">
+                后台<span class="glyphicon glyphicon-lock"></span>
+              </a>
+            </li>
           </c:when>
           <c:otherwise>
             <li class="dropdown">
@@ -66,7 +75,7 @@
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <a href="<%=path%>/user/frontUserSet/${webUsers.userid}">${webUsers.username}
+                  <a href="<%=path%>/webUser/frontUserSet/${webUsers.userid}">${webUsers.username}
                     <span class="glyphicon glyphicon-cog"></span>
                   </a>
                   <a href="<%=path %>/login/logoutWebUser?type=1">退出登录
@@ -83,21 +92,5 @@
     </div>
   </div>
 </nav>
-
-<script>
-  function refresh(){
-    $.ajax({
-      type:'POST',
-      url:getPath()+'/createAllIndex',
-      success:function(data){
-        if(data.result ==1){
-          alert("生成索引成功！");
-        }else {
-          alert(data.msg) ;
-        }
-      }
-    });
-  }
-</script>
 
 

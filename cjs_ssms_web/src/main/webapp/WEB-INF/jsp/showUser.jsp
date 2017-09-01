@@ -17,9 +17,9 @@
 <p>
     自行修改user/queryWebUser/{id}这里的ID参数来获取不同账户的信息。
 </p>
-<a href="<%=path%>/user/queryWebUser/0000">0000</a>
-<a href="<%=path%>/user/queryWebUser/0001">0001</a>
-<a href="<%=path%>/user/queryWebUser/0000">0002</a>
+<a href="<%=path%>/webUser/queryWebUser/0000">0000</a>
+<a href="<%=path%>/webUser/queryWebUser/0001">0001</a>
+<a href="<%=path%>/webUser/queryWebUser/0000">0002</a>
 
 </body>
 </html> 

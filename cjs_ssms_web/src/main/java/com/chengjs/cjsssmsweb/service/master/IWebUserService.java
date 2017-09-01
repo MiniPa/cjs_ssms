@@ -47,5 +47,5 @@ public interface IWebUserService {
 
   Set<String> findPermissionNames(Set<String> roleNames);
 
-  void registerWebUser(WebUser webUser);
+  boolean registerWebUser(WebUser webUser);
 }

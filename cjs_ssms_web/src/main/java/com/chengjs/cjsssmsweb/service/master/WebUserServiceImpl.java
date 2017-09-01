@@ -2,13 +2,16 @@ package com.chengjs.cjsssmsweb.service.master;
 
 import com.chengjs.cjsssmsweb.dao.master.WebUserRolePermissionDao;
 import com.chengjs.cjsssmsweb.dao.master.WebUserMapper;
-import com.chengjs.cjsssmsweb.pojo.SysUser;
 import com.chengjs.cjsssmsweb.pojo.WebUser;
+import com.chengjs.cjsssmsweb.shiro.MD5Util;
+import com.chengjs.cjsssmsweb.util.Transactioner;
 import com.chengjs.cjsssmsweb.util.UUIDUtil;
 import com.chengjs.cjsssmsweb.util.page.Page;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,9 @@ import java.util.Set;
  */
 @Service
 public class WebUserServiceImpl implements IWebUserService {
+
+  @Autowired
+  private DataSourceTransactionManager transactionManager;
 
   /*========================== webUserMapper ==========================*/
   @Autowired
@@ -125,13 +131,38 @@ public class WebUserServiceImpl implements IWebUserService {
     return webUserRolePermissionDao.findPermissionNames(roleNames);
   }
 
+  /**
+   * 开启事务:代码形式开启
+   * 其实这里不是n个DDL 是1个DQL&1DDL可以不用transaction
+   *
+   * @param webUser
+   * @return
+   */
   @Override
-  public void registerWebUser(WebUser webUser) {
-    WebUser re_webUser = webUserMapper.selectByPrimaryKey(webUser.getUsername());
-    if (null == webUser) {
-      webUser.setUserid(UUIDUtil.uuid());
-      webUserMapper.insertSelective(webUser);
+  public boolean registerWebUser(WebUser webUser) {
+    /*开启事务 -- 提取了个新方法, TODO 此处transactionManager不能再Transactioner中注入么??*/
+    Transactioner tr = new Transactioner(transactionManager);
+    boolean commit = false;
+    boolean result = false;
+    try {
+      WebUser re_webUser = webUserMapper.selectByPrimaryKey(webUser.getUsername());
+      if (null == re_webUser) {
+        webUser.setUserid(UUIDUtil.uuid());
+        webUser.setPassword(MD5Util.md5(webUser.getPassword()));
+        webUserMapper.insertSelective(webUser);
+        result = true;
+      } else {
+        result = false;
+      }
+      commit = true;
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      tr.end(commit);
     }
+    return result;
   }
+
+
 
 }
