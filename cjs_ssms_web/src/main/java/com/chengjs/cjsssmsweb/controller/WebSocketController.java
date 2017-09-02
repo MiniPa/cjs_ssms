@@ -1,10 +1,15 @@
 package com.chengjs.cjsssmsweb.controller;
 
+import com.chengjs.cjsssmsweb.enums.SessionEnum;
 import com.chengjs.cjsssmsweb.pojo.SocketContent;
 import com.chengjs.cjsssmsweb.service.master.ISocketContentService;
+import com.chengjs.cjsssmsweb.util.UUIDUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.socket.server.standard.SpringConfigurator;
 
 import javax.websocket.OnClose;
@@ -14,6 +19,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Date;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -29,6 +35,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 @ServerEndpoint(value = "/websocket", configurator = SpringConfigurator.class)
 public class WebSocketController {
+
   private static final Logger log = LoggerFactory.getLogger(WebSocketController.class);
 
   /**
@@ -88,7 +95,12 @@ public class WebSocketController {
     /*群发消息*/
     for (WebSocketController item : webSocketSet) {
       try {
-        item.sendMessage(message);
+        Principal principal = session.getUserPrincipal();
+        if (null == principal) {
+          log.debug("群发消息，未获取到当前用户认证信息。");
+          continue;
+        }
+        item.serializeMessage(message,principal);
       } catch (IOException e) {
         e.printStackTrace();
         continue;
@@ -112,14 +124,20 @@ public class WebSocketController {
    * 自定义方法: 聊天内容保存到数据库
    *
    * @param message
+   * @param username
    * @throws IOException
    */
-  public void sendMessage(String message) throws IOException {
-
+  public void serializeMessage(String message, Principal username) throws IOException {
     SocketContent content = new SocketContent();
+
+    content.setContentid(UUIDUtil.uuid());
+    content.setContentsender(username.getName());
     content.setContent(message);
     content.setCreatetime(new Date());
     contentService.insertSelective(content);
+    if (log.isDebugEnabled()) {
+      log.debug("聊天内容入库：\"" + content.toString() + "\"");
+    }
 
     this.session.getBasicRemote().sendText(message);
     //this.session.getAsyncRemote().sendText(message);

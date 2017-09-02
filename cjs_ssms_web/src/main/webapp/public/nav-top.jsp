@@ -37,6 +37,7 @@
         </div>
         <button type="submit" class="btn btn-default">查询</button>
         <button type="button" class="btn btn-danger" onclick="refresh();">重新生成索引</button>
+        <button type="button" class="btn btn-danger" onclick="window.location.href='<%=path %>/index/turnToWebSocketIndex'" >聊天室</button>
       </form>
 
       <ul class="nav navbar-nav navbar-right">

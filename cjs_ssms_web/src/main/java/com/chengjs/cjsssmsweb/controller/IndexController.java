@@ -78,7 +78,7 @@ public class IndexController {
 
   @RequestMapping("/index/turnToWebSocketIndex")
   public String turnToWebSocketIndex() {
-    return "websocket/websocket";
+    return "websocket";
   }
 
   /**
