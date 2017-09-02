@@ -110,22 +110,19 @@ public class WebUserController {
     WebUser u = new WebUser();
     List<WebUser> users = webUserService.findAllByQuery(u);
 
-    List<String> userids = new ArrayList<>();
+    List<String> usernames = new ArrayList<>();
     List<String> cities = new ArrayList<String>();
-    List<String> descs = new ArrayList<String>();
+    List<String> descriptions = new ArrayList<String>();
     for (WebUser user : users) {
-      userids.add(user.getUserid());
-      cities.add(user.getUsername());
-      descs.add(user.getDescription());
+      usernames.add(user.getUsername());
+      descriptions.add(user.getDescription());
     }
 
     IndexerTest indexer = new IndexerTest();
-    String[] userids2 = (String[]) userids.toArray(new String[userids.size()]);
-    String[] cities2 = (String[]) cities.toArray(new String[cities.size()]);
-    String[] descs2 = (String[]) descs.toArray(new String[descs.size()]);
-    indexer.setUserids(userids2);
-    indexer.setCities(cities2);
-    indexer.setDescs(descs2);
+    String[] usernames2 = (String[]) usernames.toArray(new String[usernames.size()]);
+    String[] descriptions2 = (String[]) descriptions.toArray(new String[descriptions.size()]);
+    indexer.setUsernames(usernames2);
+    indexer.setDescriptions(descriptions2);
 
     indexer.index(EnvEnum.LUCENE_INDEX_PATH.val());
     try {

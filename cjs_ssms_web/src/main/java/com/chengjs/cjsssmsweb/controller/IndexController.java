@@ -12,6 +12,7 @@ import com.chengjs.cjsssmsweb.util.page.PageEntity;
 import com.chengjs.cjsssmsweb.util.page.PageUtil;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import net.sf.json.JSONObject;
+import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,11 +94,11 @@ public class IndexController {
       List<SocketContent> list = socketContentService.findSocketContentList();
       jo.put("contents", list);
       jsonObject = HttpRespUtil.parseJson(StatusEnum.HANDLE_SUCCESS, jo);
+      HttpRespUtil.responseBuildJson(response, jsonObject);
     } catch (Exception e) {
       log.error("操作异常", e);
-      HttpRespUtil.parseJson(StatusEnum.HANDLE_FAIL, "");
+      HttpRespUtil.respJson(StatusEnum.HANDLE_FAIL, response);
     }
-    HttpRespUtil.responseBuildJson(response, jsonObject);
   }
 
   /**
@@ -123,6 +124,9 @@ public class IndexController {
     } else {
       LuceneIndex luceneIndex = new LuceneIndex();
       userList = luceneIndex.searchBlog(query_key);
+      if (log.isDebugEnabled()) {
+        log.debug(String.format("关键字%s查询结果为:%s", query_key, String.valueOf(userList)));
+      }
       /**
        * 此处查询后分页,采用空间换时间,查出所有,截取分页
        */
@@ -151,9 +155,9 @@ public class IndexController {
 
   @RequestMapping("/createAllIndex")
   public void createAllIndex(HttpServletResponse response) throws Exception {
+    Map<String, Object> remap = new HashedMap();
     JSONObject jsonObject = new JSONObject();
     try {
-      JSONObject jo = new JSONObject();
       Map<String, Object> map = new HashMap<String, Object>();
       List<WebUser> users = webUserService.list(map);
 
@@ -166,13 +170,14 @@ public class IndexController {
         LuceneIndex luceneIndex = new LuceneIndex();
         luceneIndex.addIndex(user);
       }
-      jsonObject = HttpRespUtil.parseJson(StatusEnum.HANDLE_SUCCESS, jo);
+      remap.put("msg", "重新生成索引成功");
+      log.debug("重新生成索引成功");
+      HttpRespUtil.respJson(StatusEnum.HANDLE_SUCCESS, remap, response);
     } catch (Exception e) {
       log.error("操作异常", e);
-      jsonObject = HttpRespUtil.parseJson(StatusEnum.HANDLE_FAIL, "");
+      remap.put("msg", "重新生成索引失败");
+      HttpRespUtil.respJson(StatusEnum.HANDLE_FAIL, remap, response);
     }
-    /*返回构建的json*/
-    HttpRespUtil.responseBuildJson(response, jsonObject);
   }
 
   /**

@@ -116,7 +116,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <b>
-                                                    <a href="<%=path %>/webUser/showUser/${u.userId}">${u.username}</a>
+                                                    <a href="<%=path %>/webUser/showUser/${u.userid}">${u.username}</a>
                                                 </b>
                                                 <br/>
                                                     ${u.description}
@@ -173,35 +173,10 @@
             </div>
             <div class="modal-body">
                 <p>
-                    自由开发者crossoverJie
+                    chengjs_minipa
                 </p>
                 <address>
-                    <a href="mailto:crossoverJie@gmail.com">crossoverJie@gmail.com</a>
-                </address>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- 弹出框 模态框关于 -->
-<div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">关于</h4>
-            </div>
-            <div class="modal-body">
-                <p>
-                    自由开发者crossoverJie
-                </p>
-                <address>
-                    <a href="mailto:crossoverJie@gmail.com">crossoverJie@gmail.com</a>
+                    <a href="mailto:chengjs_minipa@outlook.com">chengjs_minipa@outlook.com</a>
                 </address>
             </div>
             <div class="modal-footer">
@@ -223,12 +198,12 @@
             <div class="modal-body">
                 <form id="loginForm" method="post">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">用户名</label>
+                        <label for="login-name">用户名</label>
                         <input type="email" name="text" required="required" class="form-control" id="login-name"
                                placeholder="用户名">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">密码</label>
+                        <label for="login-password">密码</label>
                         <input type="password" name="password" required="required" class="form-control"
                                id="login-password" placeholder="密码">
                     </div>
@@ -267,12 +242,12 @@
                     </div>
 
                     <div class="form-group " id="div-password1">
-                        <label for="exampleInputPassword1">密码</label>
+                        <label for="password1">密码</label>
                         <input type="password" required="required" class="form-control" id="password1" name="password"
                                min="6" maxlength="20" placeholder="密码(6-20位数字、英文)">
                     </div>
                     <div class="form-group" id="div-password2">
-                        <label for="exampleInputPassword2">确认密码</label>
+                        <label for="password2">确认密码</label>
                         <input type="password" required="required" class="form-control" id="password2"
                                placeholder="确认密码">
 
@@ -289,7 +264,7 @@
 
 
 <footer>
-    <p class="text-center">© 2016 crossoverJie</p>
+    <p class="text-center">© 2016 chengjs_minipa</p>
     <p class="text-center">
     </p>
 </footer>

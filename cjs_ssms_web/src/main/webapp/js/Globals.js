@@ -13,7 +13,6 @@ var Globals = { // 全局函数
 
 
 
-
 //获取表单数据 jfrom：form的jquery对象
 function getForm(jform) {
   var data = {};

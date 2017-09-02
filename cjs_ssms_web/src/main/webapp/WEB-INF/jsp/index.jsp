@@ -51,7 +51,7 @@
   </style>
 </head>
 
-<body class="myElement" data="/cjs_ssms_web">
+<body class="myElement" data="">
 <!-- 顶部导航栏 -->
 <jsp:include page="../../public/nav-top.jsp"></jsp:include>
 

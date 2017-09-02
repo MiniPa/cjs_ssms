@@ -20,9 +20,9 @@ import java.nio.file.Paths;
 public class IndexerTest {
 
   public static final String PATH_LUCENE = "D:\\Projects\\cjs_ssms\\cjs_ssms_web\\generate\\lucenetmp";
-  private String[] userids = {"1","2","3"};
+  private String[] usernames = {"admin","chengjs","malf"};
   private String cities[] = {"青岛", "南京", "上海"};
-  private String descs[] = {
+  private String descriptions[] = {
       "青岛是一个美丽的城市。",
       "南京是一个有文化的城市。南京是一个文化的城市南京，简称宁，是江苏省会，地处中国东部地区，长江下游，" +
           "濒江近海。全市下辖11个区，总面积6597平方公里，2013年建成区面积752.83平方公里，常住人口818.78万" +
@@ -62,11 +62,11 @@ public class IndexerTest {
   public void index(String indexDir) throws Exception {
     dir = FSDirectory.open(Paths.get(indexDir));
     IndexWriter writer = getWriter();
-    for (int i = 0; i < userids.length; i++) {
+    for (int i = 0; i < usernames.length; i++) {
       Document doc = new Document();
-      doc.add(new StringField("id", userids[i] + "", Field.Store.YES));
+      doc.add(new StringField("username", usernames[i] + "", Field.Store.YES));
       doc.add(new StringField("city", cities[i], Field.Store.YES));
-      doc.add(new TextField("desc", descs[i], Field.Store.YES));
+      doc.add(new TextField("description", descriptions[i], Field.Store.YES));
       writer.addDocument(doc); // 添加文档
     }
     writer.close();
@@ -76,12 +76,12 @@ public class IndexerTest {
     new IndexerTest().index(PATH_LUCENE);
   }
 
-  public String[] getUserids() {
-    return userids;
+  public String[] getUsernames() {
+    return usernames;
   }
 
-  public void setUserids(String[] userids) {
-    this.userids = userids;
+  public void setUsernames(String[] usernames) {
+    this.usernames = usernames;
   }
 
   public String[] getCities() {
@@ -92,11 +92,11 @@ public class IndexerTest {
     this.cities = cities;
   }
 
-  public String[] getDescs() {
-    return descs;
+  public String[] getDescriptions() {
+    return descriptions;
   }
 
-  public void setDescs(String[] descs) {
-    this.descs = descs;
+  public void setDescriptions(String[] descriptions) {
+    this.descriptions = descriptions;
   }
 }
