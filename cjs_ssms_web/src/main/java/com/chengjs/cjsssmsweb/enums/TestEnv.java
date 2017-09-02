@@ -3,7 +3,7 @@ package com.chengjs.cjsssmsweb.enums;
 import com.chengjs.cjsssmsweb.util.PropertiesUtil;
 
 /**
- * TestEnv: 测试环境各种开关
+ * TestEnv: 测试环境各种开关类
  *
  * @author: <a href="mailto:chengjs_minipa@outlook.com">chengjs_minipa</a>, version:1.0.0, 2017/8/31
  */
