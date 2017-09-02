@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * EnvEnum: 系统环境Enum
+ * EnvEnum: 系统环境Enum类
  * author: <a href="mailto:chengjs_minipa@outlook.com">chengjs_minipa</a>, version:1.0.0, 2017/8/29
  */
 public enum EnvEnum {
