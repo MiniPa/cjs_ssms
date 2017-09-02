@@ -5,12 +5,16 @@ var Globals = { // 全局函数
   imgError: imgError,
   zero: zero,
   refresh: refresh,
-  getForm: getForm
+  getForm: getForm,
+  onTest: onTest
 
 }
 
 /*========================= function ===========================*/
-
+//测试环境开关
+function onTest() {
+  return true;//true 开启测试环境
+}
 
 
 //获取表单数据 jfrom：form的jquery对象

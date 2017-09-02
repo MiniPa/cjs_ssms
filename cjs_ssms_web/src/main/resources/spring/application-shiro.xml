@@ -87,7 +87,7 @@
 
 
   <!--================================ shiro远程调用配置 ================================-->
-  <!-- Server-side: Spring远程安全确保每个远程方法调用都与一个负责安全验证的Subject绑定 -->
+  <!-- Spring远程安全确保每个远程方法调用都与一个负责安全验证的Subject绑定 -->
   <!--
     <bean id="secureRemoteInvocationExecutor" class="org.apache.shiro.spring.remoting.SecureRemoteInvocationExecutor">
       <property name="securityManager" ref="securityManager"/>

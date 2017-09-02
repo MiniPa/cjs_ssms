@@ -43,11 +43,18 @@
         <version>1.7.21</version>
       </dependency>
 
+      <!-- jetty 支持cxf等测试 -->
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-webapp</artifactId>
         <version>${jetty.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-transports-http-jetty</artifactId>
+        <version>3.1.6</version>
+      </dependency>
+      <!-- jetty 支持cxf等测试 -->
 
       <dependency>
         <groupId>javax.servlet</groupId>
@@ -242,6 +249,7 @@
         <artifactId>cxf-rt-transports-http</artifactId>
         <version>3.1.6</version>
       </dependency>
+
 
 
 

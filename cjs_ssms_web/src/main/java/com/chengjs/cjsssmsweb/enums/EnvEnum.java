@@ -15,7 +15,11 @@ public enum EnvEnum {
   /** lucene索引位置--env-config.properties 里配置此路径实际位置 */
   LUCENE_INDEX_PATH("lucene.store", "lucene索引文件位置"),
 
+  /** 系统请求路径配置 8080*/
+  IP8080("http://localhost:8080/","系统请求路径配置 8080"),
 
+  /** 系统请求路径配置 9000*/
+  IP9000("http://localhost:9000/","系统请求路径配置 9000")
 
 
 
