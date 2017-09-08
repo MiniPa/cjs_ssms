@@ -11,17 +11,20 @@ var Globals = { // 全局函数
 }
 
 /*========================= function ===========================*/
-//测试环境开关
+/**测试环境开关,调用部分请在此处备注下使用用途*/
 function onTest() {
+  /**
+   * Sample: 1.true,getWeiXinUserInfo返回固定的WeiXinUserInfo对象
+   *
+   * */
   return true;//true 开启测试环境
 }
-
 
 //获取表单数据 jfrom：form的jquery对象
 function getForm(jform) {
   var data = {};
   var formArr = jform.serializeArray();
-  $.each(formArr, function() {
+  $.each(formArr, function () {
     data[this.name] = this.value;
   });
   return data;
@@ -69,15 +72,15 @@ function zero(num) {
 };
 
 //刷新lucene索引
-function refresh(){
+function refresh() {
   $.ajax({
-    type:'POST',
-    url:getPath()+'/createAllIndex',
-    success:function(data){
-      if(data.result ==1){
+    type: 'POST',
+    url: getPath() + '/createAllIndex',
+    success: function (data) {
+      if (data.result == 1) {
         alert("生成索引成功！");
-      }else {
-        alert(data.msg) ;
+      } else {
+        alert(data.msg);
       }
     }
   });
