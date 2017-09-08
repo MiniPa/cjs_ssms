@@ -1,4 +1,4 @@
-package com.chengjs.cjsssmsweb.util;
+package com.chengjs.cjsssmsweb.common.util;
 
 import java.util.UUID;
 

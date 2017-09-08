@@ -1,6 +1,6 @@
 package com.chengjs.cjsssmsweb.shiro;
 
-import com.chengjs.cjsssmsweb.util.StringUtil;
+import com.chengjs.cjsssmsweb.common.util.StringUtil;
 import org.apache.shiro.crypto.hash.Md5Hash;
 
 /**

@@ -2,8 +2,8 @@ package com.chengjs.cjsssmsweb.lucene;
 
 import com.chengjs.cjsssmsweb.enums.EnvEnum;
 import com.chengjs.cjsssmsweb.pojo.WebUser;
-import com.chengjs.cjsssmsweb.util.PropertiesUtil;
-import com.chengjs.cjsssmsweb.util.StringUtil;
+import com.chengjs.cjsssmsweb.common.util.resources.PropertiesUtil;
+import com.chengjs.cjsssmsweb.common.util.StringUtil;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.document.Document;

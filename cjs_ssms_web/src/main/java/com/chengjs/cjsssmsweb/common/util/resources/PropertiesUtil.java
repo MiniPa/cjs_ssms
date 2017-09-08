@@ -1,4 +1,4 @@
-package com.chengjs.cjsssmsweb.util;
+package com.chengjs.cjsssmsweb.common.util.resources;
 
 import com.chengjs.cjsssmsweb.enums.EnvEnum;
 import org.slf4j.Logger;

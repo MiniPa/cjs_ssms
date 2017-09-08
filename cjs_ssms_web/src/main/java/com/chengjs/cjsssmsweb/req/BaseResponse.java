@@ -2,7 +2,7 @@ package com.chengjs.cjsssmsweb.req;
 
 
 import com.chengjs.cjsssmsweb.enums.StatusEnum;
-import com.chengjs.cjsssmsweb.util.StringUtil;
+import com.chengjs.cjsssmsweb.common.util.StringUtil;
 
 import java.io.Serializable;
 

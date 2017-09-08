@@ -5,13 +5,12 @@ import com.chengjs.cjsssmsweb.dao.master.WebUserMapper;
 import com.chengjs.cjsssmsweb.pojo.WebUser;
 import com.chengjs.cjsssmsweb.shiro.MD5Util;
 import com.chengjs.cjsssmsweb.util.Transactioner;
-import com.chengjs.cjsssmsweb.util.UUIDUtil;
+import com.chengjs.cjsssmsweb.common.util.UUIDUtil;
 import com.chengjs.cjsssmsweb.util.page.Page;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionStatus;
 
 import java.util.List;
 import java.util.Map;

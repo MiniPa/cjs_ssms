@@ -1,6 +1,6 @@
 package com.chengjs.cjsssmsweb.enums;
 
-import com.chengjs.cjsssmsweb.util.PropertiesUtil;
+import com.chengjs.cjsssmsweb.common.util.resources.PropertiesUtil;
 
 /**
  * TestEnv: 测试环境各种开关类

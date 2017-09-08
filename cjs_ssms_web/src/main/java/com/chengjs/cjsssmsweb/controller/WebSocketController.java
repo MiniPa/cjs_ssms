@@ -1,15 +1,11 @@
 package com.chengjs.cjsssmsweb.controller;
 
-import com.chengjs.cjsssmsweb.enums.SessionEnum;
 import com.chengjs.cjsssmsweb.pojo.SocketContent;
 import com.chengjs.cjsssmsweb.service.master.ISocketContentService;
-import com.chengjs.cjsssmsweb.util.UUIDUtil;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
+import com.chengjs.cjsssmsweb.common.util.UUIDUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.socket.server.standard.SpringConfigurator;
 
 import javax.websocket.OnClose;

@@ -7,7 +7,7 @@ import com.chengjs.cjsssmsweb.pojo.WebUser;
 import com.chengjs.cjsssmsweb.service.master.SocketContentServiceImpl;
 import com.chengjs.cjsssmsweb.service.master.WebUserServiceImpl;
 import com.chengjs.cjsssmsweb.util.HttpRespUtil;
-import com.chengjs.cjsssmsweb.util.StringUtil;
+import com.chengjs.cjsssmsweb.common.util.StringUtil;
 import com.chengjs.cjsssmsweb.util.page.PageEntity;
 import com.chengjs.cjsssmsweb.util.page.PageUtil;
 import com.fasterxml.jackson.databind.util.JSONPObject;
