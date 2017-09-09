@@ -1,9 +1,9 @@
 package com.chengjs.cjsssmsweb.service.master;
 
-import com.chengjs.cjsssmsweb.dao.master.SysUseRolePermissionrDao;
-import com.chengjs.cjsssmsweb.dao.master.SysUserMapper;
-import com.chengjs.cjsssmsweb.pojo.SysUser;
+import com.chengjs.cjsssmsweb.mybatis.mapper.dao.SysUseRolePermissionrDao;
 import com.chengjs.cjsssmsweb.common.util.UUIDUtil;
+import com.chengjs.cjsssmsweb.mybatis.mapper.master.SysUserMapper;
+import com.chengjs.cjsssmsweb.mybatis.pojo.master.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

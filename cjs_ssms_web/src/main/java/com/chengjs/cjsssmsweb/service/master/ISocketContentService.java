@@ -1,6 +1,7 @@
 package com.chengjs.cjsssmsweb.service.master;
 
-import com.chengjs.cjsssmsweb.pojo.SocketContent;
+
+import com.chengjs.cjsssmsweb.mybatis.pojo.master.SocketContent;
 
 import java.util.List;
 

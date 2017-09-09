@@ -1,6 +1,6 @@
 package com.chengjs.cjsssmsweb.controller;
 
-import com.chengjs.cjsssmsweb.pojo.SocketContent;
+import com.chengjs.cjsssmsweb.mybatis.pojo.master.SocketContent;
 import com.chengjs.cjsssmsweb.service.master.ISocketContentService;
 import com.chengjs.cjsssmsweb.common.util.UUIDUtil;
 import org.slf4j.Logger;

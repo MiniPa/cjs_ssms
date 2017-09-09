@@ -2,7 +2,7 @@ package com.chengjs.cjsssmsweb.controller;
 
 import com.chengjs.cjsssmsweb.enums.StatusEnum;
 import com.chengjs.cjsssmsweb.enums.TestEnv;
-import com.chengjs.cjsssmsweb.pojo.SysUser;
+import com.chengjs.cjsssmsweb.mybatis.pojo.master.SysUser;
 import com.chengjs.cjsssmsweb.service.master.ISysUserService;
 import com.chengjs.cjsssmsweb.util.ExceptionUtil;
 import com.chengjs.cjsssmsweb.util.HttpRespUtil;

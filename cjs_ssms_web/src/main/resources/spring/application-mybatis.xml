@@ -33,7 +33,7 @@
   <!--================================ spring和MyBatis整合 ================================-->
 
   <!--基础数据源-->
-  <!--<bean id="master" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+  <!--<bean mastermapperster" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
   <bean id="master" class="org.apache.commons.dbcp.BasicDataSource">
     <property name="driverClassName" value="${jdbc.driverclass}"></property>
     <property name="username" value="${jdbc.master.user}"></property>
@@ -41,16 +41,72 @@
     <property name="url" value="${jdbc.master.url}"></property>
   </bean>
 
-  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-    <property name="dataSource" ref="master"/>
-    <property name="mapperLocations" value="classpath:mapping/*.xml"/>
-    <property name="configLocation" value="classpath:database/mybatis-config.xml"/>
+  <!--Common Mapper整合==>1 -->
+  <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="com.chengjs.cjsssmsweb.**.mapper"/>
+    <property name="markerInterface" value="tk.mybatis.mapper.common.Mapper"/>
+    <property name="properties">
+      <value>
+        mappers=tk.mybatis.mapper.common.Mapper
+      </value>
+    </property>
+    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
   </bean>
 
   <!--http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html-->
-  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-    <property name="basePackage" value="com.chengjs.cjsssmsweb.dao"/>
-    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+  <!--
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+      <property name="basePackage" valcom.chengjs.cjsssmsweb.mybatis.mapper.er.dao"/>
+      <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+  -->
+
+  <!--http://blog.csdn.net/isea533/article/details/45640319-->
+  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="master"/>
+    <property name="mapperLocations" value="classpath:mapping/**/*.xml"/>
+    <property name="typeAliasesPackage" value="com.chengjs.cjsssmsweb.mybatis.pojo.master"/>
+    <property name="configLocation" value="classpath:database/mybatis-config.xml"/>
+    <!--
+        <property name="mapperLocations">
+          <array>
+            <value>classpath:mapping/*.xml</value>
+          </array>
+        </property>
+    -->
+    <!-- pagehelper configuration spring或mybatis来配置pagehelper二选一 -->
+    <property name="plugins">
+      <array>
+        <!--
+                <bean class="com.github.pagehelper.PageInterceptor">
+                  &lt;!&ndash; 这里的几个配置主要演示如何使用，如果不理解，一定要去掉下面的配置 &ndash;&gt;
+                  &lt;!&ndash;
+                            <property name="properties">
+                              <value>
+                                helperDialect=mysql
+                                reasonable=true
+                                supportMethodsArguments=true
+                                params=count=countSql
+                                autoRuntimeDialect=true
+                              </value>
+                            </property>
+                  &ndash;&gt;
+                </bean>
+        -->
+        <!--自定义的Mapper配置于此-->
+        <!--
+            <bean class="com.github.abel533.mapperhelper.MapperInterceptor">
+              <property name="properties">
+                <value>
+                  mappers=com.github.abel533.mapper.Mapper
+                  IDENTITY=MYSQL
+                  notEmpty=true
+                </value>
+              </property>
+            </bean>
+        -->
+      </array>
+    </property>
   </bean>
 
   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

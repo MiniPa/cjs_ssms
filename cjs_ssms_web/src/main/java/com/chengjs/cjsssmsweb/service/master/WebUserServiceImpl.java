@@ -1,11 +1,11 @@
 package com.chengjs.cjsssmsweb.service.master;
 
-import com.chengjs.cjsssmsweb.dao.master.WebUserRolePermissionDao;
-import com.chengjs.cjsssmsweb.dao.master.WebUserMapper;
-import com.chengjs.cjsssmsweb.pojo.WebUser;
-import com.chengjs.cjsssmsweb.shiro.MD5Util;
-import com.chengjs.cjsssmsweb.util.Transactioner;
 import com.chengjs.cjsssmsweb.common.util.UUIDUtil;
+import com.chengjs.cjsssmsweb.common.util.codec.MD5Util;
+import com.chengjs.cjsssmsweb.mybatis.mapper.dao.WebUserRolePermissionDao;
+import com.chengjs.cjsssmsweb.mybatis.mapper.master.WebUserMapper;
+import com.chengjs.cjsssmsweb.mybatis.pojo.master.WebUser;
+import com.chengjs.cjsssmsweb.util.Transactioner;
 import com.chengjs.cjsssmsweb.util.page.Page;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;

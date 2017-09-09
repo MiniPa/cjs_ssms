@@ -8,7 +8,7 @@
     http://blog.csdn.net/qq_21727627/article/details/72850391
   -->
 
-  <bean id="sysUserRealm" class="com.chengjs.cjsssmsweb.shiro.SysUserRealm">
+  <bean id="sysUserRealm" class="com.chengjs.cjsssmsweb.components.shiro.SysUserRealm">
     <!--配置加密算法-->
     <property name="credentialsMatcher">
       <!--shiro加密策略MD5-->
@@ -20,7 +20,7 @@
       </bean>
 -->
 
-      <bean class="com.chengjs.cjsssmsweb.shiro.CustomCredentialsMatcher"></bean>
+      <bean class="com.chengjs.cjsssmsweb.components.shiro.CustomCredentialsMatcher"></bean>
     </property>
   </bean>
 

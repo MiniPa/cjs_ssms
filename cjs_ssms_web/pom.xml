@@ -14,6 +14,27 @@
   <packaging>war</packaging>
   <description>spring+springmvc+mybatis 纯净web项目，作为向web项目集成不同组件的测试基础</description>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring.version>4.3.10.RELEASE</spring.version>
+    <jackson.version>2.5.0</jackson.version>
+
+    <!--  MyBatis Generator 直接在geneate里写死 -->
+    <!--  Java接口和实体类  -->
+    <targetJavaProject>${basedir}/src/main/java</targetJavaProject>
+    <targetMapperPackage>com.chengjs.cjsssmsweb.mybatis.mapper.master</targetMapperPackage>
+    <targetModelPackage>com.chengjs.cjsssmsweb.mybatis.pojo.master</targetModelPackage>
+    <!--  XML生成路径  -->
+    <targetResourcesProject>${basedir}/src/main/resources</targetResourcesProject>
+    <targetXMLPackage>mapping/master</targetXMLPackage>
+
+    <!--  依赖版本  -->
+    <mapper.version>3.4.3</mapper.version>
+    <mysql.version>5.1.34</mysql.version>
+    <!--  MyBatis Generator  -->
+
+  </properties>
+
   <build>
     <plugins>
       <plugin>
@@ -29,23 +50,47 @@
         <artifactId>tomcat7-maven-plugin</artifactId>
         <version>2.2</version>
       </plugin>
+
+      <!--mybatis generate-->
+      <!--
+            <plugin>
+              <groupId>org.mybatis.generator</groupId>
+              <artifactId>mybatis-generator-maven-plugin</artifactId>
+              <version>1.3.2</version>
+              <configuration>
+                <verbose>true</verbose>
+                <overwrite>true</overwrite>
+              </configuration>
+            </plugin>
+      -->
+      <!--mybatis generate-->
+
+      <!--mybatis mapper generate 执行命令 mvn mybatis-generator:generate-->
       <plugin>
         <groupId>org.mybatis.generator</groupId>
         <artifactId>mybatis-generator-maven-plugin</artifactId>
         <version>1.3.2</version>
         <configuration>
-          <verbose>true</verbose>
+          <configurationFile>${basedir}\src\main\resources\database\mybatis-generator-mapper-config.xml</configurationFile>
           <overwrite>true</overwrite>
+          <verbose>true</verbose>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper</artifactId>
+            <version>${mapper.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
+
     </plugins>
   </build>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <spring.version>4.3.10.RELEASE</spring.version>
-    <jackson.version>2.5.0</jackson.version>
-  </properties>
 
   <dependencies>
 
@@ -53,7 +98,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <scope>test</scope>
+      <!--<scope>test</scope>-->
     </dependency>
     <!-- log4j -->
     <dependency>
@@ -209,6 +254,17 @@
     <dependency>
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper</artifactId>
+    </dependency>
+
+    <!--https://mapperhelper.github.io/docs/-->
+    <dependency>
+      <groupId>tk.mybatis</groupId>
+      <artifactId>mapper</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mybatis.generator</groupId>
+      <artifactId>mybatis-generator-core</artifactId>
     </dependency>
 
     <dependency>

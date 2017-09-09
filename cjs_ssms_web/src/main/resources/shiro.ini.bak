@@ -14,7 +14,7 @@
 # DefaultFilter: anon,authc,authBasic,logout,noSessionCreation,perms
 #               port,rest,roles,ssl,user
 
-# sysUserRealm = com.chengjs.cjsssmsweb.shiro.SysUserRealm
+# sysUserRealm = SysUserRealm
 # securityManager.realms = $sysUserRealm
 
 [users]

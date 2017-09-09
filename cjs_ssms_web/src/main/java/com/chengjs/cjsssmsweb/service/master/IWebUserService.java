@@ -1,6 +1,6 @@
 package com.chengjs.cjsssmsweb.service.master;
 
-import com.chengjs.cjsssmsweb.pojo.WebUser;
+import com.chengjs.cjsssmsweb.mybatis.pojo.master.WebUser;
 import com.chengjs.cjsssmsweb.util.page.Page;
 
 import java.util.List;

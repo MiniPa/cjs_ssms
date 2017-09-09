@@ -1,8 +1,8 @@
 package com.chengjs.cjsssmsweb.service.master;
 
-import com.chengjs.cjsssmsweb.dao.master.SocketContentDao;
-import com.chengjs.cjsssmsweb.dao.master.SocketContentMapper;
-import com.chengjs.cjsssmsweb.pojo.SocketContent;
+import com.chengjs.cjsssmsweb.mybatis.mapper.dao.SocketContentDao;
+import com.chengjs.cjsssmsweb.mybatis.mapper.master.SocketContentMapper;
+import com.chengjs.cjsssmsweb.mybatis.pojo.master.SocketContent;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

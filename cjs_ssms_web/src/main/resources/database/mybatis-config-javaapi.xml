@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+  <!--javaAPI 调用mybatis配置使用,项目中通过spring进行配置-->
+  <settings>
+    <setting name="cacheEnabled" value="false"/><!--test:false-->
+    <setting name="lazyLoadingEnabled" value="true"/>
+    <setting name="multipleResultSetsEnabled" value="true"/>
+    <setting name="useColumnLabel" value="true"/>
+    <setting name="useGeneratedKeys" value="true"/>
+    <setting name="autoMappingBehavior" value="PARTIAL"/>
+    <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
+    <setting name="defaultExecutorType" value="SIMPLE"/>
+    <setting name="defaultStatementTimeout" value="120"/>
+    <setting name="safeRowBoundsEnabled" value="false"/>
+    <setting name="mapUnderscoreToCamelCase" value="false"/>
+    <setting name="localCacheScope" value="SESSION"/>
+    <setting name="jdbcTypeForNull" value="OTHER"/>
+    <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+    <!--<setting name="logImpl" value="SLF4J"/>-->
+  </settings>
+
+  <typeAliases>
+    <package name="com.chengjs.cjsssmsweb.mybatis.pojo.master"/>
+  </typeAliases>
+
+  <!--https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/en/HowToUse.md-->
+
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url"
+                  value="jdbc:mysql://192.168.245.220:3306/cjs_ssm_master?useUnicode=true&amp;characterEncoding=utf8"/>
+        <property name="username" value="cjs_ssm_master"/>
+        <property name="password" value="Yqqlm!Gs1cl$"/>
+      </dataSource>
+    </environment>
+  </environments>
+
+  <!--非spring 项目配置 mybatis未提供ant路径通配符,spring提供了。所以这里只能一个一个添加映射文件-->
+  <mappers>
+    <!--<mapper resource="mapping/WebUserRolePermissionDao.xml"/>-->
+    <mapper resource="mapping/master/WebUserMapper.xml"/>
+  </mappers>
+
+
+</configuration>
