@@ -61,7 +61,8 @@
     <table tableName="%" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
            enableUpdateByExample="false">
       <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-      <generatedKey column="id" sqlStatement="JDBC"/>
+      <!--32位uuid配置, 36位直接配 select uuid() -->
+      <generatedKey column="id" sqlStatement='SELECT replace(t.uuid,\"-\",\"\") FROM (SELECT uuid() uuid FROM dual) t' type="pre" identity="false"/>
     </table>
 
     <!--

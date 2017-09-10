@@ -55,7 +55,7 @@ public class MybatisHelper {
         // 支持方法上的注解
         // 3.3.1版本增加
         config.setEnableMethodAnnotation(true);
-        config.setNotEmpty(true);
+        config.setNotEmpty(false);
 
         //校验Example中的类型是否一致
         config.setCheckExampleEntityClass(true);

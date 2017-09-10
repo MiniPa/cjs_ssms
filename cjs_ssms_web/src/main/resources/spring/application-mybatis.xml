@@ -105,6 +105,7 @@
       <value>
         mappers=tk.mybatis.mapper.common.Mapper
         IDENTITY=select uuid()
+        <!-- 换数据库后如 sqlServer IDENTITY=select replace(newid(), '-', '') 解决问题 -->
         ORDER=BEFORE
       </value>
     </property>
