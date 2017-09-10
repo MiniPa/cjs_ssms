@@ -3,35 +3,34 @@
     PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+  <!--https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/en/HowToUse.md-->
 
   <!--javaAPI 调用mybatis配置使用,项目中通过spring进行配置-->
   <settings>
-    <setting name="cacheEnabled" value="false"/><!--test:false-->
-    <setting name="lazyLoadingEnabled" value="true"/>
-    <setting name="multipleResultSetsEnabled" value="true"/>
-    <setting name="useColumnLabel" value="true"/>
-    <setting name="useGeneratedKeys" value="true"/>
-    <setting name="autoMappingBehavior" value="PARTIAL"/>
-    <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
-    <setting name="defaultExecutorType" value="SIMPLE"/>
-    <setting name="defaultStatementTimeout" value="120"/>
-    <setting name="safeRowBoundsEnabled" value="false"/>
-    <setting name="mapUnderscoreToCamelCase" value="false"/>
-    <setting name="localCacheScope" value="SESSION"/>
-    <setting name="jdbcTypeForNull" value="OTHER"/>
-    <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
-    <!--<setting name="logImpl" value="SLF4J"/>-->
+    <setting name="cacheEnabled" value="true"/>
+    <setting name="lazyLoadingEnabled" value="false"/>
+    <setting name="aggressiveLazyLoading" value="true"/>
   </settings>
 
   <typeAliases>
-    <package name="com.chengjs.cjsssmsweb.mybatis.pojo.master"/>
+    <typeAlias type="com.chengjs.cjsssmsweb.mybatis.pojo.master.UUser"/>
+    <!--<package name="com.chengjs.cjsssmsweb.mybatis.pojo.master"/>-->
   </typeAliases>
 
-  <!--https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/en/HowToUse.md-->
+<!--
+  <plugins>
+    <plugin interceptor="">
+      <property name="IDENTITY" value="MYSQL" />
+      <property name="mappers" value="tk.mybatis.mapper.common.Mapper" />
+    </plugin>
+  </plugins>
+-->
 
   <environments default="development">
     <environment id="development">
-      <transactionManager type="JDBC"/>
+      <transactionManager type="JDBC">
+        <property name="" value=""/>
+      </transactionManager>
       <dataSource type="POOLED">
         <property name="driver" value="com.mysql.jdbc.Driver"/>
         <property name="url"
@@ -44,8 +43,8 @@
 
   <!--非spring 项目配置 mybatis未提供ant路径通配符,spring提供了。所以这里只能一个一个添加映射文件-->
   <mappers>
-    <!--<mapper resource="mapping/WebUserRolePermissionDao.xml"/>-->
-    <mapper resource="mapping/master/WebUserMapper.xml"/>
+    <!--<mapper resource="mapping/UserRolePermissionDao.xml"/>-->
+    <mapper resource="mapping/master/UUserMapper.xml"/>
   </mappers>
 
 

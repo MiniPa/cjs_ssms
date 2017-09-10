@@ -2,8 +2,8 @@ package com.chengjs.cjsssmsweb.controller;
 
 import com.chengjs.cjsssmsweb.enums.StatusEnum;
 import com.chengjs.cjsssmsweb.enums.TestEnv;
-import com.chengjs.cjsssmsweb.mybatis.pojo.master.SysUser;
-import com.chengjs.cjsssmsweb.service.master.ISysUserService;
+import com.chengjs.cjsssmsweb.mybatis.pojo.master.UUser;
+import com.chengjs.cjsssmsweb.service.master.IUserManagerService;
 import com.chengjs.cjsssmsweb.util.ExceptionUtil;
 import com.chengjs.cjsssmsweb.util.HttpRespUtil;
 import org.apache.shiro.SecurityUtils;
@@ -25,33 +25,33 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * SysUserController 管理台权限管理模块
+ * UserController 管理台权限管理模块
  *
  * @author: <a href="mailto:chengjs_minipa@outlook.com">chengjs</a>
  */
 @Controller
-@RequestMapping("/sysUser")
-public class SysUserController {
+@RequestMapping("/User")
+public class UserManagerController {
 
-  private static final Logger log = LoggerFactory.getLogger(SysUserController.class);
+  private static final Logger log = LoggerFactory.getLogger(UserManagerController.class);
 
   @Autowired
-  private ISysUserService sysUserService;
+  private IUserManagerService userMService;
 
   /**
    * 注册
-   * JavaBean: SysUser这种的bean会自动返回给前端
+   * JavaBean: User这种的bean会自动返回给前端
    *
-   * @param sysUser
+   * @param user
    * @param model
    * @param response
    * @return
    */
-  @RequestMapping("/sysUser/register")
-  public void register(SysUser sysUser, Model model, HttpServletResponse response) {
+  @RequestMapping("/User/register")
+  public void register(UUser user, Model model, HttpServletResponse response) {
     try {
-      sysUserService.registerSysUser(sysUser);
-      log.info("用户：" + sysUser.getUsername() + "注册管理台成功。");
+      userMService.registerUser(user);
+      log.info("用户：" + user.getUsername() + "注册管理台成功。");
       HttpRespUtil.respJson(StatusEnum.SUCCESS, response);
     } catch (Exception e) {
       log.debug("注册管理台用户异常");
@@ -68,13 +68,13 @@ public class SysUserController {
    * @param model
    * @return
    */
-  @RequestMapping("/loginSysUser")
-  public String login(SysUser sysUser, Model model) {
+  @RequestMapping("/loginUser")
+  public String login(UUser user, Model model) {
 
     //用户视图相关操作尽在Subject
     Subject subject = SecurityUtils.getSubject();
     if (!subject.isAuthenticated()) {
-      UsernamePasswordToken token = new UsernamePasswordToken(sysUser.getUsername(), sysUser.getPassword());
+      UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
       token.setRememberMe(TestEnv.onTFalse);//default rememberMe true
       String out = "../../login";
       try {
@@ -85,7 +85,7 @@ public class SysUserController {
 
         //1.进行session相关事项,可为webSession也可为其他session
         Session session = subject.getSession();
-        session.setAttribute("sysUserName", sysUser.getUsername());
+        session.setAttribute("UserName", user.getUsername());
 
         //2.一个(非常强大)的实例级别的权限
         if (subject.isPermitted("winnebago:drive:eagle5")) {
@@ -94,7 +94,7 @@ public class SysUserController {
           log.info("Sorry, you aren't allowed to drive the 'eagle5' winnebago!");
         }
 
-        model.addAttribute("sysUser", sysUser);
+        model.addAttribute("User", user);
         out = "admin";
       } catch (UnknownAccountException e) {
         ExceptionUtil.controllerEH(model, "用户名不存在", e, log, StatusEnum.FAIL);
@@ -115,11 +115,11 @@ public class SysUserController {
     }
   }
 
-  @RequestMapping("/logoutSysUser")
-  public String logout(SysUser sysUser, Model model) throws IOException {
+  @RequestMapping("/logoutUser")
+  public String logout(UUser user, Model model) throws IOException {
     Subject subject = SecurityUtils.getSubject();
     Session session = subject.getSession();
-    session.removeAttribute("sysUserName");
+    session.removeAttribute("UserName");
     return "redirect:../login.jsp";
   }
 

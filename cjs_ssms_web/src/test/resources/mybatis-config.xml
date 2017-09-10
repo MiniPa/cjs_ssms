@@ -27,8 +27,8 @@
   <!--非spring 项目配置 mybatis未提供ant路径通配符,spring提供了。所以这里只能一个一个添加映射文件-->
 <!--
   <mappers>
-    <mapper resource="mapping/WebUserRolePermissionDao.xml"/>
-    <mapper resource="mapping/WebUserMapper.xml"/>
+    <mapper resource="mapping/UserRolePermissionDao.xml"/>
+    <mapper resource="mapping/UserMapper.xml"/>
   </mappers>
 -->
 

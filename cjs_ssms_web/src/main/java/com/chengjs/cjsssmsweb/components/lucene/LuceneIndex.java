@@ -3,7 +3,7 @@ package com.chengjs.cjsssmsweb.components.lucene;
 import com.chengjs.cjsssmsweb.common.util.StringUtil;
 import com.chengjs.cjsssmsweb.common.util.resources.PropertiesUtil;
 import com.chengjs.cjsssmsweb.enums.EnvEnum;
-import com.chengjs.cjsssmsweb.mybatis.pojo.master.WebUser;
+import com.chengjs.cjsssmsweb.mybatis.pojo.master.UUser;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.document.Document;
@@ -61,10 +61,10 @@ public class LuceneIndex {
   }
 
   /*
-   * 添加 WebUser 数据
-   * @param webUser
+   * 添加 User 数据
+   * @param user
    */
-  public void addIndex(WebUser webUser) throws Exception {
+  public void addIndex(UUser user) throws Exception {
     IndexWriter writer = getWriter();
     Document doc = new Document();
     /*
@@ -73,8 +73,8 @@ public class LuceneIndex {
 		 * 使用TextField类是可以用于查询的。
 		 */
     try {
-      doc.add(new StringField("userid", String.valueOf(webUser.getUserid()), Field.Store.YES));
-      doc.add(new TextField("username", webUser.getUsername(), Field.Store.YES));
+      doc.add(new StringField("userid", String.valueOf(user.getId()), Field.Store.YES));
+      doc.add(new TextField("username", user.getUsername(), Field.Store.YES));
 
       writer.addDocument(doc);
     } catch (Exception e) {
@@ -88,17 +88,17 @@ public class LuceneIndex {
   /**
    * 更新博客索引
    *
-   * @param webUser
+   * @param user
    * @throws Exception
    */
-  public void updateIndex(WebUser webUser) throws Exception {
+  public void updateIndex(UUser user) throws Exception {
     IndexWriter writer = getWriter();
     Document doc = new Document();
-    doc.add(new StringField("userid", String.valueOf(webUser.getUserid()), Field.Store.YES));
-    doc.add(new TextField("username", webUser.getUsername(), Field.Store.YES));
-    doc.add(new TextField("description", webUser.getDescription(), Field.Store.YES));
+    doc.add(new StringField("userid", String.valueOf(user.getId()), Field.Store.YES));
+    doc.add(new TextField("username", user.getUsername(), Field.Store.YES));
+    doc.add(new TextField("description", user.getDescription(), Field.Store.YES));
 
-    writer.updateDocument(new Term("userid", String.valueOf(webUser.getUserid())), doc);
+    writer.updateDocument(new Term("userid", String.valueOf(user.getId())), doc);
     writer.close();
   }
 
@@ -124,7 +124,7 @@ public class LuceneIndex {
    * @return
    * @throws Exception
    */
-  public List<WebUser> searchBlog(String query_key) throws Exception {
+  public List<UUser> searchBlog(String query_key) throws Exception {
     /**
      * 1.解析器parser获取
      * 注意的是查询索引的位置得是存放索引的位置，不然会找不到。
@@ -156,12 +156,12 @@ public class LuceneIndex {
     SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<b><font color='red'>", "</font></b>");
     Highlighter highlighter = new Highlighter(simpleHTMLFormatter, scorer);
     highlighter.setTextFragmenter(fragmenter);
-    List<WebUser> userList = new LinkedList<WebUser>();
+    List<UUser> userList = new LinkedList<UUser>();
     for (ScoreDoc scoreDoc : hits.scoreDocs) {
       Document doc = is.doc(scoreDoc.doc);
-      WebUser webUser = new WebUser();
-      webUser.setUsername(doc.get("username"));
-      webUser.setDescription(doc.get("description"));
+      UUser user = new UUser();
+      user.setUsername(doc.get("username"));
+      user.setDescription(doc.get("description"));
 
       String username = doc.get("username");
       String description = doc.get("description");
@@ -170,9 +170,9 @@ public class LuceneIndex {
         TokenStream tokenStream = analyzer.tokenStream("username", new StringReader(username));
         String husername = highlighter.getBestFragment(tokenStream, username);
         if (StringUtil.isEmpty(husername)) {
-          webUser.setUsername(username);
+          user.setUsername(username);
         } else {
-          webUser.setUsername(husername);
+          user.setUsername(husername);
         }
       }
 
@@ -181,15 +181,15 @@ public class LuceneIndex {
         String hContent = highlighter.getBestFragment(tokenStream, description);
         if (StringUtil.isEmpty(hContent)) {
           if (description.length() <= 200) {
-            webUser.setDescription(description);
+            user.setDescription(description);
           } else {
-            webUser.setDescription(description.substring(0, 200));
+            user.setDescription(description.substring(0, 200));
           }
         } else {
-          webUser.setDescription(hContent);
+          user.setDescription(hContent);
         }
       }
-      userList.add(webUser);
+      userList.add(user);
     }
     return userList;
   }

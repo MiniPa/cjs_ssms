@@ -33,7 +33,7 @@ function login() {
   }
 
   $.ajax({
-    url: "/webUser/loginWebUser",
+    url: "/user/loginUser",
     type: "POST",
     async: true,
     dataType: "json",
@@ -80,7 +80,7 @@ function register() {
   }
 
   $.ajax({
-    url: "/webUser/register",
+    url: "/user/register",
     type: "POST",
     async: true,
     dataType: "json",

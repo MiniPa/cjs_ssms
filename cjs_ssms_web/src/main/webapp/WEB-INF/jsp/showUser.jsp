@@ -12,14 +12,14 @@
     <title>显示用户</title>
 </head>
 <body>
-    ${webUser.username}
+    ${user.username}
 <br/>
 <p>
-    自行修改user/queryWebUser/{id}这里的ID参数来获取不同账户的信息。
+    自行修改user/queryUser/{id}这里的ID参数来获取不同账户的信息。
 </p>
-<a href="<%=path%>/webUser/queryWebUser/0000">0000</a>
-<a href="<%=path%>/webUser/queryWebUser/0001">0001</a>
-<a href="<%=path%>/webUser/queryWebUser/0000">0002</a>
+<a href="<%=path%>/user/queryUser/0000">0000</a>
+<a href="<%=path%>/user/queryUser/0001">0001</a>
+<a href="<%=path%>/user/queryUser/0000">0002</a>
 
 </body>
 </html> 

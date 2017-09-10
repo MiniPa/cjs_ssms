@@ -134,7 +134,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <b>
-                      <a href="<%=path %>/webUser/showUser/${u.userId}">${u.username}</a>
+                      <a href="<%=path %>/user/showUser/${u.userId}">${u.username}</a>
                     </b>
                     <br/>
                       ${u.description}

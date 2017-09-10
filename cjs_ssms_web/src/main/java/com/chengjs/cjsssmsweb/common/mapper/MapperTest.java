@@ -3,12 +3,13 @@ package com.chengjs.cjsssmsweb.common.mapper;
 import com.chengjs.cjsssmsweb.mybatis.MybatisHelper;
 import com.chengjs.cjsssmsweb.common.util.codec.MD5Util;
 import com.chengjs.cjsssmsweb.common.util.math.MathUtil;
-import com.chengjs.cjsssmsweb.mybatis.mapper.master.WebUserMapper;
-import com.chengjs.cjsssmsweb.mybatis.pojo.master.WebUser;
+import com.chengjs.cjsssmsweb.mybatis.mapper.master.UUserMapper;
+import com.chengjs.cjsssmsweb.mybatis.pojo.master.UUser;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * MapperTest:
@@ -23,18 +24,26 @@ public class MapperTest {
 
     SqlSession session = null;
     try {
-      session = MybatisHelper.session();
-      WebUserMapper mapper = session.getMapper(WebUserMapper.class);
-      WebUser webUser = new WebUser();
-      webUser.setUsername("mapperTestUser" + NUM);
-      webUser.setPassword(MD5Util.md5("1"));
+      session = MybatisHelper.getSqlSession();
+      UUserMapper mapper = session.getMapper(UUserMapper.class);
+      UUser user = new UUser();
+      user.setUsername("mapperTestUser" + NUM);
+      user.setPassword(MD5Util.md5("1"));
 
-      //新增一条数据
-      Assert.assertEquals(1, mapper.insert(webUser));
+      //新增一条数据 TODO Mapper null属性不使用数据库默认值
+      Assert.assertEquals(1, mapper.insert(user));
+
+      //查询数据 等号查询
+      List<UUser> users = mapper.select(user);
+
       //ID回写,不为空
-      Assert.assertNotNull(webUser.getUserid());
+      System.out.printf(user.getId());
+      Assert.assertNotNull(user.getId());
+
       //通过主键删除新增的数据
-      Assert.assertEquals("mapperTestUser" + NUM, mapper.deleteByPrimaryKey(webUser));
+      Assert.assertEquals("mapperTestUser" + NUM, mapper.deleteByPrimaryKey(user));
+    } catch (Exception e) {
+      e.printStackTrace();
     } finally {
       session.close();
     }

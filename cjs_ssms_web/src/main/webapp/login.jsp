@@ -28,7 +28,7 @@
 <div class="page-container">
   <input type="hidden" id="error" value="${error}"/>
   <h1>Login</h1>
-  <form action="${pageContext.request.contextPath }/sysUser/loginSysUser" method="post">
+  <form action="${pageContext.request.contextPath }/User/loginUser" method="post">
     <div>
       <input type="text" name="username" class="username" placeholder="Username" autocomplete="off"/>
     </div>

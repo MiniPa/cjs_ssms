@@ -126,7 +126,7 @@ public class WebSocketController {
   public void serializeMessage(String message, Principal username) throws IOException {
     SocketContent content = new SocketContent();
 
-    content.setContentid(UUIDUtil.uuid());
+    content.setId(UUIDUtil.uuid());
     content.setContentsender(username.getName());
     content.setContent(message);
     content.setCreatetime(new Date());

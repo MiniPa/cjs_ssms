@@ -42,7 +42,7 @@
 
       <ul class="nav navbar-nav navbar-right">
         <c:choose>
-          <c:when test="${empty sysUser}">
+          <c:when test="${empty User}">
             <li>
               <a href="#" data-toggle="modal" data-target="#login">
                 登录<span class="glyphicon glyphicon-home"></span>
@@ -76,10 +76,10 @@
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <a href="<%=path%>/webUser/frontUserSet/${webUsers.userid}">${webUsers.username}
+                  <a href="<%=path%>/user/frontUserSet/${users.userid}">${users.username}
                     <span class="glyphicon glyphicon-cog"></span>
                   </a>
-                  <a href="<%=path %>/login/logoutWebUser?type=1">退出登录
+                  <a href="<%=path %>/login/logoutUser?type=1">退出登录
                     <span class="glyphicon glyphicon-off"></span>
                   </a>
                 </li>

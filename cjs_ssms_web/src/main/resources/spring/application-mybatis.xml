@@ -41,18 +41,6 @@
     <property name="url" value="${jdbc.master.url}"></property>
   </bean>
 
-  <!--Common Mapper整合==>1 -->
-  <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
-    <property name="basePackage" value="com.chengjs.cjsssmsweb.**.mapper"/>
-    <property name="markerInterface" value="tk.mybatis.mapper.common.Mapper"/>
-    <property name="properties">
-      <value>
-        mappers=tk.mybatis.mapper.common.Mapper
-      </value>
-    </property>
-    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-  </bean>
-
   <!--http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html-->
   <!--
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -107,6 +95,20 @@
         -->
       </array>
     </property>
+  </bean>
+
+  <!--Common Mapper整合==>1 -->
+  <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="com.chengjs.cjsssmsweb.mybatis.**.mapper"/>
+    <property name="markerInterface" value="tk.mybatis.mapper.common.Mapper"/>
+    <property name="properties">
+      <value>
+        mappers=tk.mybatis.mapper.common.Mapper
+        IDENTITY=select uuid()
+        ORDER=BEFORE
+      </value>
+    </property>
+    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
   </bean>
 
   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

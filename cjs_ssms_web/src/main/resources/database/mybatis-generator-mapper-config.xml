@@ -19,6 +19,8 @@
 
     <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
       <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+      <property name="caseSensitive" value="true"/>
+      <property name="forceAnnotation" value="true"/>
     </plugin>
 
     <commentGenerator>
@@ -26,7 +28,6 @@
       <property name="suppressDate" value="true"/>
     </commentGenerator>
 
-    <!--添加你的 JDBC 连接信息-->
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                     connectionURL="jdbc:mysql://192.168.245.220:3306/cjs_ssm_master"
                     userId="cjs_ssm_master" password="Yqqlm!Gs1cl$"/>
@@ -57,9 +58,10 @@
 
     <!--================================ 数据库表生成配置 ================================-->
     <!--%表示所有表 -->
-    <table tableName="%" enableCountByExample="false" enableDeleteByExample="false"
-           enableSelectByExample="false" enableUpdateByExample="false">
+    <table tableName="%" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+           enableUpdateByExample="false">
       <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+      <generatedKey column="id" sqlStatement="JDBC"/>
     </table>
 
     <!--

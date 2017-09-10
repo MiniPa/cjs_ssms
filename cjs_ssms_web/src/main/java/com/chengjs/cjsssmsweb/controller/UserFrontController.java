@@ -5,10 +5,9 @@ import com.chengjs.cjsssmsweb.enums.StatusEnum;
 import com.chengjs.cjsssmsweb.enums.TestEnv;
 import com.chengjs.cjsssmsweb.components.lucene.IndexerTest;
 import com.chengjs.cjsssmsweb.components.lucene.SearcherTest;
-import com.chengjs.cjsssmsweb.mybatis.pojo.master.SysUser;
-import com.chengjs.cjsssmsweb.mybatis.pojo.master.WebUser;
-import com.chengjs.cjsssmsweb.service.master.ISysUserService;
-import com.chengjs.cjsssmsweb.service.master.IWebUserService;
+import com.chengjs.cjsssmsweb.mybatis.pojo.master.UUser;
+import com.chengjs.cjsssmsweb.service.master.IUserFrontrService;
+import com.chengjs.cjsssmsweb.service.master.IUserManagerService;
 import com.chengjs.cjsssmsweb.util.ExceptionUtil;
 import com.chengjs.cjsssmsweb.util.HttpRespUtil;
 import org.apache.commons.collections.map.HashedMap;
@@ -35,26 +34,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 前台用户Controller
+ */
 @Controller
-@RequestMapping("/webUser")
-public class WebUserController {
+@RequestMapping("/user")
+public class UserFrontController {
 
-  private Logger log = LoggerFactory.getLogger(WebUserController.class);
+  private Logger log = LoggerFactory.getLogger(UserFrontController.class);
 
   @Autowired
-  private IWebUserService webUserService;
+  private IUserFrontrService userFService;
   @Autowired
-  private ISysUserService sysUserService;
+  private IUserManagerService userMService;
 
   /**
-   * @param webUserid
+   * @param userid
    * @param model
    * @return
    */
-  @RequestMapping("/frontUserSet/{webUserid}")
-  public String frontUserSet(@PathVariable String webUserid, Model model) {
-    WebUser user = webUserService.getWebUserById(webUserid);
-    model.addAttribute("currentWebUser", user);
+  @RequestMapping("/frontUserSet/{userid}")
+  public String frontUserSet(@PathVariable String userid, Model model) {
+    UUser user = userFService.getUserById(userid);
+    model.addAttribute("currentUser", user);
     /*TODO 给用户添加头像属性*/
 /*    String img_id = user.getImg_id();
     if (img_id != null) {
@@ -73,9 +75,9 @@ public class WebUserController {
    */
   @RequestMapping("/showUser")
   public String toIndex(HttpServletRequest request, Model model) {
-    String webUserid = request.getParameter("userid");
-    WebUser user = this.webUserService.getWebUserById(webUserid);
-    model.addAttribute("webUser", user);
+    String userid = request.getParameter("userid");
+    UUser user = this.userFService.getUserById(userid);
+    model.addAttribute("user", user);
     return "showUser";
   }
 
@@ -86,9 +88,9 @@ public class WebUserController {
    * @param request
    * @return
    */
-  @RequestMapping("/queryWebUser/{userid}")
-  public String queryWebUser(@PathVariable String userid, HttpServletRequest request) {
-    WebUser user = webUserService.getWebUserById(userid);
+  @RequestMapping("/queryUser/{userid}")
+  public String queryUser(@PathVariable String userid, HttpServletRequest request) {
+    UUser user = userFService.getUserById(userid);
     request.setAttribute("user", user);
     return "showUser";
   }
@@ -104,16 +106,16 @@ public class WebUserController {
   }
 
 
-  @RequestMapping("/queryWebUser")
+  @RequestMapping("/queryUser")
   public String queryUser(String querykey) throws Exception {
     querykey = new String(querykey.getBytes("ISO-8859-1"), "UTF-8");
-    WebUser u = new WebUser();
-    List<WebUser> users = webUserService.findAllByQuery(u);
+    UUser u = new UUser();
+    List<UUser> users = userFService.findAllByQuery(u);
 
     List<String> usernames = new ArrayList<>();
     List<String> cities = new ArrayList<String>();
     List<String> descriptions = new ArrayList<String>();
-    for (WebUser user : users) {
+    for (UUser user : users) {
       usernames.add(user.getUsername());
       descriptions.add(user.getDescription());
     }
@@ -134,10 +136,10 @@ public class WebUserController {
     return null;
   }
 
-  @RequestMapping("/createWebUser")
-  public void createWebUser(WebUser user, HttpServletResponse response) throws IOException {
+  @RequestMapping("/createUser")
+  public void createUser(UUser user, HttpServletResponse response) throws IOException {
     try {
-      webUserService.createWebUser(user);
+      userFService.createUser(user);
       response.getWriter().print("true");
     } catch (Exception e) {
       log.error("系统异常", e);
@@ -145,19 +147,19 @@ public class WebUserController {
     }
   }
 
-  @RequestMapping("/deleteWebUser")
-  public void deleteWebUser(String userids, HttpServletResponse response) throws IOException {
+  @RequestMapping("/deleteUser")
+  public void deleteUser(String userids, HttpServletResponse response) throws IOException {
     String[] str_ids = userids.split(",");
     for (String id : str_ids) {
-      webUserService.deleteByPrimaryKey(id);
+      userFService.deleteByPrimaryKey(id);
       response.getWriter().print("true");
     }
   }
 
   @RequestMapping("/edit")
-  public void edit(WebUser webUser, HttpServletResponse response) {
+  public void edit(UUser user, HttpServletResponse response) {
     try {
-      webUserService.updateByPrimaryKeySelective(webUser);
+      userFService.updateByPrimaryKeySelective(user);
       response.getWriter().print("true");
     } catch (Exception e) {
       log.error("系统异常", e);
@@ -167,25 +169,25 @@ public class WebUserController {
   /**
    * 登录,(不跳转页面，ajax请求)
    * <p>
-   * 测试环境中，这里的WebUser登录其实也是使用SysUser来登录的
+   * 测试环境中，这里的User登录其实也是使用User来登录的
    * <p>
-   * EAO issue: 此处的login仍然使用SysUserRealm 如何切分,或者从设计上来说，管理平台和App应当分开为2套
+   * EAO issue: 此处的login仍然使用UserRealm 如何切分,或者从设计上来说，管理平台和App应当分开为2套
    *
    * @param username
    * @param password
    * @param response
    * @return
    */
-  @RequestMapping("/loginWebUser")
+  @RequestMapping("/loginUser")
   public void login(String username, String password, HttpServletResponse response) {
 
     /*===== tpja ajax请求mvc响应 =====*/
 
     Map<String, Object> remap = new HashedMap();
 
-    SysUser sysUser = new SysUser();
-    sysUser.setUsername(username);
-    sysUser.setPassword(password);
+    UUser user = new UUser();
+    user.setUsername(username);
+    user.setPassword(password);
 
     //用户视图相关操作尽在Subject
     Subject subject = SecurityUtils.getSubject();
@@ -194,7 +196,7 @@ public class WebUserController {
       remap.put("msg", "已经登录");
       HttpRespUtil.respJson(StatusEnum.SUCCESS, remap, response);
     } else {
-      UsernamePasswordToken token = new UsernamePasswordToken(sysUser.getUsername(), sysUser.getPassword());
+      UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
       token.setRememberMe(TestEnv.onTFalse);//default rememberMe true
       try {
         subject.login(token);
@@ -203,10 +205,10 @@ public class WebUserController {
 
         //1.进行session相关事项,可为webSession也可为其他session
         Session session = subject.getSession();
-        session.setAttribute("webUserName", sysUser.getUsername());
+        session.setAttribute("userName", user.getUsername());
 
         re_status = StatusEnum.SUCCESS;
-        HttpRespUtil.buildRespStatus("恭喜" + sysUser.getUsername() + "登录成功", remap, re_status);
+        HttpRespUtil.buildRespStatus("恭喜" + user.getUsername() + "登录成功", remap, re_status);
       } catch (UnknownAccountException e) {
         ExceptionUtil.controllerEHJson("用户名不存在", e, log, remap, re_status);
       } catch (IncorrectCredentialsException e) {
@@ -226,20 +228,20 @@ public class WebUserController {
 
   /**
    * 注册
-   * JavaBean: WebUser这种的bean会自动返回给前端
+   * JavaBean: User这种的bean会自动返回给前端
    *
-   * @param webUser
+   * @param user
    * @param model
    * @param response
    */
   @RequestMapping("/register")
-  public void register(WebUser webUser, Model model, HttpServletResponse response) {
+  public void register(UUser user, Model model, HttpServletResponse response) {
     Map<String, Object> remap = new HashedMap();
     try {
-      boolean b = webUserService.registerWebUser(webUser);
+      boolean b = userFService.registerUser(user);
       if (b) {
-        log.info("注册普通用户" + webUser.getUsername() + "成功。");
-        remap.put("msg", "恭喜您，" + webUser.getUsername() + "注册成功。");
+        log.info("注册普通用户" + user.getUsername() + "成功。");
+        remap.put("msg", "恭喜您，" + user.getUsername() + "注册成功。");
         HttpRespUtil.respJson(StatusEnum.SUCCESS, remap, response);
       } else {
         remap.put("msg", "用户名已存在。");
@@ -247,18 +249,18 @@ public class WebUserController {
       }
 
     } catch (Exception e) {
-      log.debug("注册普通用户" + webUser.getUsername() + "异常");
+      log.debug("注册普通用户" + user.getUsername() + "异常");
       remap.put("msg","注册普通用户异常");
       HttpRespUtil.respJson(StatusEnum.FAIL, remap, response);
       e.printStackTrace();
     }
   }
 
-  @RequestMapping("/logoutWebUser")
-  public String logout(WebUser webUser, Model model) throws IOException {
+  @RequestMapping("/logoutUser")
+  public String logout(UUser user, Model model) throws IOException {
     Subject subject = SecurityUtils.getSubject();
     Session session = subject.getSession();
-    //session.removeAttribute("webUserName");
+    //session.removeAttribute("userName");
     session.removeAttribute("sysbUserName");
     return "redirect:/index.jsp";
   }

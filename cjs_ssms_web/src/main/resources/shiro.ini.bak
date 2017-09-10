@@ -14,8 +14,8 @@
 # DefaultFilter: anon,authc,authBasic,logout,noSessionCreation,perms
 #               port,rest,roles,ssl,user
 
-# sysUserRealm = SysUserRealm
-# securityManager.realms = $sysUserRealm
+# UserRealm = UserRealm
+# securityManager.realms = $UserRealm
 
 [users]
 # The 'users' section is for simple deployments

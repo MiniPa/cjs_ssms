@@ -4,9 +4,9 @@ import com.chengjs.cjsssmsweb.common.util.StringUtil;
 import com.chengjs.cjsssmsweb.enums.StatusEnum;
 import com.chengjs.cjsssmsweb.components.lucene.LuceneIndex;
 import com.chengjs.cjsssmsweb.mybatis.pojo.master.SocketContent;
-import com.chengjs.cjsssmsweb.mybatis.pojo.master.WebUser;
+import com.chengjs.cjsssmsweb.mybatis.pojo.master.UUser;
+import com.chengjs.cjsssmsweb.service.master.IUserFrontrService;
 import com.chengjs.cjsssmsweb.service.master.SocketContentServiceImpl;
-import com.chengjs.cjsssmsweb.service.master.WebUserServiceImpl;
 import com.chengjs.cjsssmsweb.util.HttpRespUtil;
 import com.chengjs.cjsssmsweb.util.page.PageEntity;
 import com.chengjs.cjsssmsweb.util.page.PageUtil;
@@ -41,7 +41,7 @@ public class IndexController {
   private static final Logger log = LoggerFactory.getLogger(IndexController.class);
 
   @Autowired
-  private WebUserServiceImpl webUserService;
+  private IUserFrontrService userFService;
 
   @Autowired
   private SocketContentServiceImpl socketContentService;
@@ -64,10 +64,10 @@ public class IndexController {
     map.put("start", pageEntity.getStart());
     map.put("size", pageEntity.getPageSize());
 
-    List<WebUser> webUsers = webUserService.list(map);
-    Long total = webUserService.getTotal(map);
+    List<UUser> users = userFService.list(map);
+    Long total = userFService.getTotal(map);
 
-    model.addAttribute("webusers", webUsers);
+    model.addAttribute("webusers", users);
     StringBuffer param = new StringBuffer();
 
     String pageHtml = PageUtil.genPagination(request.getContextPath() + "/index", total, page, 10, param.toString());
@@ -116,7 +116,7 @@ public class IndexController {
                        @RequestParam(value = "page", required = false, defaultValue = "1") String page,
                        Model model,
                        HttpServletRequest request) throws Exception {
-    List<WebUser> userList = new ArrayList<>();
+    List<UUser> userList = new ArrayList<>();
 
     if (StringUtil.isNullOrEmpty(query_key)) { //关键词为空
       //TODO 无关键词时如何处理
@@ -131,7 +131,7 @@ public class IndexController {
        * 此处查询后分页,采用空间换时间,查出所有,截取分页
        */
       Integer toIndex = userList.size() >= Integer.parseInt(page) * 5 ? Integer.parseInt(page) * 5 : userList.size();
-      List<WebUser> newList = userList.subList((Integer.parseInt(page) - 1) * 5, toIndex);
+      List<UUser> newList = userList.subList((Integer.parseInt(page) - 1) * 5, toIndex);
       model.addAttribute("userList", newList);
     }
     String pageHtml = this.genUpAndDownPageCode(Integer.parseInt(page), userList.size(), query_key, 5, "");
@@ -147,9 +147,9 @@ public class IndexController {
 
   @RequestMapping(value = "/jsonpInfo", method = {RequestMethod.GET})
   @ResponseBody
-  public Object jsonpInfo(String callback, String webUserId) throws IOException {
-    WebUser webUser = webUserService.getWebUserById(webUserId);
-    JSONPObject jsonpObject = new JSONPObject(callback, webUser);
+  public Object jsonpInfo(String callback, String userId) throws IOException {
+    UUser user = userFService.getUserById(userId);
+    JSONPObject jsonpObject = new JSONPObject(callback, user);
     return jsonpObject;
   }
 
@@ -159,14 +159,14 @@ public class IndexController {
     JSONObject jsonObject = new JSONObject();
     try {
       Map<String, Object> map = new HashMap<String, Object>();
-      List<WebUser> users = webUserService.list(map);
+      List<UUser> users = userFService.list(map);
 
       /*先删除原有的索引再创建新的*/
-      for (WebUser user : users) {
+      for (UUser user : users) {
         LuceneIndex luceneIndex = new LuceneIndex();
-        luceneIndex.deleteIndex(user.getUserid() + "");
+        luceneIndex.deleteIndex(user.getId() + "");
       }
-      for (WebUser user : users) {
+      for (UUser user : users) {
         LuceneIndex luceneIndex = new LuceneIndex();
         luceneIndex.addIndex(user);
       }
