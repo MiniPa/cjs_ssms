@@ -1,5 +1,6 @@
 package com.chengjs.cjsssmsweb.common.mapper;
 
+import com.chengjs.cjsssmsweb.common.util.UUIDUtil;
 import com.chengjs.cjsssmsweb.mybatis.MybatisHelper;
 import com.chengjs.cjsssmsweb.common.util.codec.MD5Util;
 import com.chengjs.cjsssmsweb.common.util.math.MathUtil;
@@ -9,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,8 +29,13 @@ public class MapperTest {
       session = MybatisHelper.getSqlSession();
       UUserMapper mapper = session.getMapper(UUserMapper.class);
       UUser user = new UUser();
+      user.setId(UUIDUtil.uuid());
       user.setUsername("mapperTestUser" + NUM);
       user.setPassword(MD5Util.md5("1"));
+      user.setDescription("MapperTest创建的User");
+      user.setDiscard("1");
+      user.setCreatetime(new Date());
+      user.setModifytime(new Date());
 
       //新增一条数据 TODO Mapper null属性不使用数据库默认值
       Assert.assertEquals(1, mapper.insert(user));
@@ -41,7 +48,7 @@ public class MapperTest {
       Assert.assertNotNull(user.getId());
 
       //通过主键删除新增的数据
-      Assert.assertEquals("mapperTestUser" + NUM, mapper.deleteByPrimaryKey(user));
+      Assert.assertEquals("1", mapper.deleteByPrimaryKey(user));
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
