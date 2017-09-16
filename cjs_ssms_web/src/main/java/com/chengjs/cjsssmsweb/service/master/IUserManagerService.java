@@ -6,7 +6,7 @@ import com.chengjs.cjsssmsweb.mybatis.pojo.master.UUser;
 import java.util.Set;
 
 /**
- * IUserService:
+ * ISelectService:
  * author: <a href="mailto:chengjs_minipa@outlook.com">chengjs</a>, version:1.0.0, 2017/8/24
  */
 public interface IUserManagerService {

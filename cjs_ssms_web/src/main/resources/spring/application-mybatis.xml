@@ -41,65 +41,53 @@
     <property name="url" value="${jdbc.master.url}"></property>
   </bean>
 
-  <!--http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html-->
-  <!--
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-      <property name="basePackage" valcom.chengjs.cjsssmsweb.mybatis.mapper.er.dao"/>
-      <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-    </bean>
-  -->
-
   <!--http://blog.csdn.net/isea533/article/details/45640319-->
   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
     <property name="dataSource" ref="master"/>
     <property name="mapperLocations" value="classpath:mapping/**/*.xml"/>
-    <property name="typeAliasesPackage" value="com.chengjs.cjsssmsweb.mybatis.pojo.master"/>
+    <property name="typeAliasesPackage" value="com.chengjs.cjsssmsweb.mybatis.mapper"/>
     <property name="configLocation" value="classpath:database/mybatis-config.xml"/>
+    <!-- pagehelper configuration spring 或 mybatis来配置pagehelper二选一 -->
     <!--
-        <property name="mapperLocations">
+        <property name="plugins">
           <array>
-            <value>classpath:mapping/*.xml</value>
+            &lt;!&ndash;
+                    <bean class="com.github.pagehelper.PageInterceptor">
+                      &lt;!&ndash; 这里的几个配置主要演示如何使用，如果不理解，一定要去掉下面的配置 &ndash;&gt;
+                      &lt;!&ndash;
+                                <property name="properties">
+                                  <value>
+                                    helperDialect=mysql
+                                    reasonable=true
+                                    supportMethodsArguments=true
+                                    params=count=countSql
+                                    autoRuntimeDialect=true
+                                  </value>
+                                </property>
+                      &ndash;&gt;
+                    </bean>
+            &ndash;&gt;
+            &lt;!&ndash;自定义的Mapper配置于此&ndash;&gt;
+            &lt;!&ndash;
+                <bean class="com.github.abel533.mapperhelper.MapperInterceptor">
+                  <property name="properties">
+                    <value>
+                      mappers=com.github.abel533.mapper.Mapper
+                      IDENTITY=MYSQL
+                      notEmpty=true
+                    </value>
+                  </property>
+                </bean>
+            &ndash;&gt;
           </array>
         </property>
     -->
-    <!-- pagehelper configuration spring或mybatis来配置pagehelper二选一 -->
-    <property name="plugins">
-      <array>
-        <!--
-                <bean class="com.github.pagehelper.PageInterceptor">
-                  &lt;!&ndash; 这里的几个配置主要演示如何使用，如果不理解，一定要去掉下面的配置 &ndash;&gt;
-                  &lt;!&ndash;
-                            <property name="properties">
-                              <value>
-                                helperDialect=mysql
-                                reasonable=true
-                                supportMethodsArguments=true
-                                params=count=countSql
-                                autoRuntimeDialect=true
-                              </value>
-                            </property>
-                  &ndash;&gt;
-                </bean>
-        -->
-        <!--自定义的Mapper配置于此-->
-        <!--
-            <bean class="com.github.abel533.mapperhelper.MapperInterceptor">
-              <property name="properties">
-                <value>
-                  mappers=com.github.abel533.mapper.Mapper
-                  IDENTITY=MYSQL
-                  notEmpty=true
-                </value>
-              </property>
-            </bean>
-        -->
-      </array>
-    </property>
   </bean>
 
   <!--Common Mapper整合==>1 -->
+  <!--http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html-->
   <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
-    <property name="basePackage" value="com.chengjs.cjsssmsweb.mybatis.**.mapper"/>
+    <property name="basePackage" value="com.chengjs.cjsssmsweb.mybatis.mapper"/>
     <property name="markerInterface" value="tk.mybatis.mapper.common.Mapper"/>
     <property name="properties">
       <value>
@@ -116,7 +104,7 @@
     <property name="dataSource" ref="master"/>
   </bean>
 
-  <!-- 通过注解控制事务 @Transactional -->
+  <!-- @Transactional -->
   <tx:annotation-driven transaction-manager="transactionManager"/>
 
 </beans>

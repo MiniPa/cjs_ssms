@@ -1,6 +1,6 @@
 package com.chengjs.cjsssmsweb.controller;
 
-import com.chengjs.cjsssmsweb.enums.StatusEnum;
+import com.chengjs.cjsssmsweb.common.enums.StatusEnum;
 import com.chengjs.cjsssmsweb.enums.TestEnv;
 import com.chengjs.cjsssmsweb.mybatis.pojo.master.UUser;
 import com.chengjs.cjsssmsweb.service.master.IUserManagerService;
@@ -30,7 +30,7 @@ import java.io.IOException;
  * @author: <a href="mailto:chengjs_minipa@outlook.com">chengjs</a>
  */
 @Controller
-@RequestMapping("/User")
+@RequestMapping("/muser")
 public class UserManagerController {
 
   private static final Logger log = LoggerFactory.getLogger(UserManagerController.class);
@@ -47,7 +47,7 @@ public class UserManagerController {
    * @param response
    * @return
    */
-  @RequestMapping("/User/register")
+  @RequestMapping("/muser/register")
   public void register(UUser user, Model model, HttpServletResponse response) {
     try {
       userMService.registerUser(user);
@@ -68,7 +68,7 @@ public class UserManagerController {
    * @param model
    * @return
    */
-  @RequestMapping("/loginUser")
+  @RequestMapping("/mloginUser")
   public String login(UUser user, Model model) {
 
     //用户视图相关操作尽在Subject
@@ -115,7 +115,7 @@ public class UserManagerController {
     }
   }
 
-  @RequestMapping("/logoutUser")
+  @RequestMapping("/mlogoutUser")
   public String logout(UUser user, Model model) throws IOException {
     Subject subject = SecurityUtils.getSubject();
     Session session = subject.getSession();

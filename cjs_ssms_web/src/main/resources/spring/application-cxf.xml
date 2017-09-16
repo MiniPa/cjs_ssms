@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://cxf.apache.org/jaxws
+       http://cxf.apache.org/schemas/jaxws.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
   <import resource="classpath:META-INF/cxf/cxf.xml"/>
   <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
-  <!-- 定义webservice的发布接口  -->
+  <!-- 定义webservice的发布接口 简洁 -->
   <jaxws:endpoint implementor="#wSSample" address="/wSSample"></jaxws:endpoint>
+
+<!--  <context:annotation-config/>
+  <context:component-scan base-package="com.chengjs.cjsssmsweb.components.cxf"/>-->
+
+  <!--<bean id="wSService"  class="com.chengjs.cjsssmsweb.components.cxf.impl.WSSampleImpl"></bean>-->
+
+<!--
+  <jaxws:server serviceClass="com.chengjs.cjsssmsweb.components.cxf.impl.WSSampleImpl" address="/wSSample">
+    <jaxws:serviceBean>
+      <ref bean="wSSample"/>
+    </jaxws:serviceBean>
+    <jaxws:inInterceptors>
+      <bean class="org.apache.cxf.interceptor.LoggingInInterceptor"></bean>
+    </jaxws:inInterceptors>
+    <jaxws:outInterceptors>
+      <bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+    </jaxws:outInterceptors>
+  </jaxws:server>
+-->
+
 
   <!--http://cxf.apache.org/docs/how-do-i-develop-a-service.html-->
 

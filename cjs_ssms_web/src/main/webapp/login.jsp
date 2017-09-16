@@ -28,7 +28,7 @@
 <div class="page-container">
   <input type="hidden" id="error" value="${error}"/>
   <h1>Login</h1>
-  <form action="${pageContext.request.contextPath }/User/loginUser" method="post">
+  <form action="${pageContext.request.contextPath }/user/loginUser" method="post">
     <div>
       <input type="text" name="username" class="username" placeholder="Username" autocomplete="off"/>
     </div>
@@ -86,10 +86,10 @@
     $(".connect p").eq(1).animate({"left": "0%"}, 400);
   }
   function is_hide() {
-    $(".alert").animate({"top": "-40%"}, 300)
+    $(".alert").animate({"top": "-40%"}, 300);
   }
   function is_show() {
-    $(".alert").show().animate({"top": "45%"}, 300)
+    $(".alert").show().animate({"top": "45%"}, 300);
   }
 </script>
 </body>

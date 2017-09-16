@@ -1,5 +1,6 @@
 /**
  * package-info: PageHelper 实践经验和细节
+ * https://github.com/pagehelper/Mybatis-PageHelper
  *
  *
  *

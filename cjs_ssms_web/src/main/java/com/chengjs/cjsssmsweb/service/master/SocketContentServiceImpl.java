@@ -3,6 +3,7 @@ package com.chengjs.cjsssmsweb.service.master;
 import com.chengjs.cjsssmsweb.mybatis.mapper.dao.SocketContentDao;
 import com.chengjs.cjsssmsweb.mybatis.mapper.master.SocketContentMapper;
 import com.chengjs.cjsssmsweb.mybatis.pojo.master.SocketContent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,10 +16,10 @@ import java.util.List;
 @Service
 public class SocketContentServiceImpl implements ISocketContentService {
 
-  @Resource
+  @Autowired
   private SocketContentDao socketContentDao;
 
-  @Resource
+  @Autowired
   private SocketContentMapper socketContentMapper;
 
   @Override

@@ -1,6 +1,6 @@
 package com.chengjs.cjsssmsweb.util;
 
-import com.chengjs.cjsssmsweb.enums.StatusEnum;
+import com.chengjs.cjsssmsweb.common.enums.StatusEnum;
 import org.slf4j.Logger;
 import org.springframework.ui.Model;
 

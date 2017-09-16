@@ -110,9 +110,10 @@
       <div class="row">
         <div class="col-md-6">
           <p>
-            <a class="btn btn-primary" href="<%=path%>/jsonp.jsp">JsonP</a>
-            <a class="btn btn-info" href="<%=path%>/redis/showRedis.jsp">redisDemo</a>
+            <a class="btn btn-primary" href="<%=path%>jsonp.jsp">JsonP</a>
+            <a class="btn btn-info" href="<%=path%>redis/showRedis.jsp">redisDemo</a>
             <a class="btn btn-danger" href="#">热门</a>
+            <a class="btn btn-info" href="<%=path%>pages/miniui-index.html">miniui-grid</a>
           </p>
         </div>
         <div class="col-md-4 col-md-offset-2">

@@ -17,14 +17,12 @@
     <!--<package name="com.chengjs.cjsssmsweb.mybatis.pojo.master"/>-->
   </typeAliases>
 
-<!--
   <plugins>
-    <plugin interceptor="">
-      <property name="IDENTITY" value="MYSQL" />
+    <plugin interceptor="com.github.pagehelper.PageInterceptor">
       <property name="mappers" value="tk.mybatis.mapper.common.Mapper" />
+      <property name="offsetAsPageNum" value="false"/>
     </plugin>
   </plugins>
--->
 
   <environments default="development">
     <environment id="development">
@@ -44,6 +42,7 @@
   <!--非spring 项目配置 mybatis未提供ant路径通配符,spring提供了。所以这里只能一个一个添加映射文件-->
   <mappers>
     <mapper resource="mapping/master/UUserMapper.xml"/>
+    <mapper resource="mapping/master/CountryMapper.xml"/>
     <!--<mapper class="com.chengjs.cjsssmsweb.mybatis.mapper.master.UUserMapper"/>-->
 
     <!--如下扫描方式xml需和interface同包-->

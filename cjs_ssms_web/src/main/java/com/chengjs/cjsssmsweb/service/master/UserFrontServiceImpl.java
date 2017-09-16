@@ -21,7 +21,7 @@ import java.util.Set;
  * author: <a href="mailto:chengjs_minipa@outlook.com">chengjs_minipa</a>, version:1.0.0, 2017/8/29
  */
 @Service
-public class UserFrontServiceImpl implements IUserFrontrService {
+public class UserFrontServiceImpl implements IUserFrontService{
 
   @Autowired
   private DataSourceTransactionManager transactionManager;

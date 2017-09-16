@@ -28,7 +28,7 @@ public class WSClientTest {
   /**
    * 参数指代接口命名空间,可在wsdl请求返回信息中找到
    */
-  private static final String SERVICE_NAMESPACE = "http://cxf.cjsssmsweb.chengjs.com/";
+  private static final String SERVICE_NAMESPACE = "http://cxf.components.cjsssmsweb.chengjs.com/";
 
   /**
    * 调用接口：http://blog.csdn.net/u011165335/article/details/51345224
@@ -37,7 +37,9 @@ public class WSClientTest {
    */
   public static void main(String[] args) throws IOException {
     //服务的地址
-    URL wsUrl = new URL(EnvEnum.IP9000.getVal()+"wSSample");
+//    URL wsUrl = new URL(EnvEnum.IP9000.getVal()+"wSSample");
+    URL wsUrl = new URL(EnvEnum.IP8080.getVal()+"webservice/wSSample");/*webservice是web.xml中配置的 tomcat发布接口测试*/
+
 
     HttpURLConnection conn = (HttpURLConnection) wsUrl.openConnection();
 

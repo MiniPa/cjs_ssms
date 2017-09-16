@@ -1,6 +1,6 @@
 package com.chengjs.cjsssmsweb.util;
 
-import com.chengjs.cjsssmsweb.enums.StatusEnum;
+import com.chengjs.cjsssmsweb.common.enums.StatusEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.json.JSONObject;
@@ -43,21 +43,6 @@ public class HttpRespUtil {
     } else {
       responseBuildJson(response, parseJson(status, data));
     }
-  }
-
-  /**
-   * 加工HttpResponse,处理返回状态
-   *
-   * @param status @see com.chengjs.cjsssmsweb.enums.{@link StatusEnum}
-   * @param data   返回数据
-   * @return
-   */
-  public static JSONObject parseJson(StatusEnum status, Object data) {
-    JSONObject jo = new JSONObject();
-    jo.put("code", status.code());
-    jo.put("msg", status.message());
-    jo.put("data", data);
-    return jo;
   }
 
   /**
@@ -141,6 +126,21 @@ public class HttpRespUtil {
         }
       }
     }
+  }
+
+  /**
+   * 加工HttpResponse,处理返回状态
+   *
+   * @param status @see com.chengjs.cjsssmsweb.enums.{@link StatusEnum}
+   * @param data   返回数据
+   * @return
+   */
+  public static JSONObject parseJson(StatusEnum status, Object data) {
+    JSONObject jo = new JSONObject();
+    jo.put("code", status.code());
+    jo.put("msg", status.message());
+    jo.put("data", data);
+    return jo;
   }
 
 }

@@ -1,6 +1,6 @@
 package com.chengjs.cjsssmsweb.controller;
 
-import com.chengjs.cjsssmsweb.enums.StatusEnum;
+import com.chengjs.cjsssmsweb.common.enums.StatusEnum;
 import com.chengjs.cjsssmsweb.req.BaseResponse;
 import com.chengjs.cjsssmsweb.vo.NULLBody;
 import org.slf4j.Logger;

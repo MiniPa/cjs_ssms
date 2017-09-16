@@ -1,12 +1,12 @@
 package com.chengjs.cjsssmsweb.controller;
 
 import com.chengjs.cjsssmsweb.enums.EnvEnum;
-import com.chengjs.cjsssmsweb.enums.StatusEnum;
+import com.chengjs.cjsssmsweb.common.enums.StatusEnum;
 import com.chengjs.cjsssmsweb.enums.TestEnv;
 import com.chengjs.cjsssmsweb.components.lucene.IndexerTest;
 import com.chengjs.cjsssmsweb.components.lucene.SearcherTest;
 import com.chengjs.cjsssmsweb.mybatis.pojo.master.UUser;
-import com.chengjs.cjsssmsweb.service.master.IUserFrontrService;
+import com.chengjs.cjsssmsweb.service.master.IUserFrontService;
 import com.chengjs.cjsssmsweb.service.master.IUserManagerService;
 import com.chengjs.cjsssmsweb.util.ExceptionUtil;
 import com.chengjs.cjsssmsweb.util.HttpRespUtil;
@@ -44,7 +44,7 @@ public class UserFrontController {
   private Logger log = LoggerFactory.getLogger(UserFrontController.class);
 
   @Autowired
-  private IUserFrontrService userFService;
+  private IUserFrontService userFService;
   @Autowired
   private IUserManagerService userMService;
 
@@ -104,7 +104,6 @@ public class UserFrontController {
   public String turnToUserList() {
     return "user/userList";
   }
-
 
   @RequestMapping("/queryUser")
   public String queryUser(String querykey) throws Exception {

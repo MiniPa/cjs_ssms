@@ -107,9 +107,12 @@ public class MybatisHelper {
   /**
    * 根据mybatis配置获取SqlSession,这个方法在测试Mapper时候不是很靠谱,需检测
    *
+   * 此方法未设定mapper一些必要设定的属性,执行会报错 不要使用
+   *
    * @return
    * @throws IOException
    */
+  @Deprecated
   public static SqlSession session() throws IOException {
     String resource = "database/mybatis-config-javaapi.xml";
     InputStream inputStream = Resources.getResourceAsStream(resource);

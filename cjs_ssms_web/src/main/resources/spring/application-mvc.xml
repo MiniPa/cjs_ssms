@@ -1,24 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-                        http://www.springframework.org/schema/mvc
-                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-                        http://www.springframework.org/schema/aop
-                        http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+                          http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-
+  <!--================================ 注解扫描 ================================-->
+  <!--优劣component-scan annotation-driven可以省略-->
   <context:component-scan base-package="com.chengjs.cjsssmsweb"/>
+  <mvc:annotation-driven/>
+
+  <!--没解决问题-->
+  <mvc:default-servlet-handler></mvc:default-servlet-handler>
+  <!--<mvc:resources mapping="/**" location="/" order="1"/>-->
 
   <!--开启cglib代理-->
   <!--<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>-->
 
-  <!--================================ 注解扫描 ================================-->
-  <!--优劣component-scan annotation-driven可以省略-->
-  <!--<mvc:annotation-driven/>-->
+  <!-- 避免IE在ajax请求时，返回json出现下载 -->
+<!--
+  <bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+    <property name="supportedMediaTypes">
+      <list>
+        <value>text/html;charset=UTF-8</value>
+      </list>
+    </property>
+  </bean>
+-->
+
+  <!--视图解析器-->
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/jsp/"/>
+    <property name="suffix" value=".jsp"/>
+  </bean>
+
+  <!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->
+  <bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <!-- 默认编码 -->
+    <property name="defaultEncoding" value="utf-8"/>
+    <!-- 文件大小最大值 -->
+    <property name="maxUploadSize" value="10485760000"/>
+    <!-- 内存中的最大值 -->
+    <property name="maxInMemorySize" value="40960"/>
+  </bean>
 
   <!--================================ 主动配置,老式用法 ================================-->
   <!-- 配置HandlerMapping -->
@@ -55,24 +82,10 @@
     <bidn id="" class="">
       <propenamename="tempalte" ref="jdbcTemplate"></property>
     </bean>-->
+  <!--================================ 主动配置, 老式用法================================-->
 
-  <!--================================ 主动配置 ================================-->
 
-  <!--视图解析器-->
-  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-    <property name="prefix" value="/WEB-INF/jsp/"/>
-    <property name="suffix" value=".jsp"/>
-  </bean>
 
-  <!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->
-  <bean id="multipartResolver"
-        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-    <!-- 默认编码 -->
-    <property name="defaultEncoding" value="utf-8"/>
-    <!-- 文件大小最大值 -->
-    <property name="maxUploadSize" value="10485760000"/>
-    <!-- 内存中的最大值 -->
-    <property name="maxInMemorySize" value="40960"/>
-  </bean>
+
 
 </beans>

@@ -1,12 +1,12 @@
 package com.chengjs.cjsssmsweb.controller;
 
+import com.chengjs.cjsssmsweb.common.enums.StatusEnum;
 import com.chengjs.cjsssmsweb.common.util.StringUtil;
-import com.chengjs.cjsssmsweb.enums.StatusEnum;
 import com.chengjs.cjsssmsweb.components.lucene.LuceneIndex;
 import com.chengjs.cjsssmsweb.mybatis.pojo.master.SocketContent;
 import com.chengjs.cjsssmsweb.mybatis.pojo.master.UUser;
-import com.chengjs.cjsssmsweb.service.master.IUserFrontrService;
-import com.chengjs.cjsssmsweb.service.master.SocketContentServiceImpl;
+import com.chengjs.cjsssmsweb.service.master.ISocketContentService;
+import com.chengjs.cjsssmsweb.service.master.IUserFrontService;
 import com.chengjs.cjsssmsweb.util.HttpRespUtil;
 import com.chengjs.cjsssmsweb.util.page.PageEntity;
 import com.chengjs.cjsssmsweb.util.page.PageUtil;
@@ -41,10 +41,10 @@ public class IndexController {
   private static final Logger log = LoggerFactory.getLogger(IndexController.class);
 
   @Autowired
-  private IUserFrontrService userFService;
+  private IUserFrontService userFService;
 
   @Autowired
-  private SocketContentServiceImpl socketContentService;
+  private ISocketContentService socketContentService;
 
   /**
    * model.addAttribute(attr1) ---- jsp ${attr1}

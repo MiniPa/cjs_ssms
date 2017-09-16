@@ -19,7 +19,6 @@
         <property name="storedCredentialsHexEncoded" value="true"/>
       </bean>
 -->
-
       <bean class="com.chengjs.cjsssmsweb.components.shiro.CustomCredentialsMatcher"></bean>
     </property>
   </bean>

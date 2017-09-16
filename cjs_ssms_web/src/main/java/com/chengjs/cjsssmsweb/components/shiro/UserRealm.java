@@ -1,7 +1,7 @@
 package com.chengjs.cjsssmsweb.components.shiro;
 
 import com.chengjs.cjsssmsweb.mybatis.pojo.master.UUser;
-import com.chengjs.cjsssmsweb.service.master.IUserFrontrService;
+import com.chengjs.cjsssmsweb.service.master.IUserFrontService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -25,7 +25,7 @@ import java.util.Set;
 public class UserRealm extends AuthorizingRealm {
 
   @Autowired
-  private IUserFrontrService userFService;
+  private IUserFrontService userFService;
 
   /**
    * 权限认证

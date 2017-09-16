@@ -1,7 +1,6 @@
 package com.chengjs.cjsssmsweb.common.mapper;
 
 import org.mybatis.generator.api.MyBatisGenerator;
-import org.mybatis.generator.api.ProgressCallback;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
 import org.mybatis.generator.internal.DefaultShellCallback;
@@ -17,13 +16,14 @@ import java.util.List;
 public class MapperGenerate {
 
   public static void main(String[] args) throws Exception {
-    List<String> warnings = new ArrayList();
-    boolean overwrite = true;
+    List<String> warnings = new ArrayList<>();
     ConfigurationParser cp = new ConfigurationParser(warnings);
-    Configuration config = cp.parseConfiguration(MapperGenerate.class.getResourceAsStream("/database/mybatis-generator-mapper-config.xml"));
-    DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+    Configuration config = cp.parseConfiguration(
+        MapperGenerate.class.getResourceAsStream("/database/mybatis-generator-mapper-config.xml"));
+
+    DefaultShellCallback callback = new DefaultShellCallback(true);
     MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
-    myBatisGenerator.generate((ProgressCallback)null);
+    myBatisGenerator.generate(null);
   }
 
 }

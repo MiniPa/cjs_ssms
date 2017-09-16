@@ -175,13 +175,6 @@
 
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.8.7</version>
-      </dependency>
-      <!--===== json =====-->
-
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-core</artifactId>
         <version>${jackson.version}</version>
       </dependency>
@@ -198,6 +191,7 @@
         <version>2.4</version>
         <classifier>jdk15</classifier><!--指定jdk版本 -->
       </dependency>
+      <!--===== json =====-->
 
       <!-- servlet -->
       <dependency>
