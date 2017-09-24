@@ -1,11 +1,15 @@
 /* grid 标准示范 js*/
 var grid;
 var form;
+var userComb;
+var roleComb;
 
 $(function () {
   mini.parse();
   grid = mini.get("datagrid1");
   form = mini.get("datagrid1_form");
+  userComb = mini.get("user");
+  roleComb = mini.get("role");
 });
 
 
@@ -103,3 +107,12 @@ function onGenderRenderer(e) {
   return "";
 }
 
+function onRoleChanged(e) {
+  var roleid = roleComb.getValue();
+  userComb.setValue("");
+
+  var url = "../../../select/commonSelect?method=users&roleid=" + roleid
+  userComb.setUrl(url);
+
+  userComb.select(0);
+}

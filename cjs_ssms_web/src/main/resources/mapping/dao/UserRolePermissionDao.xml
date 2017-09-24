@@ -4,17 +4,17 @@
 
   <select id="findRoleNamesByUserName" resultType="java.lang.String">
     SELECT sr.rolename
-    FROM sys_user su, sys_con_user_role scur, sys_role sr
+    FROM u_user su, u_con_user_role scur, u_role sr
     WHERE su.username = #{UserName}
-    AND su.userid = scur.userid
-    AND scur.roleid = sr.roleid
+    AND su.id = scur.userid
+    AND scur.roleid = sr.id
   </select>
 
   <select id="findPermissionNamesByRoleNames" parameterType="java.util.Set" resultType="java.lang.String">
     SELECT DISTINCT sp.pername
-    FROM sys_role sr, sys_con_role_permission scrp, sys_permission sp
-    WHERE sr.roleid = scrp.roleid
-    AND scrp.perid = sp.perid
+    FROM u_role sr, u_con_role_permission scrp, u_permission sp
+    WHERE sr.id = scrp.roleid
+    AND scrp.perid = sp.id
     AND sr.rolename in
     <foreach collection="set" index="index" item="item" open="(" separator="," close=")">
       #{item}
@@ -24,7 +24,7 @@
   <select id="findUserByUserName" resultType="com.chengjs.cjsssmsweb.mybatis.pojo.master.UUser">
     SELECT
     <include refid="User_Column_List"/>
-    FROM sys_user
+    FROM u_user
     WHERE username = #{UserName} and discard = '1'
   </select>
 
@@ -144,9 +144,9 @@
         and description = #{description}
       </if>
     </where>
-    <if test="start!=null and size!=null">
+<!--    <if test="start!=null and size!=null">
       limit #{start},#{size}
-    </if>
+    </if>-->
   </select>
 
   <select id="getTotal" resultType="java.lang.Long">

@@ -16,14 +16,13 @@
   <meta charset="UTF-8">
   <!--========================= css script =========================-->
 
-  <link href="<%=path%>miniui/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css"/>
-  <script src="<%=path%>miniui/miniui/miniui.js" type="text/javascript"></script>
+  <link href="<%=basePath%>miniui/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css"/>
 
-  <script src="<%=path%>miniui/boot.js" type="text/javascript"></script>
-  <script src="<%=path%>js/Globals.js" type="text/javascript"></script>
+  <script src="<%=basePath%>js/Globals.js" type="text/javascript"></script>
+  <script src="<%=basePath%>miniui/boot.js" type="text/javascript"></script>
 
   <!--========================= css script =========================-->
-  <script src="<%=path%>js/user/usergrid.js" type="text/javascript"></script>
+  <script src="<%=basePath%>js/user/usergrid.js" type="text/javascript"></script>
   <title>用户表格 grid测试</title>
 </head>
 <body>
@@ -34,16 +33,15 @@
   <table width="100%" border=0 cellPadding=0 cellSpacing=0>
     <tbody>
     <tr>
-      <th width="15%">用户id</th>
-      <td width="35%"><!--../../../selectServlet.ajax?taskid=iim_jkztCombSelect-->
-        <input name="id" type="text" url=""
-               textField="text" valueField="value" class="mini-combobox" style="width: 200px"
-               emptytext="全部" shownullitem="true" nullItemText="全部"/>
+      <th width="15%">角色</th>
+      <td width="35%">
+        <input id="role" name="role" type="text" textField="text" valueField="val"
+               url="<%=basePath%>select/commonSelect?method=users" onvaluechanged="onRoleChanged"
+               class="mini-combobox" style="width: 200px" emptytext="全部" shownullitem="true" nullItemText=" 全部" />
       </td>
       <th width="15%">用户名称</th>
-      <td width="35%"><!--../../../selectServlet.ajax?taskid=fxdjCombSelect-->
-        <input name="username" type="text" textField="text" valueField="value"
-               url=""
+      <td width="35%">
+        <input id="user" name="username" type="text" textField="text" valueField="val"
                class="mini-combobox" style="width: 200px" emptytext="全部" shownullitem="true" nullItemText=" 全部" />
       </td>
     </tr>

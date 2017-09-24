@@ -35,7 +35,7 @@ document.write('<link href="' + bootPATH + 'miniui/themes/icons.css" rel="styles
 
 //mode
 var mode = getCookie("miniuiMode");
-if (mode) {
+ if (mode) {
     document.write('<link href="' + bootPATH + 'miniui/themes/default/' + mode + '-mode.css" rel="stylesheet" type="text/css" />');
 }
 

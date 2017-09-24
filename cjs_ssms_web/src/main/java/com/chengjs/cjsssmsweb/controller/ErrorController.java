@@ -22,13 +22,13 @@ import org.springframework.web.context.request.NativeWebRequest;
 @ControllerAdvice
 public class ErrorController {
 
-  private static final Logger LOG = LoggerFactory.getLogger(ErrorController.class);
+  private static final Logger log = LoggerFactory.getLogger(ErrorController.class);
 
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public Object processUnauthenticatedException(NativeWebRequest request, Exception e) {
-    LOG.error("请求出现异常:", e);
+    log.error("请求出现异常:", e);
 
     BaseResponse<NULLBody> response = new BaseResponse<NULLBody>();
     response.setCode(StatusEnum.FAIL.getCode());

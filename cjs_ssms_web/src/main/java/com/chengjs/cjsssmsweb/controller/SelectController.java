@@ -1,6 +1,7 @@
 package com.chengjs.cjsssmsweb.controller;
 
 import com.chengjs.cjsssmsweb.service.common.ISelectService;
+import com.chengjs.cjsssmsweb.util.page.HttpReqsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,39 +56,17 @@ public class SelectController {
   @Autowired
   private ISelectService selectService;
 
-  /**
-   * commonSelect
-   * 通用select查询, text='text' value='value'
-   * 对象反射机制调用方法,不支持传入除方法名外的任何参数
-   *
-   * @return
-   */
   @RequestMapping("/commonSelect")
-  public String commonSelect(@RequestParam(value = "selectmethod") String selectmethod) {
-/*
-
-    try {
-      Method method = selectDao.getClass().getMethod(selectmethod, null);
-      Object result = method.invoke(selectmethod, null);
-
-    } catch (NoSuchMethodException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (InvocationTargetException e) {
-      e.printStackTrace();
-    } finally {
-
-    }
-*/
-
-    return null;
+  public @ResponseBody
+  Map<String, String> commonSelect(@RequestParam(value = "method") String method, HttpServletRequest request)
+      throws UnsupportedEncodingException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    HashMap<String, String> params = HttpReqsUtil.getRequestVals(request);
+    Map<String, String> map = selectService.commonSelect(method,params);
+    return map;
   }
 
-
   /**
-   * commonGridQuery
-   * grid数据查询
+   * commonGridQuery 通用grid数据查询
    *
    * @param request
    * @param response
@@ -135,6 +116,9 @@ public class SelectController {
 
   /*========================== url ==========================*/
 
+  /**
+   * @return 普通方式实现grid表单的查询
+   */
   @RequestMapping("/usergrid")
   public String usergrid() {
     log.debug("user/usergrid");

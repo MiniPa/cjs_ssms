@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.chengjs.cjsssmsweb.mybatis.mapper.dao.ISelectDao">
+<mapper namespace="com.chengjs.cjsssmsweb.mybatis.mapper.common.ISelectDao">
 
-  <select id="selectUser" resultType="java.util.Map">
-    SELECT u.id val, u.username text FROM u_user u
+  <select id="users" parameterType="Map" resultType="java.util.Map">
+    SELECT u.id val, u.username text FROM u_con_user_role cur, u_user u
+    WHERE #{roleid} = cur.roleid AND cur.userid = u.id
   </select>
 
-
-
-
+  <select id="roles" parameterType="Map" resultType="java.util.Map">
+    SELECT r.id val, r.rolename text FROM u_role r
+  </select>
 
 </mapper>
