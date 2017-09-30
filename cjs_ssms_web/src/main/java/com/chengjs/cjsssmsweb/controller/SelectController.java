@@ -2,6 +2,7 @@ package com.chengjs.cjsssmsweb.controller;
 
 import com.chengjs.cjsssmsweb.service.common.ISelectService;
 import com.chengjs.cjsssmsweb.util.page.HttpReqsUtil;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,29 +58,48 @@ public class SelectController {
   @Autowired
   private ISelectService selectService;
 
-  @RequestMapping("/commonSelect")
+  /**
+   * 通用selected查询
+   *
+   * @param method  查询方法名和ISelectDao中配置的一样
+   * @param request
+   * @return
+   * @throws UnsupportedEncodingException
+   * @throws IllegalAccessException
+   * @throws NoSuchMethodException
+   * @throws InvocationTargetException
+   */
+  @RequestMapping("/comSelect")
   public @ResponseBody
-  Map<String, String> commonSelect(@RequestParam(value = "method") String method, HttpServletRequest request)
+  List<Map<String, String>> commonSelect(@RequestParam(value = "method") String method, HttpServletRequest request)
       throws UnsupportedEncodingException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
     HashMap<String, String> params = HttpReqsUtil.getRequestVals(request);
-    Map<String, String> map = selectService.commonSelect(method,params);
+    List<Map<String, String>> map = selectService.commonSelect(method, params);
     return map;
   }
 
   /**
    * commonGridQuery 通用grid数据查询
+   * key：查询条件书写规范: "UUserMapper_gridUsers"(Dao接口名_方法名)
    *
    * @param request
    * @param response
    * @return
    * @throws Exception
    */
-  @RequestMapping(value = "/commonGridQuery", method = RequestMethod.POST)
+  @RequestMapping(value = "/comGridQuery", method = RequestMethod.POST)
   @ResponseBody
-  public String commonGridQuery(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public Map<String, Object> commonGridQuery(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-    /*查询条件*/
-    String key = request.getParameter("key");
+    HashMap<String, String> params = HttpReqsUtil.getRequestVals(request);
+    log.debug("grid通用查询参数：==>" + String.valueOf(params));
+
+    String data = params.get("data");
+    JSONObject obj = JSONObject.fromObject(data);//查询条件
+    HashMap<String, String> paramsMap = (HashMap<String, String>) JSONObject.toBean(JSONObject.fromObject(obj), HashMap.class);
+
+    Map<String, Object> resultMap = null;
+
     /*分页*/
     int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
     int pageSize = Integer.parseInt(request.getParameter("pageSize"));
@@ -86,32 +107,8 @@ public class SelectController {
     String sortField = request.getParameter("sortField");
     String sortOrder = request.getParameter("sortOrder");
 
-
-    System.out.printf(sortField);
-
-/*    HashMap result = new ResolverUtil.Test.TestDB().SearchEmployees(key, pageIndex, pageSize, sortField, sortOrder);
-    String json = ResolverUtil.Test.JSON.Encode(result);*/
-    return "";
-
-  }
-
-  private Map<String, String> queryGridByTask(String task, int pageNum, int pageSize, HashMap<String, String> params) {
-    HashMap<String, String> map = new HashMap<>();
-    /**
-     * 1.运用反射获取 task="userService.selectById()" 的 Service对象,并进入到对应的方法(------------配置1)
-     *
-     * 2.Service里通过example等方式,设定查询条件,如Excample，Selective等---------配置2
-     *
-     * 3.1.单表,直接调用通用Mapper查询
-     * 3.2.多表,对应Mapper接口和XML配置sql-------------配置3
-     *
-     * 4.总结：和logic,task工作量类似
-     *  单表轻松些,
-     *  多表复杂,表嵌套,各级表条件不同,如何实现
-     *
-     **/
-
-    return map;
+    resultMap = selectService.queryGridKey(pageIndex,pageSize,sortField,sortOrder,paramsMap);
+    return resultMap;
   }
 
   /*========================== url ==========================*/

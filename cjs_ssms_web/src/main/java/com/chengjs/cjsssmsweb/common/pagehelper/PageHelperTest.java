@@ -18,6 +18,10 @@ import java.util.List;
  *
  * https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/en/HowToUse.md
  *
+ * Criteria: http://www.cnblogs.com/kangping/p/6001519.html
+ *
+ *
+ *
  * @author: <a href="mailto:chengjs_minipa@outlook.com">chengjs_minipa</a>, version:1.0.0, 2017/9/9
  */
 public class PageHelperTest {
@@ -33,13 +37,31 @@ public class PageHelperTest {
     /*Example*/
     Example example = new Example(Country.class);
     Example.Criteria criteria = example.createCriteria();
+
 //    criteria.andCountrycodeBetween("0", "ZZZZZZZZZZ");
 //    criteria.andIdBetween(0, 20);
+
+
 
     List<Country> countries = countryMapper.selectByExampleAndRowBounds(example, rowBounds);
     PageInfo<Country> pageInfo = new PageInfo<>(countries);
 
     System.out.println("PageHelperTest.main() pageInfo :" + pageInfo);
+
   }
+
+      /*3.Example*/
+//    Example example = new Example(pojo_clz);
+    /*3.params附着条件, Criteria之间是AND关系, oredCriteria中的Criteria是OR关系*/
+//    Example.Criteria criteria1 = example.createCriteria();
+//    criteria.andCountrycodeBetween("0", "ZZZZZZZZZZ");
+//    criteria.andIdBetween(0, 20);
+
+
+//    Object obj = mapper_clz.newInstance();
+//    Method m = obj.getClass().getDeclaredMethod(strs[1], String.class);
+//    String  result = (String) m.invoke(obj, "aaaaa");
+//    Method m = mapper.getClass().getMethod(method, new Class[]{Map.class});
+//    Object result = m.invoke(mapper, params);
 
 }

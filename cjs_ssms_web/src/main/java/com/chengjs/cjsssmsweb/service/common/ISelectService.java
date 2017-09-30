@@ -2,6 +2,7 @@ package com.chengjs.cjsssmsweb.service.common;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,8 +16,17 @@ public interface ISelectService {
    * 通用<selected/>查询
    * @return
    */
-  Map<String,String> commonSelect(String method, HashMap<String, String> params)
+  List<Map<String, String>> commonSelect(String method, HashMap<String, String> params)
       throws InvocationTargetException, IllegalAccessException, NoSuchMethodException;
 
+
+  /**
+   * 通用grid查询
+   * @param params
+   * @return
+   */
+  Map<String, Object> queryGridKey(int pageNum, int pageSize, String field, String sort, HashMap<String, String> params)
+      throws ClassNotFoundException, IllegalAccessException,
+      InstantiationException, NoSuchMethodException, InvocationTargetException;
 
 }

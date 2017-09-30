@@ -42,18 +42,18 @@
 
     <!--================================ mybatis生成路径配置 ================================-->
     <!--pojo-->
-    <javaModelGenerator targetPackage="com.chengjs.cjsssmsweb.mybatis.pojo.master" targetProject="./src/main/java">
+    <javaModelGenerator targetPackage="com.chengjs.cjsssmsweb.mybatis.pojo.example" targetProject="./src/main/java">
       <property name="enableSubPackages" value="false"/>
       <property name="trimStrings" value="true"/>
     </javaModelGenerator>
 
     <!--xml-->
-    <sqlMapGenerator targetPackage="mapping.master" targetProject="./src/main/resources">
+    <sqlMapGenerator targetPackage="mapping.example" targetProject="./src/main/resources">
       <property name="enableSubPackages" value="false"/>
     </sqlMapGenerator>
 
     <!--interface-->
-    <javaClientGenerator targetPackage="com.chengjs.cjsssmsweb.mybatis.mapper.master"
+    <javaClientGenerator targetPackage="com.chengjs.cjsssmsweb.mybatis.mapper.example"
                          targetProject="./src/main/java" type="XMLMAPPER">
       <property name="enableSubPackages" value="false"/>
     </javaClientGenerator>

@@ -31,7 +31,7 @@
     <plugin interceptor="com.github.pagehelper.PageInterceptor">
 
       <property name="offsetAsPageNum" value="true"/><!--default false-->
-      <property name="rowBoundsWithCount" value="true"/><!--default false-->
+      <property name="rowBoundsWithCount" value="false"/><!--default false-->
       <property name="pageSizeZero" value="true"/><!--pageSize=0 || RowBounds.limit = 0 => select all-->
       <property name="reasonable" value="true"/><!--default false, -->
 

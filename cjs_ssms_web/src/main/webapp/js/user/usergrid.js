@@ -12,11 +12,15 @@ $(function () {
   roleComb = mini.get("role");
 });
 
-
-/* grid action */
 function search() {
-  var username = mini.get("username").getValue();
-  grid.load({ key: key });
+  var rolename = mini.get("role").getValue();
+  var username = mini.get("user").getValue();
+  var o = {};
+  o.rolename = rolename;
+  o.username = username;
+  o.key = "UUserMapper_gridUsers";
+  var data = JSON.stringify(o);
+  gridSearch(data,"createtime");
 }
 function reSet() {
   form.clear();
@@ -111,7 +115,7 @@ function onRoleChanged(e) {
   var roleid = roleComb.getValue();
   userComb.setValue("");
 
-  var url = "../../../select/commonSelect?method=users&roleid=" + roleid
+  var url = "../select/comSelect?method=users&roleid=" + roleid
   userComb.setUrl(url);
 
   userComb.select(0);

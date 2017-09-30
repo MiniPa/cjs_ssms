@@ -6,8 +6,12 @@ var Globals = { // 全局函数
   zero: zero,
   refresh: refresh,
   getForm: getForm,
-  onTest: onTest
+  onTest: onTest,
+  gridSearch: gridSearch,
 
+  env : {
+    onTTrue : true
+  }
 }
 
 /*========================= function ===========================*/
@@ -18,6 +22,18 @@ function onTest() {
    *
    * */
   return true;//true 开启测试环境
+}
+
+//grid查询
+/* grid action */
+function gridSearch(data,sort) {
+  grid.setUrl("../select/comGridQuery");
+  grid.load({data: data},function (data) {
+    if (global.env.onTTrue) {
+      console.log(data);
+    }
+  });
+  grid.sortBy(sort, "desc");
 }
 
 //获取表单数据 jfrom：form的jquery对象

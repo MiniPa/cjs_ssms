@@ -22,7 +22,7 @@
   <script src="<%=basePath%>miniui/boot.js" type="text/javascript"></script>
 
   <!--========================= css script =========================-->
-  <script src="<%=basePath%>js/user/usergrid.js" type="text/javascript"></script>
+  <script src="../js/user/usergrid.js" type="text/javascript"></script>
   <title>用户表格 grid测试</title>
 </head>
 <body>
@@ -35,8 +35,8 @@
     <tr>
       <th width="15%">角色</th>
       <td width="35%">
-        <input id="role" name="role" type="text" textField="text" valueField="val"
-               url="<%=basePath%>select/commonSelect?method=users" onvaluechanged="onRoleChanged"
+        <input id="role" name="rolename" type="text" textField="text" valueField="val"
+               url="<%=basePath%>select/comSelect?method=roles" onvaluechanged="onRoleChanged"
                class="mini-combobox" style="width: 200px" emptytext="全部" shownullitem="true" nullItemText=" 全部" />
       </td>
       <th width="15%">用户名称</th>
@@ -77,7 +77,7 @@
 <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowResize="true" idField="id" multiSelect="true" >
   <div property="columns">
     <div type="indexcolumn"></div>
-    <div type="checkcolumn" ></div>
+    <div type="checkcolumn"></div>
     <div field="id" width="120" headerAlign="center" allowSort="true">用户id</div>
     <div field="username" width="120" headerAlign="center" allowSort="true">用户名</div>
     <div field="password" width="120" headerAlign="center" allowSort="true">密码</div>
