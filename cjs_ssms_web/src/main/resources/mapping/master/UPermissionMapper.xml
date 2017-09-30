@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chengjs.cjsssmsweb.mybatis.mapper.master.UPermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.chengjs.cjsssmsweb.mybatis.pojo.master.UPermission" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="pername" property="pername" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="modifytime" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="discard" property="discard" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, pername, description, createtime, modifytime, discard
+  </sql>
+</mapper>

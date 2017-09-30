@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chengjs.cjsssmsweb.mybatis.mapper.master.CountryMapper" >
+  <resultMap id="BaseResultMap" type="com.chengjs.cjsssmsweb.mybatis.pojo.master.Country" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="countryname" property="countryname" jdbcType="VARCHAR" />
+    <result column="countrycode" property="countrycode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    Id, countryname, countrycode
+  </sql>
+</mapper>
