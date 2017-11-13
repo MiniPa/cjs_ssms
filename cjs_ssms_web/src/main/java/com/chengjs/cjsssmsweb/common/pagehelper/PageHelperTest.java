@@ -41,12 +41,14 @@ public class PageHelperTest {
 //    criteria.andCountrycodeBetween("0", "ZZZZZZZZZZ");
 //    criteria.andIdBetween(0, 20);
 
+    List<Country> countries1 = countryMapper.selectByExample(example);
+    log.debug("countries1" + countries1.size());
+    List<Country> countries2 = countryMapper.selectByExampleAndRowBounds(example, rowBounds);
+    log.debug("countries2" + countries2.size());
 
 
-    List<Country> countries = countryMapper.selectByExampleAndRowBounds(example, rowBounds);
-    PageInfo<Country> pageInfo = new PageInfo<>(countries);
-
-    System.out.println("PageHelperTest.main() pageInfo :" + pageInfo);
+    PageInfo<Country> pageInfo = new PageInfo<>(countries1);
+    System.out.println("PageHelperTest.main() pageInfo :" + pageInfo.getSize());
 
   }
 

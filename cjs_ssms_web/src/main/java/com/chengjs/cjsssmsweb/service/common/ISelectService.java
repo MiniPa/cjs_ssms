@@ -19,7 +19,6 @@ public interface ISelectService {
   List<Map<String, String>> commonSelect(String method, HashMap<String, String> params)
       throws InvocationTargetException, IllegalAccessException, NoSuchMethodException;
 
-
   /**
    * 通用grid查询
    * @param params

@@ -17,9 +17,8 @@
   <!--========================= css script =========================-->
 
   <link href="<%=basePath%>miniui/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css"/>
-
-  <script src="<%=basePath%>js/Globals.js" type="text/javascript"></script>
   <script src="<%=basePath%>miniui/boot.js" type="text/javascript"></script>
+  <script src="<%=basePath%>js/Globals.js" type="text/javascript"></script>
 
   <!--========================= css script =========================-->
   <script src="../js/user/usergrid.js" type="text/javascript"></script>
@@ -49,7 +48,9 @@
     <tfoot>
     <tr>
       <td colspan="4">
-        <input type="button" value="查询" onclick="search()" />
+        <input type="button" value="查询MAP" onclick="search()" />
+        <input type="button" value="查询POJO" onclick="search_pojo()" />
+        <input type="button" value="查询Users" onclick="search_users()" />
         <input type="button" value="重置" onclick="reSet()" />
     </tr>
     </tfoot>

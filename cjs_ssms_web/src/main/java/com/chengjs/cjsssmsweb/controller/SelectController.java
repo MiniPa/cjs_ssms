@@ -1,8 +1,14 @@
 package com.chengjs.cjsssmsweb.controller;
 
+import com.chengjs.cjsssmsweb.mybatis.MybatisHelper;
+import com.chengjs.cjsssmsweb.mybatis.mapper.master.UUserMapper;
+import com.chengjs.cjsssmsweb.mybatis.pojo.master.UUser;
 import com.chengjs.cjsssmsweb.service.common.ISelectService;
 import com.chengjs.cjsssmsweb.util.page.HttpReqsUtil;
+import com.github.pagehelper.PageRowBounds;
 import net.sf.json.JSONObject;
+import org.apache.commons.collections.map.HashedMap;
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,8 +82,8 @@ public class SelectController {
   List<Map<String, String>> commonSelect(@RequestParam(value = "method") String method, HttpServletRequest request)
       throws UnsupportedEncodingException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
     HashMap<String, String> params = HttpReqsUtil.getRequestVals(request);
-    List<Map<String, String>> map = selectService.commonSelect(method, params);
-    return map;
+    List<Map<String, String>> list = selectService.commonSelect(method, params);
+    return list;
   }
 
   /**
@@ -108,8 +116,69 @@ public class SelectController {
     String sortOrder = request.getParameter("sortOrder");
 
     resultMap = selectService.queryGridKey(pageIndex,pageSize,sortField,sortOrder,paramsMap);
+
     return resultMap;
   }
+
+  /**
+   * users gird表查询
+   *
+   * @param request
+   * @param response
+   * @return
+   * @throws Exception
+   */
+  @RequestMapping(value = "/userGridQuery", method = RequestMethod.POST)
+  @ResponseBody
+  public Map<String, Object> usersGridQuery(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+    HashMap<String, String> params = HttpReqsUtil.getRequestVals(request);
+    log.debug("grid通用查询参数：==>" + String.valueOf(params));
+
+    String data = params.get("data");
+    JSONObject obj = JSONObject.fromObject(data);//查询条件
+    HashMap<String, String> paramsMap = (HashMap<String, String>) JSONObject.toBean(JSONObject.fromObject(obj), HashMap.class);
+
+    Map<String, Object> resultMap = null;
+
+    /*分页*/
+    int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
+    int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+    /*字段排序*/
+    String sortField = request.getParameter("sortField");
+    String sortOrder = request.getParameter("sortOrder");
+
+    return  getGrids(pageIndex, pageSize, paramsMap);
+  }
+
+  /**
+   * 数据表grid查询 It's not good enough
+   * @param pageIndex
+   * @param pageSize
+   * @param paramsMap 给criteria添加参数使用
+   * @return
+   */
+  private Map<String, Object> getGrids(int pageIndex, int pageSize, HashMap<String, String> paramsMap) {
+    PageRowBounds rowBounds = new PageRowBounds(pageIndex+1, pageSize);
+    SqlSession sqlSession = MybatisHelper.getSqlSession();
+    Mapper mapper = (Mapper) sqlSession.getMapper(UUserMapper.class);
+    Example example = new Example(UUser.class);
+    Example.Criteria criteria = example.createCriteria();
+    /*criteria增加条件...*/
+    List<UUser> users = (List<UUser>) mapper.selectByExampleAndRowBounds(example, rowBounds);
+
+    /*4.构造适合miniui_grid展示的map*/
+    Map<String, Object> map_grid = new HashedMap();
+    map_grid.put("total", users.size());
+    map_grid.put("data", users);
+
+    return map_grid;
+  }
+
+
+
+
+
 
   /*========================== url ==========================*/
 
