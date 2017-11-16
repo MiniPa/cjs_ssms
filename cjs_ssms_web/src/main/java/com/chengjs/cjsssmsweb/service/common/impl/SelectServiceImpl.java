@@ -32,8 +32,9 @@ import java.util.Map;
 public class SelectServiceImpl implements ISelectService {
 
   private static final Logger log = LoggerFactory.getLogger(SelectServiceImpl.class);
-  private static final String MAPPER = "com.chengjs.cjsssmsweb.mybatis.mapper.master.";
-  private static final String POJO = "com.chengjs.cjsssmsweb.mybatis.pojo.master.";
+  private static final String PATH_MAPPER = "com.chengjs.cjsssmsweb.mybatis.mapper.master.";//TODO
+  private static final String PATH_POJO = "com.chengjs.cjsssmsweb.mybatis.pojo.master.";//TODO
+  public static final String KEY = "key";
 
   @Resource
   private ISelectDao selectDao;
@@ -53,7 +54,7 @@ public class SelectServiceImpl implements ISelectService {
    * @throws NoSuchMethodException
    */
   @Override
-  public List<Map<String, String>> commonSelect(String method, HashMap<String, String> params)
+  public List<Map<String, String>> select(String method, HashMap<String, String> params)
       throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
 
     SqlSession sqlSession = factory.openSession();
@@ -70,13 +71,13 @@ public class SelectServiceImpl implements ISelectService {
   }
 
   @Override
-  public Map<String, Object> queryGridKey(int pageNum, int pageSize,
-                                          String field, String sort,
-                                          HashMap<String, String> params)
+  public Map<String, Object> grid(int pageNum, int pageSize,
+                                  String field, String sort,
+                                  HashMap<String, String> params)
       throws ClassNotFoundException, IllegalAccessException,
       InstantiationException, NoSuchMethodException, InvocationTargetException {
 
-    String[] strs = params.get("key").split("_"); /*1.strs[0]:接口, strs[1]:方法*/
+    String[] strs = params.get(KEY).split("_"); /*1.strs[0]:接口, strs[1]:方法*/
     SqlSession sqlSession = MybatisHelper.getSqlSession(); /*2.sqlSession*/
     PageRowBounds rowBounds = new PageRowBounds(pageNum, pageSize); /*3.rowBounds*/
 
@@ -87,7 +88,7 @@ public class SelectServiceImpl implements ISelectService {
     * */
 
     /*1.Mapper*/
-    Class mapper_clz = Class.forName(MAPPER + strs[0]);
+    Class mapper_clz = Class.forName(PATH_MAPPER + strs[0]);
     Mapper mapper = (Mapper) sqlSession.getMapper(mapper_clz);
 
     /*2.Page分页操作*/
@@ -116,11 +117,12 @@ public class SelectServiceImpl implements ISelectService {
   private List<Object> pageMap(HashMap<String, String> params, String[] strs,
                                Mapper mapper, int pageNum, int pageSize)
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-    Method mapper_method = mapper.getClass().getMethod(strs[1], new Class[]{Map.class});
     /*miniui page从0开始 pagehelper从1开始*/
 //    PageHelper.startPage(pageNum + 1, pageSize);
 
 //    mapper.selectByRowBounds()
+
+    Method mapper_method = mapper.getClass().getMethod(strs[1], new Class[]{Map.class});
     return (List<Object>) mapper_method.invoke(mapper, params);
   }
 
@@ -139,7 +141,7 @@ public class SelectServiceImpl implements ISelectService {
       throws ClassNotFoundException, InstantiationException, IllegalAccessException,
       NoSuchMethodException, InvocationTargetException {
 
-    Class pojo_clz = Class.forName(POJO + strs[0].replace("Mapper", ""));
+    Class pojo_clz = Class.forName(PATH_POJO + strs[0].replace("Mapper", ""));
     Object pojo = pojo_clz.newInstance();
     for (String s : params.keySet()) {
       Method pojo_method = null;
@@ -159,7 +161,7 @@ public class SelectServiceImpl implements ISelectService {
       }
     }
 
-    /*3. 1) 反射调用mapper方法 POJO 参数*/
+    /*3. 1) 反射调用mapper方法 PATH_POJO 参数*/
     Method mapper_method = mapper.getClass().getMethod(strs[1], new Class[]{pojo_clz});
 
     /*miniui page从0开始 pagehelper从1开始*/

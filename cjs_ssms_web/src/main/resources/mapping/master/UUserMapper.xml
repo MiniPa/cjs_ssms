@@ -35,10 +35,10 @@
     SELECT
     <include refid="Base_Column_List"/>
     FROM u_user u
-    WHERE 1=1
+<!--    WHERE 1=1
     <if test="username != null">
       AND u.username = #{username}
-    </if>
+    </if>-->
   </select>
 
 </mapper>

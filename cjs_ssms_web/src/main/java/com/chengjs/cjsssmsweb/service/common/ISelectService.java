@@ -16,7 +16,7 @@ public interface ISelectService {
    * 通用<selected/>查询
    * @return
    */
-  List<Map<String, String>> commonSelect(String method, HashMap<String, String> params)
+  List<Map<String, String>> select(String method, HashMap<String, String> params)
       throws InvocationTargetException, IllegalAccessException, NoSuchMethodException;
 
   /**
@@ -24,7 +24,7 @@ public interface ISelectService {
    * @param params
    * @return
    */
-  Map<String, Object> queryGridKey(int pageNum, int pageSize, String field, String sort, HashMap<String, String> params)
+  Map<String, Object> grid(int pageNum, int pageSize, String field, String sort, HashMap<String, String> params)
       throws ClassNotFoundException, IllegalAccessException,
       InstantiationException, NoSuchMethodException, InvocationTargetException;
 

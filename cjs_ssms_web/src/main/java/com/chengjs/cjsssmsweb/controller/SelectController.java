@@ -67,9 +67,9 @@ public class SelectController {
   private ISelectService selectService;
 
   /**
-   * 通用selected查询
+   * common select 查询
    *
-   * @param method  查询方法名和ISelectDao中配置的一样
+   * @param method  查询方法名和ISelectDao中配置的方法名一致
    * @param request
    * @return
    * @throws UnsupportedEncodingException
@@ -81,13 +81,18 @@ public class SelectController {
   public @ResponseBody
   List<Map<String, String>> commonSelect(@RequestParam(value = "method") String method, HttpServletRequest request)
       throws UnsupportedEncodingException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-    HashMap<String, String> params = HttpReqsUtil.getRequestVals(request);
-    List<Map<String, String>> list = selectService.commonSelect(method, params);
+    /*TODO_不同模块select集成于同一个mapper.xml中,耦合太大理应进行分解*/
+
+    HashMap<String, String> params = HttpReqsUtil.getRequestParams(request);
+    List<Map<String, String>> list = selectService.select(method, params);
     return list;
   }
 
   /**
-   * commonGridQuery 通用grid数据查询
+   * common grid 查询
+   *
+   * USE grid通用查询使用方式: 1.Dao编写或生成 2.grid.url="../select/grid" 3.key="Dao接口名_方法名"
+   *
    * key：查询条件书写规范: "UUserMapper_gridUsers"(Dao接口名_方法名)
    *
    * @param request
@@ -95,33 +100,37 @@ public class SelectController {
    * @return
    * @throws Exception
    */
-  @RequestMapping(value = "/comGridQuery", method = RequestMethod.POST)
-  @ResponseBody
-  public Map<String, Object> commonGridQuery(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-    HashMap<String, String> params = HttpReqsUtil.getRequestVals(request);
-    log.debug("grid通用查询参数：==>" + String.valueOf(params));
-
-    String data = params.get("data");
-    JSONObject obj = JSONObject.fromObject(data);//查询条件
+  @RequestMapping(value = "/grid", method = RequestMethod.POST)
+  public @ResponseBody
+  Map<String, Object> grid(HttpServletRequest request, HttpServletResponse response)
+      throws Exception {
+    //1.查询条件
+    /*data*/
+    String data = request.getParameter("data");
+    JSONObject obj = JSONObject.fromObject(data);
     HashMap<String, String> paramsMap = (HashMap<String, String>) JSONObject.toBean(JSONObject.fromObject(obj), HashMap.class);
-
-    Map<String, Object> resultMap = null;
-
     /*分页*/
     int pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
     int pageSize = Integer.parseInt(request.getParameter("pageSize"));
     /*字段排序*/
     String sortField = request.getParameter("sortField");
     String sortOrder = request.getParameter("sortOrder");
+    if (log.isInfoEnabled()) {
+      log.debug("/grid paramsMap：==>" + paramsMap);
+    }
 
-    resultMap = selectService.queryGridKey(pageIndex,pageSize,sortField,sortOrder,paramsMap);
+    //2.返回结果
+    Map<String, Object> resultMap = selectService.grid(pageIndex, pageSize, sortField, sortOrder, paramsMap);
+    if (log.isInfoEnabled()) {
+      log.debug("/grid resultMap：==>" + resultMap);
+    }
 
     return resultMap;
   }
 
   /**
    * users gird表查询
+   * 不足：gridc查询与Controller.Method(), IService.Method()耦合,导致新增代码复杂
    *
    * @param request
    * @param response
@@ -129,10 +138,10 @@ public class SelectController {
    * @throws Exception
    */
   @RequestMapping(value = "/userGridQuery", method = RequestMethod.POST)
-  @ResponseBody
-  public Map<String, Object> usersGridQuery(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public @ResponseBody
+  Map<String, Object> usersGridQuery(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-    HashMap<String, String> params = HttpReqsUtil.getRequestVals(request);
+    HashMap<String, String> params = HttpReqsUtil.getRequestParams(request);
     log.debug("grid通用查询参数：==>" + String.valueOf(params));
 
     String data = params.get("data");
@@ -148,18 +157,20 @@ public class SelectController {
     String sortField = request.getParameter("sortField");
     String sortOrder = request.getParameter("sortOrder");
 
-    return  getGrids(pageIndex, pageSize, paramsMap);
+    Map<String, Object> gridData = getGrids(pageIndex, pageSize, paramsMap);
+    return gridData;
   }
 
   /**
    * 数据表grid查询 It's not good enough
+   *
    * @param pageIndex
    * @param pageSize
    * @param paramsMap 给criteria添加参数使用
    * @return
    */
   private Map<String, Object> getGrids(int pageIndex, int pageSize, HashMap<String, String> paramsMap) {
-    PageRowBounds rowBounds = new PageRowBounds(pageIndex+1, pageSize);
+    PageRowBounds rowBounds = new PageRowBounds(pageIndex + 1, pageSize);
     SqlSession sqlSession = MybatisHelper.getSqlSession();
     Mapper mapper = (Mapper) sqlSession.getMapper(UUserMapper.class);
     Example example = new Example(UUser.class);
@@ -172,22 +183,14 @@ public class SelectController {
     map_grid.put("total", users.size());
     map_grid.put("data", users);
 
+    log.debug("getGrids ==>" + map_grid);
     return map_grid;
   }
 
-
-
-
-
-
   /*========================== url ==========================*/
 
-  /**
-   * @return 普通方式实现grid表单的查询
-   */
   @RequestMapping("/usergrid")
   public String usergrid() {
-    log.debug("user/usergrid");
     return "user/usergrid";
   }
 

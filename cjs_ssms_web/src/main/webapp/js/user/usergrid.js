@@ -6,8 +6,8 @@ var roleComb;
 
 $(function () {
   mini.parse();
-  grid = mini.get("datagrid1");
-  form = mini.get("datagrid1_form");
+  grid = mini.get("datagrid");
+  form = mini.get("form");
   userComb = mini.get("user");
   roleComb = mini.get("role");
 });
@@ -22,6 +22,7 @@ function search() {
   var data = JSON.stringify(o);
   gridSearch(data, "createtime");
 }
+
 /*后台使用POJO方式向mybatis传递参数*/
 function search_pojo() {
   var rolename = mini.get("role").getValue();
@@ -42,27 +43,13 @@ function search_users() {
   o.key = "UUserMapper_gridUsers";
   var json = JSON.stringify(o);
   grid.setUrl("../select/userGridQuery");
-  grid.load(
-      {
-        data: json,
-        success: function (data) {
-            console.log(data);
-/*
-          if (Global.env.onTTrue) {
-          }
-*/
-        },
-        fail: function (data) {
-            console.log(data);
-/*
-          if (Global.env.onTTrue) {
-          }
-*/
-        }
-      }
-  );
+  grid.load({data: json});
   grid.sortBy("createtime", "desc");
 }
+function grid_data() {
+  grid.data;
+}
+
 
 function reSet() {
   form.clear();

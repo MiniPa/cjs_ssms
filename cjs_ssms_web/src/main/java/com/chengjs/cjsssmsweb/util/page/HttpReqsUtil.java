@@ -17,7 +17,8 @@ public class HttpReqsUtil {
    * 获取HttpRequest 参数
    * @return
    */
-  public static HashMap<String,String> getRequestVals(HttpServletRequest request) throws UnsupportedEncodingException {
+  public static HashMap<String,String> getRequestParams(HttpServletRequest request)
+      throws UnsupportedEncodingException {
     HashMap<String, String> map = new HashMap<>();
     for (Enumeration<String> names = request.getParameterNames(); names.hasMoreElements();) {
       String key = names.nextElement();

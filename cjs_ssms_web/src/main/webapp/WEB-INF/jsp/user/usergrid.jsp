@@ -28,7 +28,7 @@
 <h1>WebUser数据表格</h1>
 
 <!--toolform-->
-<div id="datagrid1_form" >
+<div id="form" >
   <table width="100%" border=0 cellPadding=0 cellSpacing=0>
     <tbody>
     <tr>
@@ -51,6 +51,7 @@
         <input type="button" value="查询MAP" onclick="search()" />
         <input type="button" value="查询POJO" onclick="search_pojo()" />
         <input type="button" value="查询Users" onclick="search_users()" />
+        <input type="button" value="查看grid内容" onclick="grid_data()" />
         <input type="button" value="重置" onclick="reSet()" />
     </tr>
     </tfoot>
@@ -75,7 +76,7 @@
   </div>
 </div>
 <!--grid-->
-<div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;" allowResize="true" idField="id" multiSelect="true" >
+<div id="datagrid" class="mini-datagrid" style="width:100%;height: 500px;" allowResize="true" idField="id" multiSelect="true" >
   <div property="columns">
     <div type="indexcolumn"></div>
     <div type="checkcolumn"></div>

@@ -1,6 +1,6 @@
 /**
  * package-info: Controller
- * commonSelect 通用select查询, text='text' value='value'
+ * select 通用select查询, text='text' value='value'
  * 适用于miniui-combobox
  *
  * ############################### 1.controller绑定参数方式 ###############################

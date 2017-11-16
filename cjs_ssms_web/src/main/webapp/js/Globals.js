@@ -27,7 +27,7 @@ function onTest() {
 //grid查询
 /* grid action */
 function gridSearch(data,sort) {
-  grid.setUrl("../select/comGridQuery");
+  grid.setUrl("../select/grid");
   grid.load({data: data},function (data) {
     if (global.env.onTTrue) {
       console.log(data);
